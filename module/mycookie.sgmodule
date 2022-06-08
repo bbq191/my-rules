@@ -2,7 +2,7 @@
 #!desc=京东｜什么值得买
 
 [MITM]
-hostname = %APPEND% ms.jr.jd.com, me-api.jd.com, api.m.jd.com, hostname = %APPEND% zhiyou.smzdm.com
+hostname = %APPEND% ms.jr.jd.com, me-api.jd.com, api.m.jd.com, zhiyou.smzdm.com
 
 [Script]
 # 获取京东Cookie(by NobyDA)
