@@ -3,7 +3,7 @@
 # 改自耳东陈的 module
 
 [MITM]	
-hostname = testflight.apple.com, app.bilibili.com, api.bilibili.com, api.live.bilibili.com, api.vc.bilibili.com, www.zhihu.com, api.zhihu.com, zhuanlan.zhihu.com, appcloud2.zhihu.com, homepage-api.smzdm.com, haojia-api.smzdm.com, article-api.smzdm.com
+hostname = %APPEND% testflight.apple.com, app.bilibili.com, api.bilibili.com, api.live.bilibili.com, api.vc.bilibili.com, www.zhihu.com, api.zhihu.com, zhuanlan.zhihu.com, appcloud2.zhihu.com, homepage-api.smzdm.com, haojia-api.smzdm.com, article-api.smzdm.com
 
 [Script]
 # Testflight下载修正
