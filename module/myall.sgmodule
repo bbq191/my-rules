@@ -7,7 +7,7 @@ hostname = %APPEND% testflight.apple.com, app.bilibili.com, api.bilibili.com, ap
 
 [Script]
 # VSCO解锁
-VSCO_解锁 = type=http-response,requires-body=1,pattern=^https?:\/\/vsco\.co\/api\/subscriptions\/2.1\/user-subscriptions\/,script-path=https://raw.githubusercontent.com/NobyDa/Script/master/QuantumultX/File/vsco.js
+VSCO_解锁 = type=http-response,requires-body=1,pattern=^https?:\/\/api\.revenuecat\.com\/v\d\/subscribers\/,script-path=https://raw.githubusercontent.com/NobyDa/Script/master/QuantumultX/File/vsco.js
 
 # Testflight下载修正
 TestFlight_下载修正 = type=http-request,requires-body=1,script-path=https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/source/script/043922e05c79445b6da818d0864c1b7d.js,pattern=^https?:\/\/testflight\.apple\.com\/v2\/accounts\/.*\/apps\/\d*/builds/\d*/install
