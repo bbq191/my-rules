@@ -22,6 +22,7 @@
       )
     ).policy;
   }
+  alert(rootName)
 
   $httpClient.get(
     "http://ip-api.com/json/?lang=en",
