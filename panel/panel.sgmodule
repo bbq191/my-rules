@@ -1,0 +1,10 @@
+#流量统计 点击以切换网络界面
+TrafficStatistics = type=generic,timeout=10,script-path= https://raw.githubusercontent.com/bbq191/rules/main/scripts/trafficstatistics.js ,argument=icon=arrow.up.arrow.down.circle&color=#5d84f8
+
+#網路詳情 标题显示为根节点名
+#应当修改的字段 group 代理策略组名称
+NET_info = type=generic,timeout=10,script-path=https://raw.githubusercontent.com/bbq191/rules/main/scripts/net_info.js,argument=icon=externaldrive.connected.to.line.below&color=#9a7ff7&group=Master
+
+#机场信息
+#必须修改的字段:你encode后的机场订阅链接
+Sub_info = type=generic,timeout=10,script-path=https://raw.githubusercontent.com/mieqq/mieqq/master/sub_info_panel.js ,script-update-interval=0,argument=url=[URL encode 后的机场节点链接]&reset_day=1&title=ExFlux&icon=opticaldisc&color=#5AC8FA
