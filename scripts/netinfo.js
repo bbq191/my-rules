@@ -3,11 +3,13 @@
   let params = getParams($argument);
   //获取根节点名
   let proxy = await httpAPI("/v1/policy_groups");
+  console.log(proxy)
   let allGroup = [];
   for (var key in proxy) {
     allGroup.push(key);
   }
   let group = params.group;
+  console.log(group)
   let rootName = (
     await httpAPI(
       "/v1/policy_groups/select?group_name=" + encodeURIComponent(group) + ""
@@ -22,14 +24,13 @@
       )
     ).policy;
   }
-  alert(rootName)
 
   $httpClient.get(
     "http://ip-api.com/json/?lang=en",
     function (error, response, data) {
       const jsonData = JSON.parse(data);
       $done({
-        title: rootName,
+        title: "rootName",
         content:
           `國家地區: ${jsonData.country} - ${jsonData.city}\n` +
           `運營商 : ${jsonData.isp}\n` +
