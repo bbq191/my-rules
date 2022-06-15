@@ -3,9 +3,9 @@
 
 [Panel]
 #流量统计
-TrafficStatistics = script-name=TrafficStatistics,update-interval=1
+流量参考 = script-name=TrafficStatistics,update-interval=1
 #网络详情
-NET_info = script-name=NET_info,update-interval=1
+节点详情 = script-name=NET_info,update-interval=1
 
 [Script]
 #流量统计 点击以切换网络界面
