@@ -1,11 +1,14 @@
 #!name=应用体验优化(iOS)
-#!desc=TF下载修正｜B站去广告｜知乎去广告+优化｜什么值得买去广告｜VSCO解锁
+#!desc=TF下载修正｜B站去广告｜VSCO解锁｜camscaner部分解锁
 # 改自耳东陈的 module
 
 [MITM]	
-hostname = %APPEND% testflight.apple.com, app.bilibili.com, api.bilibili.com, api.live.bilibili.com, api.vc.bilibili.com, www.zhihu.com, api.zhihu.com, zhuanlan.zhihu.com, appcloud2.zhihu.com, homepage-api.smzdm.com, haojia-api.smzdm.com, article-api.smzdm.com, api.revenuecat.com, vsco.co
+hostname = %APPEND% testflight.apple.com, app.bilibili.com, api.bilibili.com, api.live.bilibili.com, api.vc.bilibili.com, www.zhihu.com, api.zhihu.com, zhuanlan.zhihu.com, appcloud2.zhihu.com, homepage-api.smzdm.com, haojia-api.smzdm.com, article-api.smzdm.com, api.revenuecat.com, vsco.co, ap*.intsignet
 
 [Script]
+# CamScaner 部分功能解锁
+http-response https:\/\/(api|api-cs)\.intsig\.net\/purchase\/cs\/query_property\? requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/NobyDa/Script/master/Surge/JS/CamScanner.js
+
 # VSCO解锁
 VSCO_解锁 = type=http-response,requires-body=1,pattern=^https?:\/\/api\.revenuecat\.com\/v\d\/subscribers\/,script-path=https://raw.githubusercontent.com/NobyDa/Script/master/QuantumultX/File/vsco.js
 
