@@ -1,5 +1,5 @@
 #!name=自动签到
-#!desc=京东
+#!desc=自动获取 Cookies
 
 [MITM]
 hostname = %APPEND% ms.jr.jd.com, me-api.jd.com, api.m.jd.com, zhiyou.smzdm.com
