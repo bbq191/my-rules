@@ -40,55 +40,51 @@ BiliBili_我的页面处理 = type=http-response,requires-body=1,max-size=0,patt
 
 [URL Rewrite]
 # BiliBili
-# 去除搜索中的大家都在搜
+# ---> 去除搜索中的大家都在搜
 ^https?:\/\/api\.vc\.bilibili\.com\/search_svr\/v\d\/Search\/recommend_words - reject
-# 去除动态中的话题
+# ---> 去除动态中的话题
 ^https?:\/\/api\.vc\.bilibili\.com\/topic_svr\/v1\/topic_svr - reject
-# 去除动态中的最常访问
+# ---> 去除动态中的最常访问
 ^https?:\/\/api\.vc\.bilibili\.com\/dynamic_svr\/v1\/dynamic_svr\/mix_uplist - reject
-# 可能的一些推广(beta)
+# ---> 可能的一些推广(beta)
 ^https?:\/\/api\.bilibili\.com\/pgc\/season\/app\/related\/recommend\? - reject
-# BiliBili漫画去广告
+# ---> BiliBili漫画去广告
 ^https?:\/\/manga\.bilibili\.com\/twirp\/comic\.v\d\.Comic\/Flash - reject
 ^https?:\/\/manga\.bilibili\.com\/twirp\/comic\.v\d\.Comic\/ListFlash - reject
 
 # 知乎
-# 屏蔽知乎下发的配置，如皮肤等
+# ---> 屏蔽知乎下发的配置，如皮肤等
 ^https?:\/\/api\.zhihu\.com\/ab\/api\/v1\/products\/zhihu\/platforms\/ios\/config - reject
-# 屏蔽知乎“我的”页面推荐开通会员的卡片
+# ---> 屏蔽知乎“我的”页面推荐开通会员的卡片
 ^https?:\/\/api\.zhihu\.com\/people\/self\/new_user_card - reject
 
 # 什么值得买
-# 好价详情页去广告
+# ---> 好价详情页去广告
 ^https?:\/\/haojia\.m\.smzdm\.com\/detail_modul\/other_modul - reject
-# 好价详情页红包小助手
+# ---> 好价详情页红包小助手
 ^https?:\/\/haojia\.m\.smzdm\.com\/detail_modul\/user_related_modul - reject
-# Wiki(618晒物活动推广，将来可能不是广告)
+# ---> Wiki(618晒物活动推广，将来可能不是广告)
 ^https?:\/\/haojia\.m\.smzdm\.com\/detail_modul\/wiki_related_modul - reject
 
 [Map Local]
 # 知乎
-# --------------
-# 知乎去除Tab页关注人头像
+# ---> 知乎去除Tab页关注人头像
 ^https?:\/\/api\.zhihu\.com\/moments\/tab_v2 data="https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/blank/blank_dict.json"
-# 知乎去除最常访问
+# ---> 知乎去除最常访问
 ^https?:\/\/api\.zhihu\.com\/moments\/recent data="https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/blank/blank_dict.json"
-# 知乎其他广告拦截
+# ---> 知乎其他广告拦截
 ^https?:\/\/api\.zhihu\.com\/(notifications\/v\d\/count|v\d\/package|me\/guides|drama\/living-info|ad|fringe|commercial|market\/popovers|.*featured-comment-ad) data="https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/blank/blank_dict.json"
-# 屏蔽消息页面上拉的用户精选
+# ---> 屏蔽消息页面上拉的用户精选
 ^https?:\/\/api\.zhihu\.com/moments/hybrid\? data="https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/blank/blank_dict.json"
-# --------------
 
 [Rule]
 # BiliBili
-# --------------
 DOMAIN-SUFFIX,cm.bilibili.com,REJECT
 URL-REGEX,^https?:\/\/api\.bilibili\.com\/x\/v2\/dm\/ad,REJECT
-# 可能的一些推广(beta)
+# ---> 可能的一些推广(beta)
 URL-REGEX,^https?:\/\/api\.bilibili\.com\/pgc\/season\/app\/related\/recommend\?,REJECT
-# BiliBili漫画去广告
+# ---> BiliBili漫画去广告
 URL-REGEX,^https?:\/\/manga\.bilibili\.com\/twirp\/comic\.v\d\.comic\/flash,REJECT
-# --------------
 # 知乎
-# 知乎广告拦截
+# ---> 知乎广告拦截
 RULE-SET,https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/script/zhihu/zhihu_remove_ads.list,REJECT-NO-DROP
