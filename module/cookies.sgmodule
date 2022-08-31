@@ -1,20 +1,12 @@
-#!name=获取自动签到 cookie(iOS)
-#!desc=京东｜什么值得买
+#!name=自动签到
+#!desc=京东
 
 [MITM]
-hostname = %APPEND% ms.jr.jd.com, me-api.jd.com, api.m.jd.com, zhiyou.smzdm.com
+hostname = %APPEND% ms.jr.jd.com, me-api.jd.com, api.m.jd.com
 
 [Script]
 # 获取京东Cookie(by NobyDA)
-# Safari浏览器打开登录 https://home.m.jd.com/myJd/newhome.action 点击"我的"页面，通知获得cookie成功
-# 或使用Safari浏览器打开登录 https://bean.m.jd.com/bean/signIndex.action ,点击签到并且出现签到日历后, 通知获得cookie成功.
-# 使用此脚本获取"账号1"Cookie成功后, 请勿点击退出账号(可能会导致Cookie失效), 需清除浏览器资料或更换浏览器登录"账号2"获取即可.
+# Safari浏览器打开登录 https://home.m.jd.com/myJd/newhome.action 点击"我的"页面，通知获得cookie成功或使用Safari浏览器打开登录 https://bean.m.jd.com/bean/signIndex.action ,点击签到并且出现签到日历后, 通知获得cookie成功.
 # BoxJs订阅地址: https://raw.githubusercontent.com/NobyDa/Script/master/NobyDa_BoxJs.json
+京东多合一签到 = type=cron,cronexp=5 0 * * *,wake-system=1,timeout=60,script-path=https://raw.githubusercontent.com/NobyDa/Script/master/JD-DailyBonus/JD_DailyBonus.js
 获取京东Cookie = type=http-request,requires-body=1,pattern=^https:\/\/(api\.m|me-api|ms\.jr)\.jd\.com\/(client\.action\?functionId=signBean|user_new\/info\/GetJDUserInfoUnion\?|gw\/generic\/hy\/h5\/m\/appSign\?),script-path=https://raw.githubusercontent.com/NobyDa/Script/master/JD-DailyBonus/JD_DailyBonus.js
-
-# Web端获取Cookie：
-# 使用Safari，不要使用第三方浏览器！
-# 使用手机浏览器访问 https://zhiyou.smzdm.com/ 进行一次登录，通常会显示获取cookie成功。
-# 可能因为重定向的问题，登录成功后访问的不是https://zhiyou.smzdm.com/user/ ，则重新在浏览器中访问一次https://zhiyou.smzdm.com/user/ 即可。
-# 如果还是没有获取到Cookie，请查阅Surge等第三方App的执行日志。
-什么值得买_获取cookie = type=http-request,requires-body=1,pattern=^https?:\/\/zhiyou\.smzdm\.com\/user$,script-path=https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/script/smzdm/smzdm_signin.js
