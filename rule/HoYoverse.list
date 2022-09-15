@@ -7,4 +7,5 @@ DOMAIN-SUFFIX,hoyo.link
 DOMAIN-SUFFIX,hoyolab.com
 DOMAIN-SUFFIX,hoyoverse.com
 DOMAIN-SUFFIX,n0vadesktop.com
-IP-CIDR,47.245.59.0/14,DIRECT,no-resolve
+IP-CIDR,47.245.59.0/24,DIRECT,no-resolve
+IP-CIDR,47.245.57.0/24,DIRECT,no-resolve
