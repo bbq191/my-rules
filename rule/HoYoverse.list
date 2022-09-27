@@ -10,6 +10,7 @@ DOMAIN-SUFFIX,n0vadesktop.com
 
 # IP
 IP-CIDR,8.209.241.0/24,no-resolve
+IP-CIDR,8.211.159.0/24,no-resolve
 IP-CIDR,47.245.25.0/24,no-resolve
 IP-CIDR,47.245.29.0/24,no-resolve
 IP-CIDR,47.245.30.0/24,no-resolve
