@@ -9,17 +9,5 @@ HOST-SUFFIX,hoyoverse.com,HoYoverse
 HOST-SUFFIX,n0vadesktop.com,HoYoverse
 USER-AGENT,genshin*impact*,HoYoverse
 USER-AGENT,Genshin Impact,HoYoverse
-IP-CIDR,8.209.241.0/24,HoYoverse
-IP-CIDR,8.211.158.0/24,HoYoverse
-IP-CIDR,8.211.159.0/24,HoYoverse
-IP-CIDR,47.245.25.0/24,HoYoverse
-IP-CIDR,47.245.29.0/24,HoYoverse
-IP-CIDR,47.245.30.0/24,HoYoverse
-IP-CIDR,47.245.31.0/24,HoYoverse
-IP-CIDR,47.245.35.0/24,HoYoverse
-IP-CIDR,47.245.56.0/24,HoYoverse
-IP-CIDR,47.245.57.0/24,HoYoverse
-IP-CIDR,47.245.59.0/24,HoYoverse
-IP-CIDR,47.91.20.0/24,HoYoverse
-IP-CIDR,47.91.14.0/24,HoYoverse
-IP-CIDR,47.74.3.0/24,HoYoverse
+DST-PORT, 22101, HoYoverse
+DST-PORT, 22102, HoYoverse
