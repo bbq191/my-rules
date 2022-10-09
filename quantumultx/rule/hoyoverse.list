@@ -7,8 +7,8 @@ HOST-SUFFIX,hoyo.link,HoYoverse
 HOST-SUFFIX,hoyolab.com,HoYoverse
 HOST-SUFFIX,hoyoverse.com,HoYoverse
 HOST-SUFFIX,n0vadesktop.com,HoYoverse
-USER-AGENT,genshin*impact*
-USER-AGENT,Genshin Impact
+USER-AGENT,genshin*impact*,HoYoverse
+USER-AGENT,Genshin Impact,HoYoverse
 IP-CIDR,8.209.241.0/24,HoYoverse
 IP-CIDR,8.211.158.0/24,HoYoverse
 IP-CIDR,8.211.159.0/24,HoYoverse
