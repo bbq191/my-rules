@@ -10,6 +10,7 @@ HOST-SUFFIX,n0vadesktop.com,HoYoverse
 USER-AGENT,genshin*impact*
 USER-AGENT,Genshin Impact
 IP-CIDR,8.209.241.0/24,HoYoverse
+IP-CIDR,8.211.158.0/24,HoYoverse
 IP-CIDR,8.211.159.0/24,HoYoverse
 IP-CIDR,47.245.25.0/24,HoYoverse
 IP-CIDR,47.245.29.0/24,HoYoverse
