@@ -1,5 +1,5 @@
 #!name=EDC-ALLinONE(iOS) 改造
-#!desc=TF下载修正｜Spotify会员｜VSCO会员｜泼辣会员｜B站去广告｜知乎去广告+优化
+#!desc=Spotify会员｜VSCO会员｜泼辣会员｜B站去广告｜知乎去广告+优化
 
 [MITM]	
 hostname = %APPEND% spclient.wg.spotify.com, api.revenuecat.com, vsco.co, api.polaxiong.com, app.bilibili.com, api.bilibili.com, api.live.bilibili.com, api.vc.bilibili.com, www.zhihu.com, api.zhihu.com, zhuanlan.zhihu.com, appcloud2.zhihu.com
