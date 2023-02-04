@@ -8,4 +8,4 @@ HOST-SUFFIX,hoyolab.com,HoYoverse
 HOST-SUFFIX,hoyoverse.com,HoYoverse
 HOST-SUFFIX,n0vadesktop.com,HoYoverse
 
-User-Agent: Genshin*Impact*
+User-Agent,Genshin*Impact*,HoYoverse
