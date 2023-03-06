@@ -117,7 +117,7 @@ proxy-groups:
 
 - name: TW
   type: select
-  icon: https://raw.githubusercontent.com/erdongchanyo/icon/main/Policy-Country/TW02.png
+  icon: https://raw.githubusercontent.com/erdongchanyo/icon/main/Policy-Country/TW01.png
   use:
     - MyProxy-TW
 
@@ -132,6 +132,14 @@ proxy-groups:
   icon: https://raw.githubusercontent.com/erdongchanyo/icon/main/Policy-Country/KR.png
   use:
     - MyProxy-KR
+
+
+- name: Advertise
+  type: select
+  proxies:
+  - DIRECT
+  - DIRECT
+  icon: https://raw.githubusercontent.com/erdongchanyo/icon/main/Policy-Filter/AdBlock.png
 
 - name: Globle
   type: select
@@ -291,6 +299,12 @@ proxy-groups:
 
 #远程规则集合声明
 rule-providers:
+  Ads-rules:
+    behavior: classical
+    interval: 86400
+    name: Advertise
+    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Advertising/Advertising_Classical.yaml
+
   Youtube-rules:
     behavior: classical
     interval: 86400
@@ -370,6 +384,7 @@ rule-providers:
 
 #分流规则引用
 rules:
+- RULE-SET,Ads-rules,Advertise
 - RULE-SET,Youtube-rules,Youtube
 - RULE-SET,Bilibili-rules,Bilibili
 - RULE-SET,Telegram-rules,Telegram
