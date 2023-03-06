@@ -54,13 +54,6 @@ http:
       require-body: true
       timeout: 10
     # --------
-    # TF下载修正
-    - match: ^https?:\/\/testflight\.apple\.com\/v\d\/accounts\/.+?\/install$
-      name: tf
-      type: request
-      require-body: true
-      timeout: 10
-    # --------
     # BiliBili去广告
     # >>> BiliBili_推荐去广告
     - match: ^https?:\/\/app\.bilibili\.com\/x\/v2\/feed\/index
