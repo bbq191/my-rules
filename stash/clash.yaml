@@ -245,6 +245,18 @@ proxy-groups:
   - DIRECT
   icon: https://raw.githubusercontent.com/erdongchanyo/icon/main/Policy-Filter/Microsoft.png
 
+- name: HoYoverse
+  type: select
+  proxies:
+  - US
+  - HK
+  - JP
+  - TW
+  - SG
+  - Final
+  - DIRECT
+  icon: https://raw.githubusercontent.com/erdongchanyo/icon/main/Policy-Filter/Game.png
+
 - name: Weibo
   type: select
   proxies:
@@ -327,6 +339,12 @@ rule-providers:
     name: Microsoft
     url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/release/rule/Clash/Microsoft/Microsoft.yaml
 
+  HoYoverse-rules:
+    behavior: classical
+    interval: 86400
+    name: HoYoverse
+    url: https://raw.githubusercontent.com/bbq191/my-rules/main/clash/rule/HoYoverse.yaml
+
   Weibo-rules:
     behavior: classical
     interval: 86400
@@ -360,6 +378,7 @@ rules:
 - RULE-SET,Google-rules,Google
 - RULE-SET,Microsoft-rules,Microsoft
 - RULE-SET,Weibo-rules,Weibo
+- RULE-SET,HoYoverse-rules,HoYoverse
 - RULE-SET,Mainland-rules,Mainland
 - RULE-SET,MainlandIP-rules,Mainland
 - GEOIP,CN,DIRECT
