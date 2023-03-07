@@ -311,12 +311,6 @@ rule-providers:
     name: Youtube
     url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/release/rule/Clash/YouTube/YouTube.yaml
 
-  Spotify-rules:
-    behavior: classical
-    interval: 86400
-    name: Spotify
-    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/release/rule/Clash/Spotify/Spotify.yaml
-
   Bilibili-rules:
     behavior: classical
     interval: 86400
