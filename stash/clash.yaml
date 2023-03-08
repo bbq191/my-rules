@@ -91,6 +91,12 @@ proxy-groups:
     - MyProxy
   icon: https://raw.githubusercontent.com/erdongchanyo/icon/main/Policy-Filter/Proxy.png
 
+- name: Auto-US
+  type: url-test
+  icon: https://raw.githubusercontent.com/erdongchanyo/icon/main/Policy-Filter/Auto.png
+  use:
+    - MyProxy-US
+
 - name: Auto-HK
   type: url-test
   icon: https://raw.githubusercontent.com/erdongchanyo/icon/main/Policy-Filter/Auto.png
@@ -137,7 +143,7 @@ proxy-groups:
 - name: Advertise
   type: select
   proxies:
-  - DIRECT
+  - REJECT
   - DIRECT
   icon: https://raw.githubusercontent.com/erdongchanyo/icon/main/Policy-Filter/AdBlock.png
 
@@ -293,6 +299,7 @@ proxy-groups:
   type: select
   proxies:
   - DIRECT
+  - Auto-US
   - Auto-HK
   - Proxy
   icon: https://raw.githubusercontent.com/erdongchanyo/icon/main/Policy-Filter/Final01.png
@@ -300,95 +307,140 @@ proxy-groups:
 #远程规则集合声明
 rule-providers:
   Ads-rules:
-    behavior: classical
+    behavior: domain-text
     interval: 86400
     name: Advertise
-    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Advertising/Advertising_Classical.yaml
-
-  Youtube-rules:
-    behavior: classical
+    url: https://raw.githubusercontent.com/bbq191/my-rules/main/clash/rule/ads.txt
+  AdsIP-rules:
+    behavior: ipcidr-text
     interval: 86400
-    name: Youtube
-    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/release/rule/Clash/YouTube/YouTube.yaml
+    name: Advertise
+    url: https://raw.githubusercontent.com/bbq191/my-rules/main/clash/rule/ads-ip.txt
 
-  Bilibili-rules:
-    behavior: classical
-    interval: 86400
-    name: Bilibili
-    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/release/rule/Clash/BiliBili/BiliBili.yaml
-
-  Telegram-rules:
-    behavior: classical
-    interval: 86400
-    name: Telegram
-    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/release/rule/Clash/Telegram/Telegram.yaml
-
-  Twitter-rules:
-    behavior: classical
-    interval: 86400
-    name: Twitter
-    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/release/rule/Clash/Twitter/Twitter.yaml
-
-  Apple-rules:
-    behavior: classical
-    interval: 86400
-    name: Apple
-    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/release/rule/Clash/Apple/Apple.yaml
-
-  Google-rules:
-    behavior: classical
-    interval: 86400
-    name: Google
-    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/release/rule/Clash/Google/Google.yaml
-
-  Microsoft-rules:
-    behavior: classical
-    interval: 86400
-    name: Microsoft
-    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/release/rule/Clash/Microsoft/Microsoft.yaml
-
-  HoYoverse-rules:
-    behavior: classical
-    interval: 86400
-    name: HoYoverse
-    url: https://raw.githubusercontent.com/bbq191/my-rules/main/clash/rule/HoYoverse.yaml
-
-  Weibo-rules:
-    behavior: classical
-    interval: 86400
-    name: Weibo
-    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/release/rule/Clash/Weibo/Weibo.yaml
-
-  Mainland-rules:
-    behavior: classical
-    interval: 86400
-    name: Mainland
-    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/release/rule/Clash/China/China.yaml
-  MainlandIP-rules:
-    behavior: ipcidr
-    interval: 86400
-    name: MainlandIP
-    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/release/rule/Clash/ChinaIPs/ChinaIPs_IP.yaml
-
-  Globle-rules:
-    behavior: classical
+  GlobleMedia-rules:
+    behavior: domain-text
     interval: 86400
     name: Outside
-    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/release/rule/Clash/Global/Global_Classical.yaml
+    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/GlobalMedia/GlobalMedia_Domain.txt
+
+  Youtube-rules:
+    behavior: domain-text
+    interval: 86400
+    name: Youtube
+    url: https://raw.githubusercontent.com/bbq191/my-rules/main/clash/rule/youtube.txt
+  YoutubeIP-rules:
+    behavior: ipcidr-text
+    interval: 86400
+    name: Youtube
+    url: https://raw.githubusercontent.com/bbq191/my-rules/main/clash/rule/youtube-ip.txt
+
+  Bilibili-rules:
+    behavior: domain-text
+    interval: 86400
+    name: Bilibili
+    url: https://raw.githubusercontent.com/bbq191/my-rules/main/clash/rule/bilibili.txt
+  BilibiliIP-rules:
+    behavior: ipcidr-text
+    interval: 86400
+    name: Bilibili
+    url: https://raw.githubusercontent.com/bbq191/my-rules/main/clash/rule/bilibili-ip.txt
+
+  Telegram-rules:
+    behavior: domain-text
+    interval: 86400
+    name: Telegram
+    url: https://raw.githubusercontent.com/bbq191/my-rules/main/clash/rule/telegram.txt
+  TelegramIP-rules:
+    behavior: ipcidr-text
+    interval: 86400
+    name: Telegram
+    url: https://raw.githubusercontent.com/bbq191/my-rules/main/clash/rule/telegram-ip.txt
+
+  Twitter-rules:
+    behavior: domain-text
+    interval: 86400
+    name: Twitter
+    url: https://raw.githubusercontent.com/bbq191/my-rules/main/clash/rule/twitter.txt
+  TwitterIP-rules:
+    behavior: ipcidr-text
+    interval: 86400
+    name: Twitter
+    url: https://raw.githubusercontent.com/bbq191/my-rules/main/clash/rule/twitter-ip.txt
+
+  Apple-rules:
+    behavior: domain-text 
+    interval: 86400
+    name: Apple
+    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Apple/Apple_Domain.txt
+
+  Google-rules:
+    behavior: domain-text
+    interval: 86400
+    name: Google
+    url: https://raw.githubusercontent.com/bbq191/my-rules/main/clash/rule/google.txt
+  GoogleIP-rules:
+    behavior: ipcidr-text
+    interval: 86400
+    name: Google
+    url: https://raw.githubusercontent.com/bbq191/my-rules/main/clash/rule/google-ip.txt
+
+  Microsoft-rules:
+    behavior: domain-text
+    interval: 86400
+    name: Microsoft
+    url: https://raw.githubusercontent.com/bbq191/my-rules/main/clash/rule/microsoft.txt
+
+  HoYoverse-rules:
+    behavior: domain-text
+    interval: 86400
+    name: HoYoverse
+    url: https://raw.githubusercontent.com/bbq191/my-rules/main/clash/rule/hoyovers.txt
+
+  Weibo-rules:
+    behavior: domain-text
+    interval: 86400
+    name: Weibo
+    url: https://raw.githubusercontent.com/bbq191/my-rules/main/clash/rule/weibo.txt
+
+
+  Mainland-rules:
+    behavior: domain-text
+    interval: 86400
+    name: Mainland
+    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/China/China_Domain.txt
+  MainlandIP-rules:
+    behavior: ipcidr-text
+    interval: 86400
+    name: MainlandIP
+    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/ChinaIPs/ChinaIPs_IP.txt
+
+  Globle-rules:
+    behavior: domain-text
+    interval: 86400
+    name: Outside
+    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Global/Global_Domain.txt
 
 #分流规则引用
 rules:
 - RULE-SET,Ads-rules,Advertise
+- RULE-SET,AdsIP-rules,Advertise
+- RULE-SET,GlobalMedia-rules,GlobalMedia
 - RULE-SET,Youtube-rules,Youtube
+- RULE-SET,YoutubeIP-rules,Youtube
 - RULE-SET,Bilibili-rules,Bilibili
+- RULE-SET,BilibiliIP-rules,Bilibili
 - RULE-SET,Telegram-rules,Telegram
+- RULE-SET,TelegramIP-rules,Telegram
 - RULE-SET,Twitter-rules,Twitter
+- RULE-SET,TwitterIP-rules,Twitter
 - RULE-SET,Apple-rules,Apple
 - RULE-SET,Google-rules,Google
+- RULE-SET,GoogleIP-rules,Google
 - RULE-SET,Microsoft-rules,Microsoft
 - RULE-SET,Weibo-rules,Weibo
 - RULE-SET,HoYoverse-rules,HoYoverse
 - RULE-SET,Mainland-rules,Mainland
 - RULE-SET,MainlandIP-rules,Mainland
+- RULE-SET,Global-rules,Global
 - GEOIP,CN,DIRECT
 - MATCH,Final
