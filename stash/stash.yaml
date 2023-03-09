@@ -123,7 +123,7 @@ proxy-groups:
 
 - name: TW
   type: select
-  icon: https://raw.githubusercontent.com/erdongchanyo/icon/main/Policy-Country/TW01.png
+  icon: https://raw.githubusercontent.com/erdongchanyo/icon/main/Policy-Country/TW.png
   use:
     - MyProxy-TW
 
@@ -310,12 +310,32 @@ rule-providers:
     behavior: domain-text
     interval: 86400
     name: Advertise
-    url: https://raw.githubusercontent.com/bbq191/my-rules/main/stash/rule/ads.txt
+    url: https://raw.githubusercontent.com/bbq191/my-rules/main/stash/rule/adslite.txt
   AdsIP-rules:
     behavior: ipcidr-text
     interval: 86400
     name: Advertise
-    url: https://raw.githubusercontent.com/bbq191/my-rules/main/stash/rule/ads-ip.txt
+    url: https://raw.githubusercontent.com/bbq191/my-rules/main/stash/rule/adslite-ip.txt
+  Hijacking-rules:
+    behavior: domain-text
+    interval: 86400
+    name: Advertise
+    url: https://raw.githubusercontent.com/bbq191/my-rules/main/stash/rule/hijacking.txt
+  HijackingIP-rules:
+    behavior: ipcidr-text
+    interval: 86400
+    name: Advertise
+    url: https://raw.githubusercontent.com/bbq191/my-rules/main/stash/rule/hijacking-ip.txt
+  Privacy-rules:
+    behavior: domain-text
+    interval: 86400
+    name: Advertise
+    url: https://raw.githubusercontent.com/bbq191/my-rules/main/stash/rule/privacy.txt
+  PrivacyIP-rules:
+    behavior: ipcidr-text
+    interval: 86400
+    name: Advertise
+    url: https://raw.githubusercontent.com/bbq191/my-rules/main/stash/rule/privacy-ip.txt
 
   GlobleMedia-rules:
     behavior: domain-text
@@ -424,6 +444,10 @@ rule-providers:
 rules:
 - RULE-SET,Ads-rules,Advertise
 - RULE-SET,AdsIP-rules,Advertise
+- RULE-SET,Hijacking-rules,Advertise
+- RULE-SET,HijackingIP-rules,Advertise
+- RULE-SET,Privacy-rules,Advertise
+- RULE-SET,PrivacyIP-rules,Advertise
 - RULE-SET,GlobalMedia-rules,GlobalMedia
 - RULE-SET,Youtube-rules,Youtube
 - RULE-SET,YoutubeIP-rules,Youtube
