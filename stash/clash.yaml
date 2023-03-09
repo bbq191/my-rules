@@ -310,115 +310,115 @@ rule-providers:
     behavior: domain-text
     interval: 86400
     name: Advertise
-    url: https://raw.githubusercontent.com/bbq191/my-rules/main/clash/rule/ads.txt
+    url: https://raw.githubusercontent.com/bbq191/my-rules/main/stash/rule/ads.txt
   AdsIP-rules:
     behavior: ipcidr-text
     interval: 86400
     name: Advertise
-    url: https://raw.githubusercontent.com/bbq191/my-rules/main/clash/rule/ads-ip.txt
+    url: https://raw.githubusercontent.com/bbq191/my-rules/main/stash/rule/ads-ip.txt
 
   GlobleMedia-rules:
     behavior: domain-text
     interval: 86400
     name: Outside
-    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/GlobalMedia/GlobalMedia_Domain.txt
+    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/clash/GlobalMedia/GlobalMedia_Domain.txt
 
   Youtube-rules:
     behavior: domain-text
     interval: 86400
     name: Youtube
-    url: https://raw.githubusercontent.com/bbq191/my-rules/main/clash/rule/youtube.txt
+    url: https://raw.githubusercontent.com/bbq191/my-rules/main/stash/rule/youtube.txt
   YoutubeIP-rules:
     behavior: ipcidr-text
     interval: 86400
     name: Youtube
-    url: https://raw.githubusercontent.com/bbq191/my-rules/main/clash/rule/youtube-ip.txt
+    url: https://raw.githubusercontent.com/bbq191/my-rules/main/stash/rule/youtube-ip.txt
 
   Bilibili-rules:
     behavior: domain-text
     interval: 86400
     name: Bilibili
-    url: https://raw.githubusercontent.com/bbq191/my-rules/main/clash/rule/bilibili.txt
+    url: https://raw.githubusercontent.com/bbq191/my-rules/main/stash/rule/bilibili.txt
   BilibiliIP-rules:
     behavior: ipcidr-text
     interval: 86400
     name: Bilibili
-    url: https://raw.githubusercontent.com/bbq191/my-rules/main/clash/rule/bilibili-ip.txt
+    url: https://raw.githubusercontent.com/bbq191/my-rules/main/stash/rule/bilibili-ip.txt
 
   Telegram-rules:
     behavior: domain-text
     interval: 86400
     name: Telegram
-    url: https://raw.githubusercontent.com/bbq191/my-rules/main/clash/rule/telegram.txt
+    url: https://raw.githubusercontent.com/bbq191/my-rules/main/stash/rule/telegram.txt
   TelegramIP-rules:
     behavior: ipcidr-text
     interval: 86400
     name: Telegram
-    url: https://raw.githubusercontent.com/bbq191/my-rules/main/clash/rule/telegram-ip.txt
+    url: https://raw.githubusercontent.com/bbq191/my-rules/main/stash/rule/telegram-ip.txt
 
   Twitter-rules:
     behavior: domain-text
     interval: 86400
     name: Twitter
-    url: https://raw.githubusercontent.com/bbq191/my-rules/main/clash/rule/twitter.txt
+    url: https://raw.githubusercontent.com/bbq191/my-rules/main/stash/rule/twitter.txt
   TwitterIP-rules:
     behavior: ipcidr-text
     interval: 86400
     name: Twitter
-    url: https://raw.githubusercontent.com/bbq191/my-rules/main/clash/rule/twitter-ip.txt
+    url: https://raw.githubusercontent.com/bbq191/my-rules/main/stash/rule/twitter-ip.txt
 
   Apple-rules:
     behavior: domain-text 
     interval: 86400
     name: Apple
-    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Apple/Apple_Domain.txt
+    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/clash/Apple/Apple_Domain.txt
 
   Google-rules:
     behavior: domain-text
     interval: 86400
     name: Google
-    url: https://raw.githubusercontent.com/bbq191/my-rules/main/clash/rule/google.txt
+    url: https://raw.githubusercontent.com/bbq191/my-rules/main/stash/rule/google.txt
   GoogleIP-rules:
     behavior: ipcidr-text
     interval: 86400
     name: Google
-    url: https://raw.githubusercontent.com/bbq191/my-rules/main/clash/rule/google-ip.txt
+    url: https://raw.githubusercontent.com/bbq191/my-rules/main/stash/rule/google-ip.txt
 
   Microsoft-rules:
     behavior: domain-text
     interval: 86400
     name: Microsoft
-    url: https://raw.githubusercontent.com/bbq191/my-rules/main/clash/rule/microsoft.txt
+    url: https://raw.githubusercontent.com/bbq191/my-rules/main/stash/rule/microsoft.txt
 
   HoYoverse-rules:
     behavior: domain-text
     interval: 86400
     name: HoYoverse
-    url: https://raw.githubusercontent.com/bbq191/my-rules/main/clash/rule/hoyovers.txt
+    url: https://raw.githubusercontent.com/bbq191/my-rules/main/stash/rule/hoyovers.txt
 
   Weibo-rules:
     behavior: domain-text
     interval: 86400
     name: Weibo
-    url: https://raw.githubusercontent.com/bbq191/my-rules/main/clash/rule/weibo.txt
+    url: https://raw.githubusercontent.com/bbq191/my-rules/main/stash/rule/weibo.txt
 
 
   Mainland-rules:
     behavior: domain-text
     interval: 86400
     name: Mainland
-    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/China/China_Domain.txt
+    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/clash/China/China_Domain.txt
   MainlandIP-rules:
     behavior: ipcidr-text
     interval: 86400
     name: MainlandIP
-    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/ChinaIPs/ChinaIPs_IP.txt
+    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/clash/ChinaIPs/ChinaIPs_IP.txt
 
   Globle-rules:
     behavior: domain-text
     interval: 86400
     name: Outside
-    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Global/Global_Domain.txt
+    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/clash/Global/Global_Domain.txt
 
 #分流规则引用
 rules:
