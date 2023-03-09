@@ -321,7 +321,7 @@ rule-providers:
     behavior: domain-text
     interval: 86400
     name: Outside
-    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/clash/GlobalMedia/GlobalMedia_Domain.txt
+    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/GlobalMedia/GlobalMedia_Domain.txt
 
   Youtube-rules:
     behavior: domain-text
@@ -371,7 +371,7 @@ rule-providers:
     behavior: domain-text 
     interval: 86400
     name: Apple
-    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/clash/Apple/Apple_Domain.txt
+    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Apple/Apple_Domain.txt
 
   Google-rules:
     behavior: domain-text
@@ -407,18 +407,18 @@ rule-providers:
     behavior: domain-text
     interval: 86400
     name: Mainland
-    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/clash/China/China_Domain.txt
+    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/China/China_Domain.txt
   MainlandIP-rules:
     behavior: ipcidr-text
     interval: 86400
     name: MainlandIP
-    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/clash/ChinaIPs/ChinaIPs_IP.txt
+    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/ChinaIPs/ChinaIPs_IP.txt
 
   Globle-rules:
     behavior: domain-text
     interval: 86400
     name: Outside
-    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/clash/Global/Global_Domain.txt
+    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Global/Global_Domain.txt
 
 #分流规则引用
 rules:
