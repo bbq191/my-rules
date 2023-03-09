@@ -1,5 +1,5 @@
 name: EDC-ALLinONE
-desc: ErdongChan收集整理：VSCO VIP｜B站去广告｜知乎去广告+优化
+desc: ErdongChan收集整理：VSCO VIP
 
 http:
   mitm:
@@ -21,5 +21,3 @@ script-providers:
   vsco:
     url: https://raw.githubusercontent.com/NobyDa/Script/master/QuantumultX/File/vsco.js
     interval: 86400
-
-rules:

@@ -1,8 +1,8 @@
 mixed-port: 7890
 allow-lan: true
 bind-address: '*'
-mode: Rule
-log-level: silent
+mode: rule
+log-level: info
 external-controller: 127.0.0.1:9090
 
 #DNS设置
@@ -182,7 +182,7 @@ proxy-groups:
   - TW
   - KR
   - SG
-  - Final
+  -info
   - DIRECT
   icon: https://raw.githubusercontent.com/erdongchanyo/icon/main/Policy-Filter/Youtube.png
 
@@ -414,7 +414,7 @@ rule-providers:
     behavior: domain-text
     interval: 86400
     name: HoYoverse
-    url: https://raw.githubusercontent.com/bbq191/my-rules/main/stash/rule/hoyovers.txt
+    url: https://raw.githubusercontent.com/bbq191/my-rules/main/stash/rule/hoyoverse.txt
 
   Weibo-rules:
     behavior: domain-text
