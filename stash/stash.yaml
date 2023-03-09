@@ -147,7 +147,7 @@ proxy-groups:
   - DIRECT
   icon: https://raw.githubusercontent.com/erdongchanyo/icon/main/Policy-Filter/AdBlock.png
 
-- name: Globle
+- name: Global
   type: select
   proxies:
   - US
@@ -160,7 +160,7 @@ proxy-groups:
   - DIRECT
   icon: https://raw.githubusercontent.com/erdongchanyo/icon/main/Policy-Filter/Outside.png
 
-- name: GlobleMedia
+- name: GlobalMedia
   type: select
   proxies:
   - US
@@ -182,8 +182,6 @@ proxy-groups:
   - TW
   - KR
   - SG
-  -info
-  - DIRECT
   icon: https://raw.githubusercontent.com/erdongchanyo/icon/main/Policy-Filter/Youtube.png
 
 - name: Bilibili
@@ -204,7 +202,6 @@ proxy-groups:
   - KR
   - SG
   - Final
-  - DIRECT
   icon: https://raw.githubusercontent.com/erdongchanyo/icon/main/Policy-Filter/Telegram.png
 
 - name: Twitter
@@ -217,7 +214,6 @@ proxy-groups:
   - KR
   - SG
   - Final
-  - DIRECT
   icon: https://raw.githubusercontent.com/erdongchanyo/icon/main/Policy-Filter/Twitter.png
 
 - name: Apple
@@ -243,7 +239,6 @@ proxy-groups:
   - KR
   - SG
   - Final
-  - DIRECT
   icon: https://raw.githubusercontent.com/erdongchanyo/icon/main/Policy-Filter/Google.png
 
 - name: Microsoft
@@ -275,9 +270,7 @@ proxy-groups:
   type: select
   proxies:
   - US
-  - HK
   - JP
-  - TW
   - SG
   - Final
   - DIRECT
@@ -337,10 +330,10 @@ rule-providers:
     name: Advertise
     url: https://raw.githubusercontent.com/bbq191/my-rules/main/stash/rule/privacy-ip.txt
 
-  GlobleMedia-rules:
+  GlobalMedia-rules:
     behavior: domain-text
     interval: 86400
-    name: Outside
+    name: GlobalMedia
     url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/GlobalMedia/GlobalMedia_Domain.txt
 
   Youtube-rules:
@@ -422,7 +415,6 @@ rule-providers:
     name: Weibo
     url: https://raw.githubusercontent.com/bbq191/my-rules/main/stash/rule/weibo.txt
 
-
   Mainland-rules:
     behavior: domain-text
     interval: 86400
@@ -431,13 +423,13 @@ rule-providers:
   MainlandIP-rules:
     behavior: ipcidr-text
     interval: 86400
-    name: MainlandIP
+    name: Mainland
     url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/ChinaIPs/ChinaIPs_IP.txt
 
-  Globle-rules:
+  Global-rules:
     behavior: domain-text
     interval: 86400
-    name: Outside
+    name: Global
     url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Global/Global_Domain.txt
 
 #分流规则引用
