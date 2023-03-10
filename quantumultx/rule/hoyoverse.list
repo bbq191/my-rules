@@ -7,6 +7,3 @@ HOST-SUFFIX,hoyo.link,HoYoverse
 HOST-SUFFIX,hoyolab.com,HoYoverse
 HOST-SUFFIX,hoyoverse.com,HoYoverse
 HOST-SUFFIX,n0vadesktop.com,HoYoverse
-
-# DEST-PORT,22101,HoYoverse
-# DST-PORT,22102,HoYoverse
