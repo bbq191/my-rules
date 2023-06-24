@@ -11,3 +11,4 @@ DOMAIN-SUFFIX,n0vadesktop.com
 # DST-PORT：目标端口匹配
 DEST-PORT,22101,HoYoverse
 DEST-PORT,22102,HoYoverse
+DEST-PORT,23301,HoYoverse
