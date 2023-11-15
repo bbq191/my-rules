@@ -184,11 +184,11 @@ tun:
 
 proxy-providers:
   羊圈:
-    url: https://my1
-    interval: 600
+    url: https://mie-sub.pz.pe/subscribe/H0DIZ50LM7GHW6QU?clash=ssr&trojan
+    interval: 14400
   胴体:
-    url: https://my2
-    interval: 600
+    url: https://uf6zyb0r.pronetwork.top:8443/api/v1/client/0043d2d4362c4875f5c7f2857c8db352
+    interval: 14400
 
 proxy-groups:
   # 功能分组
@@ -204,6 +204,7 @@ proxy-groups:
       - JP 日本
       - US 美国
       - DIRECT
+      - REJECT
   # 基于地区分组
   - name: HK 香港
     filter: '港|🇭🇰|HK|(?i)Hong'
@@ -259,6 +260,11 @@ proxy-groups:
     url: http://cp.cloudflare.com/generate_204
     include-all: true
   # 规则分组
+  - name: Advertising
+    icon: https://fastly.jsdelivr.net/gh/Koolson/Qure/IconSet/mini/Advertising.png
+    type: select
+    hidden: true
+    proxies: REJECT
   - name: Hoyoverse
     icon: https://fastly.jsdelivr.net/gh/Koolson/Qure/IconSet/mini/Game.png
     type: select
@@ -268,7 +274,7 @@ proxy-groups:
     type: select
     proxies: *proxies
   - name: Wechat
-    icon: https://fastly.jsdelivr.net/gh/Koolson/Qure/IconSet/mini/Wechat.png
+    icon: https://fastly.jsdelivr.net/gh/Koolson/Qure/IconSet/mini/WeChat.png
     type: select
     proxies: *proxies
   - name: Weibo
@@ -307,25 +313,17 @@ proxy-groups:
     icon: https://fastly.jsdelivr.net/gh/Koolson/Qure/IconSet/mini/GlobalMedia.png
     type: select
     proxies: *proxies
-  - name: Advertising
-    icon: https://fastly.jsdelivr.net/gh/Koolson/Qure/IconSet/mini/Advertising.png
-    type: select
-    proxies:
-      - REJECT
-      - DIRECT
   - name: Final
     icon: https://fastly.jsdelivr.net/gh/Koolson/Qure/IconSet/mini/Final.png
     type: select
-    proxies:
-      - ALL 全量
-      - DIRECT
+    proxies: *proxies
 
 rule-providers:
   # 境外流媒体
   bilibili:
     behavior: classical
     interval: 86400
-    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/BiliBiliIntl/BiliBiliIntl.yaml
+    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/BiliBili/BiliBili.yaml
   youtube:
     behavior: classical
     interval: 86400
@@ -348,7 +346,7 @@ rule-providers:
     interval: 86400
     url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Twitter/Twitter.yaml
   microsoft:
-    behavior: domain
+    behavior: classical
     interval: 86400
     url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Microsoft/Microsoft.yaml
   global:
