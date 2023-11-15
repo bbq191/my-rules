@@ -184,10 +184,10 @@ tun:
 
 proxy-providers:
   羊圈:
-    url: https://mie-sub.pz.pe/subscribe/H0DIZ50LM7GHW6QU?clash=ssr&trojan
+    url: https://my1
     interval: 14400
   胴体:
-    url: https://uf6zyb0r.pronetwork.top:8443/api/v1/client/0043d2d4362c4875f5c7f2857c8db352
+    url: https://my2
     interval: 14400
 
 proxy-groups:
