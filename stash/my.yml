@@ -1,0 +1,432 @@
+# HTTP 代理端口
+port: 7890
+# SOCKS5 代理端口
+socks-port: 7891
+# 允许局域网的连接（可用来共享代理）
+allow-lan: true
+bind-address: '*'
+# 此功能仅在 allow-lan 设置为 true 时生效，支持三种参数：
+# "*"                           绑定所有的 IP 地址
+# 192.168.122.11                绑定一个的 IPv4 地址
+# "[aaaa::a8aa:ff:fe09:57d8]"   绑定一个 IPv6 地址
+# Clash 路由工作模式
+# 规则模式：rule（规则） / global（全局代理）/ direct（全局直连）
+mode: rule
+# Clash 默认将日志输出至 STDOUT
+# 设置日志输出级别 (默认级别：silent，即不输出任何内容，以避免因日志内容过大而导致程序内存溢出）。
+# 5 个级别：silent / info / warning / error / debug。级别越高日志输出量越大，越倾向于调试，若需要请自行开启。
+log-level: silent
+# clash 的 RESTful API 监听地址
+external-controller: 127.0.0.1:9090
+
+dns:
+  enable: true
+  listen: 0.0.0.0:53
+  ipv6: true # 当此选项为 false 时, AAAA 请求将返回空
+
+  # 以下填写的 DNS 服务器将会被用来解析 DNS 服务的域名
+  # 仅填写 DNS 服务器的 IP 地址
+  default-nameserver:
+    - 223.5.5.5
+    - 114.114.114.114
+  enhanced-mode: fake-ip # 或 redir-host
+  fake-ip-range: 198.18.0.1/16 # Fake IP 地址池 (CIDR 形式)
+  # use-hosts: true # 查询 hosts 并返回 IP 记录
+
+  # 在以下列表的域名将不会被解析为 fake ip，这些域名相关的解析请求将会返回它们真实的 IP 地址
+  fake-ip-filter:
+    # 以下域名列表参考自 vernesong/OpenClash 项目，并由 Hackl0us 整理补充
+    - '*.lan'
+    - '*.localdomain'
+    - '*.example'
+    - '*.invalid'
+    - '*.localhost'
+    - '*.test'
+    - '*.local'
+    - '*.home.arpa'
+    - 'time.*.com'
+    - 'time.*.gov'
+    - 'time.*.edu.cn'
+    - 'time.*.apple.com'
+    - 'time1.*.com'
+    - 'time2.*.com'
+    - 'time3.*.com'
+    - 'time4.*.com'
+    - 'time5.*.com'
+    - 'time6.*.com'
+    - 'time7.*.com'
+    - 'ntp.*.com'
+    - 'ntp1.*.com'
+    - 'ntp2.*.com'
+    - 'ntp3.*.com'
+    - 'ntp4.*.com'
+    - 'ntp5.*.com'
+    - 'ntp6.*.com'
+    - 'ntp7.*.com'
+    - '*.time.edu.cn'
+    - '*.ntp.org.cn'
+    - '+.pool.ntp.org'
+    - 'time1.cloud.tencent.com'
+    - 'music.163.com'
+    - '*.music.163.com'
+    - '*.126.net'
+    - 'musicapi.taihe.com'
+    - 'music.taihe.com'
+    - 'songsearch.kugou.com'
+    - 'trackercdn.kugou.com'
+    - '*.kuwo.cn'
+    - 'api-jooxtt.sanook.com'
+    - 'api.joox.com'
+    - 'joox.com'
+    - 'y.qq.com'
+    - '*.y.qq.com'
+    - 'streamoc.music.tc.qq.com'
+    - 'mobileoc.music.tc.qq.com'
+    - 'isure.stream.qqmusic.qq.com'
+    - 'dl.stream.qqmusic.qq.com'
+    - 'aqqmusic.tc.qq.com'
+    - 'amobile.music.tc.qq.com'
+    - '*.xiami.com'
+    - '*.music.migu.cn'
+    - 'music.migu.cn'
+    - '*.msftconnecttest.com'
+    - '*.msftncsi.com'
+    - 'msftconnecttest.com'
+    - 'msftncsi.com'
+    - 'localhost.ptlogin2.qq.com'
+    - 'localhost.sec.qq.com'
+    - '+.srv.nintendo.net'
+    - '+.stun.playstation.net'
+    - 'xbox.*.microsoft.com'
+    - 'xnotify.xboxlive.com'
+    - '+.battlenet.com.cn'
+    - '+.wotgame.cn'
+    - '+.wggames.cn'
+    - '+.wowsgame.cn'
+    - '+.wargaming.net'
+    - 'proxy.golang.org'
+    - 'stun.*.*'
+    - 'stun.*.*.*'
+    - '+.stun.*.*'
+    - '+.stun.*.*.*'
+    - '+.stun.*.*.*.*'
+    - 'heartbeat.belkin.com'
+    - '*.linksys.com'
+    - '*.linksyssmartwifi.com'
+    - '*.router.asus.com'
+    - 'mesu.apple.com'
+    - 'swscan.apple.com'
+    - 'swquery.apple.com'
+    - 'swdownload.apple.com'
+    - 'swcdn.apple.com'
+    - 'swdist.apple.com'
+    - 'lens.l.google.com'
+    - 'stun.l.google.com'
+    - '+.nflxvideo.net'
+    - '*.square-enix.com'
+    - '*.finalfantasyxiv.com'
+    - '*.ffxiv.com'
+    - '*.mcdn.bilivideo.cn'
+  # 支持 UDP / TCP / DoT / DoH 协议的 DNS 服务，可以指明具体的连接端口号。
+  # 所有 DNS 请求将会直接发送到服务器，不经过任何代理。
+  # Clash 会使用最先获得的解析记录回复 DNS 请求
+  nameserver:
+    - https://doh.pub/dns-query
+    - https://dns.alidns.com/dns-query
+  # 当 fallback 参数被配置时, DNS 请求将同时发送至上方 nameserver 列表和下方 fallback 列表中配置的所有 DNS 服务器.
+  # 当解析得到的 IP 地址的地理位置不是 CN 时，clash 将会选用 fallback 中 DNS 服务器的解析结果。
+  # fallback:
+  #   - https://dns.google/dns-query
+  # 如果使用 nameserver 列表中的服务器解析的 IP 地址在下方列表中的子网中，则它们被认为是无效的，
+  # Clash 会选用 fallback 列表中配置 DNS 服务器解析得到的结果。
+  #
+  # 当 fallback-filter.geoip 为 true 且 IP 地址的地理位置为 CN 时，
+  # Clash 会选用 nameserver 列表中配置 DNS 服务器解析得到的结果。
+  #
+  # 当 fallback-filter.geoip 为 false, 如果解析结果不在 fallback-filter.ipcidr 范围内，
+  # Clash 总会选用 nameserver 列表中配置 DNS 服务器解析得到的结果。
+  #
+  # 采取以上逻辑进行域名解析是为了对抗 DNS 投毒攻击。
+  fallback-filter:
+    geoip: false
+    ipcidr:
+      - 0.0.0.0/8
+      - 10.0.0.0/8
+      - 100.64.0.0/10
+      - 127.0.0.0/8
+      - 30.1.0.0/16
+      - 169.254.0.0/16
+      - 172.16.0.0/12
+      - 192.0.0.0/24
+      - 192.0.2.0/24
+      - 192.88.99.0/24
+      - 192.168.0.0/16
+      - 198.18.0.0/15
+      - 198.51.100.0/24
+      - 203.0.113.0/24
+      - 224.0.0.0/4
+      - 240.0.0.0/4
+      - 255.255.255.255/32
+    domain:
+      - '+.google.com'
+      - '+.facebook.com'
+      - '+.youtube.com'
+      - '+.githubusercontent.com'
+      - '+.googlevideo.com'
+tun:
+  enable: ture #如果需要启用 TUN 模式，请设置为 true
+  stack: system # 或 gvisor
+  macOS-auto-route: true
+  macOS-auto-detect-interface: true
+  dns-hijack:
+    - tcp://8.8.8.8:53
+    - tcp://8.8.4.4:53
+
+proxy-providers:
+  羊圈:
+    url: https://my1
+    interval: 600
+  胴体:
+    url: https://my2
+    interval: 600
+
+proxy-groups:
+  # 功能分组
+  - name: 选择代理
+    icon: https://fastly.jsdelivr.net/gh/Koolson/Qure/IconSet/mini/Proxy.png
+    type: select
+    hidden: true
+    proxies: &proxies
+      - ALL 全量
+      - HK 香港
+      - TW 台湾
+      - SG 新加坡
+      - JP 日本
+      - US 美国
+      - DIRECT
+  # 基于地区分组
+  - name: HK 香港
+    filter: '港|🇭🇰|HK|(?i)Hong'
+    icon: https://fastly.jsdelivr.net/gh/Koolson/Qure/IconSet/mini/Hong_Kong.png
+    interval: 120
+    lazy: true
+    tolerance: 50
+    type: select
+    url: http://cp.cloudflare.com/generate_204
+    include-all: true
+  - name: TW 台湾
+    filter: '台|🇨🇳|🇹🇼|湾|TW|(?i)Taiwan'
+    icon: https://fastly.jsdelivr.net/gh/Koolson/Qure/IconSet/mini/Taiwan.png
+    interval: 120
+    lazy: true
+    tolerance: 50
+    type: select
+    url: http://cp.cloudflare.com/generate_204
+    include-all: true
+  - name: SG 新加坡
+    filter: '新加坡|坡|狮城|🇸🇬|SG|(?i)Singapore'
+    icon: https://fastly.jsdelivr.net/gh/Koolson/Qure/IconSet/mini/Singapore.png
+    interval: 120
+    lazy: true
+    tolerance: 50
+    type: select
+    url: http://cp.cloudflare.com/generate_204
+    include-all: true
+  - name: JP 日本
+    filter: '日|🇯🇵|东京|JP|(?i)Japan'
+    icon: https://fastly.jsdelivr.net/gh/Koolson/Qure/IconSet/mini/Japan.png
+    interval: 120
+    lazy: true
+    tolerance: 50
+    type: select
+    url: http://cp.cloudflare.com/generate_204
+    include-all: true
+  - name: US 美国
+    filter: '美|🇺🇲|US|(?i)States|American'
+    icon: https://fastly.jsdelivr.net/gh/Koolson/Qure/IconSet/mini/United_States.png
+    interval: 120
+    lazy: true
+    tolerance: 50
+    type: select
+    url: http://cp.cloudflare.com/generate_204
+    include-all: true
+  - name: ALL 全量
+    icon: https://fastly.jsdelivr.net/gh/Koolson/Qure/IconSet/mini/Proxy.png
+    interval: 120
+    lazy: true
+    tolerance: 50
+    type: select
+    url: http://cp.cloudflare.com/generate_204
+    include-all: true
+  # 规则分组
+  - name: Hoyoverse
+    icon: https://fastly.jsdelivr.net/gh/Koolson/Qure/IconSet/mini/Game.png
+    type: select
+    proxies: *proxies
+  - name: Bilibili
+    icon: https://fastly.jsdelivr.net/gh/Koolson/Qure/IconSet/mini/bilibili.png
+    type: select
+    proxies: *proxies
+  - name: Wechat
+    icon: https://fastly.jsdelivr.net/gh/Koolson/Qure/IconSet/mini/Wechat.png
+    type: select
+    proxies: *proxies
+  - name: Weibo
+    icon: https://fastly.jsdelivr.net/gh/Koolson/Qure/IconSet/mini/Weibo.png
+    type: select
+    proxies: *proxies
+  - name: YouTube
+    icon: https://fastly.jsdelivr.net/gh/Koolson/Qure/IconSet/mini/YouTube.png
+    type: select
+    proxies: *proxies
+  - name: GitHub
+    icon: https://fastly.jsdelivr.net/gh/Koolson/Qure/IconSet/mini/GT.png
+    type: select
+    proxies: *proxies
+  - name: Telegram
+    icon: https://fastly.jsdelivr.net/gh/Koolson/Qure/IconSet/mini/Telegram.png
+    type: select
+    proxies: *proxies
+  - name: Google
+    icon: https://fastly.jsdelivr.net/gh/Koolson/Qure/IconSet/mini/Google.png
+    type: select
+    proxies: *proxies
+  - name: Twitter
+    icon: https://fastly.jsdelivr.net/gh/Koolson/Qure/IconSet/mini/Twitter.png
+    type: select
+    proxies: *proxies
+  - name: Microsoft
+    icon: https://fastly.jsdelivr.net/gh/Koolson/Qure/IconSet/mini/Microsoft.png
+    type: select
+    proxies: *proxies
+  - name: Global
+    icon: https://fastly.jsdelivr.net/gh/Koolson/Qure/IconSet/mini/Global.png
+    type: select
+    proxies: *proxies
+  - name: GlobalMedia
+    icon: https://fastly.jsdelivr.net/gh/Koolson/Qure/IconSet/mini/GlobalMedia.png
+    type: select
+    proxies: *proxies
+  - name: Advertising
+    icon: https://fastly.jsdelivr.net/gh/Koolson/Qure/IconSet/mini/Advertising.png
+    type: select
+    proxies:
+      - REJECT
+      - DIRECT
+  - name: Final
+    icon: https://fastly.jsdelivr.net/gh/Koolson/Qure/IconSet/mini/Final.png
+    type: select
+    proxies:
+      - ALL 全量
+      - DIRECT
+
+rule-providers:
+  # 境外流媒体
+  bilibili:
+    behavior: classical
+    interval: 86400
+    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/BiliBiliIntl/BiliBiliIntl.yaml
+  youtube:
+    behavior: classical
+    interval: 86400
+    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/YouTube/YouTube.yaml
+  # 境外服务
+  github:
+    behavior: classical
+    interval: 86400
+    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/GitHub/GitHub.yaml
+  telegram:
+    behavior: classical
+    interval: 86400
+    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Telegram/Telegram.yaml
+  google:
+    behavior: classical
+    interval: 86400
+    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Twitter/Twitter.yaml
+  twitter:
+    behavior: classical
+    interval: 86400
+    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Twitter/Twitter.yaml
+  microsoft:
+    behavior: domain
+    interval: 86400
+    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Microsoft/Microsoft.yaml
+  global:
+    behavior: classical
+    interval: 86400
+    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Global/Global.yaml
+  globalmedia:
+    behavior: classical
+    interval: 86400
+    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/GlobalMedia/GlobalMedia.yaml
+  # 境内特殊服务
+  wechat:
+    behavior: classical
+    interval: 86400
+    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/WeChat/WeChat.yaml
+  weibo:
+    behavior: classical
+    interval: 86400
+    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Weibo/Weibo.yaml
+  hoyoverse:
+    behavior: classical
+    interval: 86400
+    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/HoYoverse/HoYoverse.yaml
+  advertising:
+    behavior: classical
+    interval: 86400
+    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Advertising/Advertising_Classical.yaml
+
+rules:
+  - SCRIPT,quic,REJECT
+  - RULE-SET,bilibili,Bilibili
+  - RULE-SET,youtube,YouTube
+  - RULE-SET,github,Github
+  - RULE-SET,telegram,Telegram
+  - RULE-SET,google,Google
+  - RULE-SET,twitter,Twitter
+  - RULE-SET,microsoft,Microsoft
+  - RULE-SET,global,Global
+  - RULE-SET,globalmedia,GlobalMedia
+  - RULE-SET,wechat,Wechat
+  - RULE-SET,weibo,Weibo
+  - RULE-SET,hoyoverse,Hoyoverse
+  - RULE-SET,advertising,Advertising
+  # common proxy utils
+  - PROCESS-NAME,v2ray,DIRECT
+  - PROCESS-NAME,Surge,DIRECT
+  - PROCESS-NAME,ss-local,DIRECT
+  - PROCESS-NAME,privoxy,DIRECT
+  - PROCESS-NAME,trojan,DIRECT
+  - PROCESS-NAME,trojan-go,DIRECT
+  - PROCESS-NAME,naive,DIRECT
+  - PROCESS-NAME,CloudflareWARP,DIRECT
+  - PROCESS-NAME,Cloudflare WARP,DIRECT
+  - IP-CIDR,162.159.193.0/24,DIRECT,no-resolve
+  - PROCESS-NAME,p4pclient,DIRECT
+  - PROCESS-NAME,Thunder,DIRECT
+  - PROCESS-NAME,DownloadService,DIRECT
+  - PROCESS-NAME,qbittorrent,DIRECT
+  - PROCESS-NAME,Transmission,DIRECT
+  - PROCESS-NAME,fdm,DIRECT
+  - PROCESS-NAME,aria2c,DIRECT
+  - PROCESS-NAME,Folx,DIRECT
+  - PROCESS-NAME,NetTransport,DIRECT
+  - PROCESS-NAME,uTorrent,DIRECT
+  - PROCESS-NAME,WebTorrent,DIRECT
+  # 地理规则
+  - GEOIP,LAN,DIRECT
+  - GEOIP,CN,DIRECT
+  # 兜底规则
+  - MATCH,Final
+
+script:
+  shortcuts:
+    # 4483 与 9305 为 BiliBili 的 QUIC CDN
+    quic: network == 'udp' and (dst_port == 443 or dst_port == 4483 or dst_port == 9305)
+
+http:
+  # 开启 MitM 功能的域名列表，需要确保上述 CA 证书已受系统信任
+  mitm:
+    - api-os-takumi.mihoyo.com
+    - hk4e-api-os.hoyoverse.com
