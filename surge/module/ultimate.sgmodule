@@ -2,7 +2,7 @@
 #!desc=VSCO会员
 
 [MITM]	
-hostname = %APPEND% api.revenuecat.com, api.polaxiong.com
+hostname = %APPEND% api.revenuecat.com, api.polaxiong.com, mp.weixin.qq.com
 
 [Script]
 # VSCO解锁
@@ -10,3 +10,5 @@ http-request ^https?:\/\/api\.revenuecat\.com\/v\d\/subscribers\/ script-path=ht
 http-response ^https?:\/\/api\.revenuecat\.com\/v\d\/subscribers\/ requires-body=1,script-path=https://raw.githubusercontent.com/NobyDa/Script/master/QuantumultX/File/vsco.js
 # Pola修图
 http-response ^https:\/\/api\.polaxiong\.com\/v1\/payments\/(appleiap\/receipts\/confirmation|profiles\/@me\/subscription) requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/NobyDa/Script/master/Surge/JS/Polarr.js
+# Wechat去除公众号文章底部广告
+http-response ^https?:\/\/mp\.weixin\.qq\.com\/mp\/getappmsgad requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/NobyDa/Script/master/QuantumultX/File/Wechat.js
