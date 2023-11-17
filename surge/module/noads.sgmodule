@@ -1,5 +1,5 @@
-#!name=EDC-ALLinONE(iOS)
-#!desc=彩云天气VIP｜TF下载修正｜Spotify会员｜B站去广告｜知乎去广告+优化
+#!name=NoADS(iOS)
+#!desc=B站去广告
 
 [MITM]	
 hostname = %APPEND% app.bilibili.com, api.bilibili.com, api.live.bilibili.com, api.vc.bilibili.com

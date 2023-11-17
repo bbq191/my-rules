@@ -1,0 +1,83 @@
+#!desc=哔哩哔哩去广告
+#!author=bbq191
+name: bilibili-NoADS
+desc: 哔哩哔哩去广告
+http:
+  mitm:
+    - "app.bilibili.com"
+    - "api.live.bilibili.com"
+    - "api.vc.bilibili.com"
+    - "api.bilibili.com"
+
+  script:
+    - match: ^https?:\/\/app\.bilibili\.com\/x\/v2\/feed\/index
+      name: BiliBili_推荐去广告
+      type: response
+      require-body: true
+      timeout: 10
+    - match: ^https?:\/\/api\.bilibili\.com\/pgc\/page\/bangumi,
+      name: BiliBili_追番去广告
+      type: response
+      require-body: true
+      timeout: 10
+    - match: ^https?:\/\/api\.live\.bilibili\.com\/xlive\/app-room\/v1\/index\/getInfoByRoom
+      name: BiliBili_直播去广告
+      type: response
+      require-body: true
+      timeout: 10
+    - match: ^https?:\/\/api\.vc\.bilibili\.com\/dynamic_svr\/v1\/dynamic_svr\/dynamic_(history|new)\?
+      name: BiliBili_动态去广告
+      type: response
+      require-body: true
+      timeout: 10
+    - match: ^https?:\/\/app\.bilibili\.com\/x\/v2\/splash\/list
+      name: BiliBili_开屏去广告
+      type: response
+      require-body: true
+      timeout: 10
+    - match: ^https?:\/\/app\.bilibili\.com\/x\/resource\/show\/tab
+      name: BiliBili_标签页处理
+      type: response
+      require-body: true
+      timeout: 10
+    - match: ^https?:\/\/app\.bilibili\.com\/x\/v2\/account\/mine
+      name: BiliBili_我的页面处理
+      type: response
+      require-body: true
+      timeout: 10
+
+  rewrite:
+    # 去除搜索中的大家都在搜
+    - ^https?:\/\/api\.vc\.bilibili\.com\/search_svr\/v\d\/Search\/recommend_words - reject
+    # 去除动态中的话题
+    - ^https?:\/\/api\.vc\.bilibili\.com\/topic_svr\/v1\/topic_svr - reject
+    # 去除动态中的最常访问
+    - ^https?:\/\/api\.vc\.bilibili\.com\/dynamic_svr\/v1\/dynamic_svr\/mix_uplist - reject
+    # 可能的一些推广(beta)
+    - ^https?:\/\/api\.bilibili\.com\/pgc\/season\/app\/related\/recommend\? - reject
+    # BiliBili漫画去广告
+    - ^https?:\/\/manga\.bilibili\.com\/twirp\/comic\.v\d\.Comic\/Flash - reject
+    - ^https?:\/\/manga\.bilibili\.com\/twirp\/comic\.v\d\.Comic\/ListFlash - reject
+
+script-providers:
+  BiliBili_推荐去广告:
+    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/script/bilibili/bilibili_plus.js
+    interval: 86400
+  BiliBili_追番去广告:
+    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/script/bilibili/bilibili_plus.js
+    interval: 86400
+  BiliBili_直播去广告:
+    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/script/bilibili/bilibili_plus.js
+    interval: 86400
+  BiliBili_动态去广告:
+    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/script/bilibili/bilibili_plus.js
+    interval: 86400
+  BiliBili_开屏去广告:
+    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/script/bilibili/bilibili_plus.js
+    interval: 86400
+  BiliBili_标签页处理:
+    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/script/bilibili/bilibili_plus.js
+    interval: 86400
+  BiliBili_我的页面处理:
+    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/script/bilibili/bilibili_plus.js
+    interval: 86400
