@@ -7,6 +7,3 @@ DEST-PORT,22102
 DEST-PORT,23301
 # 绝区零
 DEST-PORT,20501
-# 鸣潮
-DOMAIN-SUFFIX,cdn-akamai-hw-mc.aki-game.net
-DOMAIN-SUFFIX,qcloud-sg-datareceiver.kurogame.xyz
