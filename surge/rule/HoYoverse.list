@@ -17,3 +17,6 @@ DOMAIN-SUFFIX,kurogames.com
 DOMAIN-SUFFIX,kurogame.net
 DOMAIN-SUFFIX,kurogame-service.com
 DOMAIN-SUFFIX,getui.com
+# 尘白禁区
+DOMAIN-SUFFIX,xoyo.games
+DOMAIN-SUFFIX,amazingseasuncdn.com
