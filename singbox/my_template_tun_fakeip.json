@@ -53,10 +53,7 @@
         "server": "google"
       },
       {
-        "query_type": [
-          "A",
-          "AAAA"
-        ],
+        "query_type": ["A", "AAAA"],
         "rule_set": "geosite-cn",
         "server": "fakeip"
       },
@@ -80,10 +77,7 @@
         "client_subnet": "114.114.114.114/24"
       },
       {
-        "query_type": [
-          "A",
-          "AAAA"
-        ],
+        "query_type": ["A", "AAAA"],
         "server": "fakeip"
       }
     ],
@@ -94,10 +88,7 @@
     {
       "tag": "tun-in",
       "type": "tun",
-      "address": [
-        "172.19.0.0/30",
-        "fdfe:dcba:9876::0/126"
-      ],
+      "address": ["172.19.0.0/30", "fdfe:dcba:9876::0/126"],
       "stack": "system",
       "auto_route": true,
       "strict_route": true,
@@ -105,7 +96,7 @@
         "http_proxy": {
           "enabled": true,
           "server": "127.0.0.1",
-          "server_port": 7890
+          "server_port": 6153
         }
       }
     },
@@ -113,72 +104,50 @@
       "tag": "mixed-in",
       "type": "mixed",
       "listen": "127.0.0.1",
-      "listen_port": 7890
+      "listen_port": 6153
     }
   ],
   "outbounds": [
     {
       "tag": "Proxy",
       "type": "selector",
-      "outbounds": [
-        "auto",
-        "direct",
-        "{all}"
+      "outbounds": ["{all}", "direct"],
+      "filter": [
+        {
+          "action": "exclude",
+          "keywords": ["失联|自动|最优|网站|地址|剩余|过期|时间|有效"]
+        }
       ]
     },
     {
       "tag": "Google",
       "type": "selector",
-      "outbounds": [
-        "HongKong",
-        "America"
-      ]
+      "outbounds": ["America", "HongKong"]
     },
     {
       "tag": "Telegram",
       "type": "selector",
-      "outbounds": [
-        "HongKong",
-        "Singapore"
-      ]
+      "outbounds": ["Singapore", "HongKong"]
     },
     {
       "tag": "BiliBili",
       "type": "selector",
-      "outbounds": [
-        "direct",
-        "HongKong",
-        "TaiWan"
-      ]
+      "outbounds": ["direct", "HongKong", "TaiWan"]
     },
     {
       "tag": "Bahamut",
       "type": "selector",
-      "outbounds": [
-        "TaiWan",
-        "HongKong",
-        "Proxy"
-      ]
+      "outbounds": ["TaiWan", "HongKong"]
     },
     {
       "tag": "Apple",
       "type": "selector",
-      "outbounds": [
-        "direct",
-        "HongKong",
-        "America",
-        "Others"
-      ]
+      "outbounds": ["America", "direct", "HongKong"]
     },
     {
       "tag": "Microsoft",
       "type": "selector",
-      "outbounds": [
-        "direct",
-        "HongKong",
-        "America",
-        "Others"
-      ]
+      "outbounds": ["America", "direct", "HongKong"]
     },
     {
       "tag": "Games",
@@ -189,113 +158,78 @@
         "TaiWan",
         "Singapore",
         "Japan",
-        "America",
-        "Others"
+        "America"
       ]
     },
     {
       "tag": "Global",
       "type": "selector",
-      "outbounds": [
-        "Proxy",
-        "HongKong",
-        "TaiWan",
-        "Singapore",
-        "Japan",
-        "America",
-        "Others",
-        "direct"
-      ]
+      "outbounds": ["Proxy", "direct"]
     },
     {
       "tag": "China",
       "type": "selector",
-      "outbounds": [
-        "direct",
-        "Proxy"
-      ]
+      "outbounds": ["direct", "Proxy"]
     },
     {
       "tag": "HongKong",
       "type": "selector",
-      "outbounds": [
-        "{all}"
-      ],
+      "outbounds": ["{all}"],
       "filter": [
         {
           "action": "include",
-          "keywords": [
-            "🇭🇰|HK|hk|香港|HongKong"
-          ]
+          "keywords": ["🇭🇰|HK|hk|香港|HongKong"]
         }
       ]
     },
     {
       "tag": "TaiWan",
       "type": "selector",
-      "outbounds": [
-        "{all}"
-      ],
+      "outbounds": ["{all}"],
       "filter": [
         {
           "action": "include",
-          "keywords": [
-            "🇹🇼|TW|tw|台湾|臺灣|台|Taiwan"
-          ]
+          "keywords": ["🇹🇼|TW|tw|台湾|臺灣|台|Taiwan"]
         }
       ]
     },
     {
       "tag": "Singapore",
       "type": "selector",
-      "outbounds": [
-        "{all}"
-      ],
+      "outbounds": ["{all}"],
       "filter": [
         {
           "action": "include",
-          "keywords": [
-            "🇸🇬|SG|sg|新加坡|狮|Singapore"
-          ]
+          "keywords": ["🇸🇬|SG|sg|新加坡|狮|Singapore"]
         }
       ]
     },
     {
       "tag": "Japan",
       "type": "selector",
-      "outbounds": [
-        "{all}"
-      ],
+      "outbounds": ["{all}"],
       "filter": [
         {
           "action": "include",
-          "keywords": [
-            "🇯🇵|JP|jp|日本|日|Japan"
-          ]
+          "keywords": ["🇯🇵|JP|jp|日本|日|Japan"]
         }
       ]
     },
     {
       "tag": "America",
       "type": "selector",
-      "outbounds": [
-        "{all}"
-      ],
+      "outbounds": ["{all}"],
       "filter": [
         {
           "action": "include",
-          "keywords": [
-            "🇺🇸|US|us|美国|美|United States"
-          ]
+          "keywords": ["🇺🇸|US|us|美国|美|United States"]
         }
       ]
     },
     {
       "tag": "Others",
       "type": "selector",
-      "outbounds": [
-        "{all}"
-      ],
+      "outbounds": ["{all}"],
       "filter": [
         {
           "action": "exclude",
@@ -308,15 +242,11 @@
     {
       "tag": "auto",
       "type": "urltest",
-      "outbounds": [
-        "{all}"
-      ],
+      "outbounds": ["{all}"],
       "filter": [
         {
           "action": "exclude",
-          "keywords": [
-            "失联|自动|最优|网站|地址|剩余|过期|时间|有效"
-          ]
+          "keywords": ["失联|自动|最优|网站|地址|剩余|过期|时间|有效"]
         }
       ],
       "url": "http://www.gstatic.com/generate_204",
@@ -334,10 +264,7 @@
     "final": "Proxy",
     "rules": [
       {
-        "inbound": [
-          "tun-in",
-          "mixed-in"
-        ],
+        "inbound": ["tun-in", "mixed-in"],
         "action": "sniff"
       },
       {
@@ -394,10 +321,7 @@
         "outbound": "Google"
       },
       {
-        "rule_set": [
-          "geoip-telegram",
-          "geosite-telegram"
-        ],
+        "rule_set": ["geoip-telegram", "geosite-telegram"],
         "outbound": "Telegram"
       },
       {
@@ -409,11 +333,7 @@
         "outbound": "Bahamut"
       },
       {
-        "rule_set": [
-          "geoip-apple",
-          "geosite-apple",
-          "geosite-amazon"
-        ],
+        "rule_set": ["geoip-apple", "geosite-apple", "geosite-amazon"],
         "outbound": "Apple"
       },
       {
@@ -421,10 +341,7 @@
         "outbound": "Microsoft"
       },
       {
-        "rule_set": [
-          "geosite-category-games",
-          "geosite-dmm"
-        ],
+        "rule_set": ["geosite-category-games", "geosite-dmm"],
         "outbound": "Games"
       },
       {
@@ -432,10 +349,7 @@
         "outbound": "Global"
       },
       {
-        "rule_set": [
-          "geoip-cn",
-          "geosite-cn"
-        ],
+        "rule_set": ["geoip-cn", "geosite-cn"],
         "outbound": "China"
       }
     ],
