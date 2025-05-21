@@ -543,6 +543,13 @@
         "download_detour": "direct"
       },
       {
+        "tag": "geosite-mygame",
+        "type": "remote",
+        "format": "binary",
+        "url": "https://testingcf.jsdelivr.net/gh/bbq191/my-rules/singbox/rules/mygame.srs",
+        "download_detour": "direct"
+      },
+      {
         "tag": "geosite-geolocation-!cn",
         "type": "remote",
         "format": "binary",
