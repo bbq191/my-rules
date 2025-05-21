@@ -1,0 +1,20 @@
+{
+  "version": 1,
+  "rules": [
+    {
+      "domain_suffix": [
+        "warframe.com",
+        "pathofexile2.com",
+        "xsolla.com"
+      ],
+      "PORT": [
+        22101,
+        22102,
+        23301,
+        20501,
+        4950,
+        4955
+      ]
+    }
+  ]
+}
