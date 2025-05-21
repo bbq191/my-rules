@@ -420,7 +420,8 @@
       {
         "rule_set": [
           "geosite-category-games",
-          "geosite-dmm"
+          "geosite-dmm",
+          "geosite-mygame"
         ],
         "outbound": "Games"
       },
