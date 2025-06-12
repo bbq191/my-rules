@@ -53,10 +53,7 @@
         "server": "google"
       },
       {
-        "query_type": [
-          "A",
-          "AAAA"
-        ],
+        "query_type": ["A", "AAAA"],
         "rule_set": "geosite-cn",
         "server": "fakeip"
       },
@@ -76,14 +73,10 @@
             "rule_set": "geoip-cn"
           }
         ],
-        "server": "google",
-        "client_subnet": "114.114.114.114/24"
+        "server": "local"
       },
       {
-        "query_type": [
-          "A",
-          "AAAA"
-        ],
+        "query_type": ["A", "AAAA"],
         "server": "fakeip"
       }
     ],
@@ -94,11 +87,9 @@
     {
       "tag": "tun-in",
       "type": "tun",
-      "address": [
-        "172.19.0.0/30",
-        "fdfe:dcba:9876::0/126"
-      ],
-      "stack": "system",
+      "address": ["172.19.0.0/30", "fdfe:dcba:9876::0/126"],
+      "route_exclude_address": ["30.0.0.0/32", "40.0.0.0/32"],
+      "stack": "mixed",
       "auto_route": true,
       "strict_route": true,
       "platform": {
@@ -120,179 +111,118 @@
     {
       "tag": "Proxy",
       "type": "selector",
-      "outbounds": [
-        "{all}",
-        "direct"
-      ],
+      "outbounds": ["{all}", "direct"],
       "filter": [
         {
           "action": "exclude",
-          "keywords": [
-            "失联|自动|最优|网站|地址|剩余|过期|时间|有效"
-          ]
+          "keywords": ["失联|自动|最优|网站|地址|剩余|过期|时间|有效"]
         }
       ]
     },
     {
       "tag": "Google",
       "type": "selector",
-      "outbounds": [
-        "America",
-        "HongKong"
-      ]
+      "outbounds": ["America", "HongKong"]
     },
     {
       "tag": "Telegram",
       "type": "selector",
-      "outbounds": [
-        "Singapore",
-        "HongKong"
-      ]
+      "outbounds": ["Singapore", "HongKong"]
     },
     {
       "tag": "BiliBili",
       "type": "selector",
-      "outbounds": [
-        "TaiWan",
-        "direct",
-        "HongKong"
-      ]
+      "outbounds": ["TaiWan", "HongKong", "direct"]
     },
     {
       "tag": "Bahamut",
       "type": "selector",
-      "outbounds": [
-        "TaiWan",
-        "HongKong"
-      ]
+      "outbounds": ["TaiWan", "HongKong"]
     },
     {
       "tag": "Apple",
       "type": "selector",
-      "outbounds": [
-        "America",
-        "HongKong",
-        "direct"
-      ]
+      "outbounds": ["America", "HongKong", "direct"]
     },
     {
       "tag": "Microsoft",
       "type": "selector",
-      "outbounds": [
-        "America",
-        "HongKong",
-        "direct"
-      ]
+      "outbounds": ["America", "HongKong", "direct"]
     },
     {
       "tag": "Games",
       "type": "selector",
-      "outbounds": [
-        "HongKong",
-        "TaiWan",
-        "Singapore",
-        "Japan",
-        "direct"
-      ]
+      "outbounds": ["HongKong", "TaiWan", "Singapore", "Japan", "direct"]
     },
     {
       "tag": "Global",
       "type": "selector",
-      "outbounds": [
-        "Proxy",
-        "auto",
-        "direct"
-      ]
+      "outbounds": ["Proxy", "direct"]
     },
     {
       "tag": "China",
       "type": "selector",
-      "outbounds": [
-        "direct",
-        "Proxy"
-      ]
+      "outbounds": ["direct", "Proxy"]
     },
     {
       "tag": "HongKong",
       "type": "selector",
-      "outbounds": [
-        "{all}"
-      ],
+      "outbounds": ["{all}"],
       "filter": [
         {
           "action": "include",
-          "keywords": [
-            "🇭🇰|HK|hk|香港|HongKong"
-          ]
+          "keywords": ["🇭🇰|HK|hk|香港|HongKong"]
         }
       ]
     },
     {
       "tag": "TaiWan",
       "type": "selector",
-      "outbounds": [
-        "{all}"
-      ],
+      "outbounds": ["{all}"],
       "filter": [
         {
           "action": "include",
-          "keywords": [
-            "🇹🇼|TW|tw|台湾|臺灣|台|Taiwan"
-          ]
+          "keywords": ["🇹🇼|TW|tw|台湾|臺灣|台|Taiwan"]
         }
       ]
     },
     {
       "tag": "Singapore",
       "type": "selector",
-      "outbounds": [
-        "{all}"
-      ],
+      "outbounds": ["{all}"],
       "filter": [
         {
           "action": "include",
-          "keywords": [
-            "🇸🇬|SG|sg|新加坡|狮|Singapore"
-          ]
+          "keywords": ["🇸🇬|SG|sg|新加坡|狮|Singapore"]
         }
       ]
     },
     {
       "tag": "Japan",
       "type": "selector",
-      "outbounds": [
-        "{all}"
-      ],
+      "outbounds": ["{all}"],
       "filter": [
         {
           "action": "include",
-          "keywords": [
-            "🇯🇵|JP|jp|日本|日|Japan"
-          ]
+          "keywords": ["🇯🇵|JP|jp|日本|日|Japan"]
         }
       ]
     },
     {
       "tag": "America",
       "type": "selector",
-      "outbounds": [
-        "{all}"
-      ],
+      "outbounds": ["{all}"],
       "filter": [
         {
           "action": "include",
-          "keywords": [
-            "🇺🇸|US|us|美国|美|United States"
-          ]
+          "keywords": ["🇺🇸|US|us|美国|美|United States"]
         }
       ]
     },
     {
       "tag": "Others",
       "type": "selector",
-      "outbounds": [
-        "{all}"
-      ],
+      "outbounds": ["{all}"],
       "filter": [
         {
           "action": "exclude",
@@ -303,38 +233,14 @@
       ]
     },
     {
-      "tag": "auto",
-      "type": "urltest",
-      "outbounds": [
-        "{all}"
-      ],
-      "filter": [
-        {
-          "action": "exclude",
-          "keywords": [
-            "失联|自动|最优|网站|地址|剩余|过期|时间|有效"
-          ]
-        }
-      ],
-      "url": "http://www.gstatic.com/generate_204",
-      "idle_timeout": "90m",
-      "interval": "60m",
-      "tolerance": 50
-    },
-    {
       "type": "direct",
       "tag": "direct"
     }
   ],
   "route": {
-    "auto_detect_interface": true,
-    "final": "Proxy",
     "rules": [
       {
-        "inbound": [
-          "tun-in",
-          "mixed-in"
-        ],
+        "inbound": ["tun-in", "mixed-in"],
         "action": "sniff"
       },
       {
@@ -349,6 +255,27 @@
           }
         ],
         "action": "hijack-dns"
+      },
+      {
+        "type": "logical",
+        "mode": "or",
+        "rules": [
+          {
+            "port": 853
+          },
+          {
+            "network": "udp",
+            "port": 443
+          },
+          {
+            "protocol": "stun"
+          }
+        ],
+        "action": "reject"
+      },
+      {
+        "protocol": "quic",
+        "action": "reject"
       },
       {
         "rule_set": "geosite-category-ads-all",
@@ -382,6 +309,10 @@
         "outbound": "direct"
       },
       {
+        "rule_set": ["private-domain", "private-ip"],
+        "outbound": "direct"
+      },
+      {
         "rule_set": [
           "geosite-youtube",
           "geoip-google",
@@ -391,10 +322,7 @@
         "outbound": "Google"
       },
       {
-        "rule_set": [
-          "geoip-telegram",
-          "geosite-telegram"
-        ],
+        "rule_set": ["geoip-telegram", "geosite-telegram"],
         "outbound": "Telegram"
       },
       {
@@ -406,11 +334,7 @@
         "outbound": "Bahamut"
       },
       {
-        "rule_set": [
-          "geoip-apple",
-          "geosite-apple",
-          "geosite-amazon"
-        ],
+        "rule_set": ["geoip-apple", "geosite-apple", "geosite-amazon"],
         "outbound": "Apple"
       },
       {
@@ -421,7 +345,7 @@
         "rule_set": [
           "geosite-category-games",
           "geosite-dmm",
-          "geosite-mygame"
+          "geosite-mygames"
         ],
         "outbound": "Games"
       },
@@ -430,10 +354,7 @@
         "outbound": "Global"
       },
       {
-        "rule_set": [
-          "geoip-cn",
-          "geosite-cn"
-        ],
+        "rule_set": ["geoip-cn", "geosite-cn"],
         "outbound": "China"
       }
     ],
@@ -544,10 +465,10 @@
         "download_detour": "direct"
       },
       {
-        "tag": "geosite-mygame",
+        "tag": "geosite-mygames",
         "type": "remote",
         "format": "binary",
-        "url": "https://testingcf.jsdelivr.net/gh/bbq191/my-rules/singbox/rules/mygame.srs",
+        "url": "https://testingcf.jsdelivr.net/gh/bbq191/my-rules/singbox/rules/my-games.srs",
         "download_detour": "direct"
       },
       {
@@ -570,7 +491,23 @@
         "format": "binary",
         "url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/cn.srs",
         "download_detour": "direct"
+      },
+      {
+        "tag": "private-domain",
+        "type": "remote",
+        "format": "binary",
+        "url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/private.srs",
+        "download_detour": "direct"
+      },
+      {
+        "tag": "private-ip",
+        "type": "remote",
+        "format": "binary",
+        "url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geoip/private.srs",
+        "download_detour": "direct"
       }
-    ]
+    ],
+    "auto_detect_interface": true,
+    "final": "Proxy"
   }
 }
