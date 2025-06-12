@@ -1,7 +1,7 @@
 # url 里填写自己的订阅,名称不能重复
 proxy-providers:
   catnet:
-    url: "https://times1746075059.subtangniu.top:9606/v2b/catnet/api/v1/client/subscribe?token=bd270559fb9cc1c50bdf2a3f13105cc9"
+    url: "airport-subscribe1"
     type: http
     interval: 86400
     health-check:
@@ -12,7 +12,7 @@ proxy-providers:
       }
 
   best1:
-    url: "https://juofduz.pronetwork.top:8443/api/v1/client/0043d2d4362c4875f5c7f2857c8db352"
+    url: "airport-subscribe2"
     type: http
     interval: 86400
     health-check:
@@ -53,9 +53,12 @@ sniffer:
       ports: [443, 8443]
     QUIC:
       ports: [443, 8443]
+  force-domain:
+    - "+.v2ex.com"
   skip-domain:
     - "Mijia Cloud"
     - "+.push.apple.com"
+    - "+.baidu.com"
 
 tun:
   enable: true
@@ -70,15 +73,23 @@ tun:
 dns:
   enable: true
   ipv6: true
+  respect-rules: true
+  fake-ip-range: 28.0.0.1/8
+  fake-ip-filter-mode: blacklist
   enhanced-mode: fake-ip
   fake-ip-filter:
     - "*"
     - "+.lan"
     - "+.local"
-    - "+.market.xiaomi.com"
+    - "rule-set:private_domain,cn_domain"
+    - "+.msftconnecttest.com"
+    - "+.msftncsi.com"
+    - "time.*.com"
   default-nameserver:
     - tls://223.5.5.5
-    - tls://223.6.6.6
+    - tls://8.8.8.8
+  proxy-server-nameserver:
+    - https://223.5.5.5/dns-query
   nameserver:
     - https://doh.pub/dns-query
     - https://dns.alidns.com/dns-query
@@ -86,7 +97,7 @@ dns:
 proxy-groups:
   - name: 默认
     type: select
-    proxies: [自动选择, 全部节点]
+    proxies: [全部节点]
 
   - name: Google
     type: select
@@ -98,7 +109,7 @@ proxy-groups:
 
   - name: Games
     type: select
-    proxies: [新加坡, 香港, 日本, 直连]
+    proxies: [香港, 日本, 新加坡, 直连]
 
   - name: 哔哩哔哩
     type: select
@@ -118,11 +129,7 @@ proxy-groups:
 
   - name: 国内
     type: select
-    proxies: [直连, 自动选择]
-
-  - name: 其他
-    type: select
-    proxies: [自动选择, 全部节点]
+    proxies: [直连, 全部节点]
 
   #分隔,下面是地区分组
   - name: 香港
@@ -167,13 +174,6 @@ proxy-groups:
     exclude-type: direct
     filter: "(?i)^(?!.*(?:失联|自动|最优|网站|地址|剩余|过期|时间|有效)).*"
 
-  - name: 自动选择
-    type: url-test
-    include-all: true
-    exclude-type: direct
-    filter: "(?i)^(?!.*(?:失联|自动|最优|网站|地址|剩余|过期|时间|有效)).*"
-    tolerance: 10
-
 rules:
   - RULE-SET,private_domain,直连,no-resolve
   - RULE-SET,github_domain,Github
@@ -185,13 +185,14 @@ rules:
   - RULE-SET,category-game-platforms-download_domain,Games
   - RULE-SET,bahamut_domain,巴哈姆特
   - RULE-SET,cn_domain,国内
-  - RULE-SET,geolocation-!cn,其他
+  - RULE-SET,gfw_domain,全部节点
+  - RULE-SET,geolocation-!cn,全部节点
 
   - RULE-SET,private_ip,直连,no-resolve
-  - RULE-SET,google_ip,Google
-  - RULE-SET,telegram_ip,Telegram
+  - RULE-SET,google_ip,Google,no-resolve
+  - RULE-SET,telegram_ip,Telegram,no-resolve
   - RULE-SET,cn_ip,国内
-  - MATCH,其他
+  - MATCH,全部节点
 
 rule-anchor:
   ip: &ip { type: http, interval: 86400, behavior: ipcidr, format: mrs }
@@ -200,9 +201,7 @@ rule-providers:
   private_domain:
     <<: *domain
     url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/private.mrs"
-  cn_domain:
-    <<: *domain
-    url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/cn.mrs"
+
   biliintl_domain:
     <<: *domain
     url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/biliintl.mrs"
@@ -233,7 +232,14 @@ rule-providers:
   geolocation-!cn:
     <<: *domain
     url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/geolocation-!cn.mrs"
+  gfw_domain:
+    <<: *domain
+    url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/gfw.mrs"
+  cn_domain:
+    <<: *domain
+    url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/cn.mrs"
 
+  # Ip 规则订阅
   private_ip:
     <<: *ip
     url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/private.mrs"
