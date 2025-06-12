@@ -1,18 +1,8 @@
-# url 里填写自己的订阅,名称不能重复
+log-level: debug
+
 proxy-providers:
-  catnet:
-    url: "airport-subscribe1"
-    type: http
-    interval: 86400
-    health-check:
-      {
-        enable: true,
-        url: "https://www.gstatic.com/generate_204",
-        interval: 300,
-      }
-
   best1:
-    url: "airport-subscribe2"
+    url: ""
     type: http
     interval: 86400
     health-check:
@@ -22,10 +12,16 @@ proxy-providers:
         interval: 300,
       }
 
-proxies:
-  - name: "直连"
-    type: direct
-    udp: true
+  catnet:
+    url: ""
+    type: http
+    interval: 86400
+    health-check:
+      {
+        enable: true,
+        url: "https://www.gstatic.com/generate_204",
+        interval: 300,
+      }
 
 mixed-port: 6153
 ipv6: true
@@ -43,6 +39,7 @@ profile:
   store-selected: true
   store-fake-ip: true
 
+# 地址嗅探
 sniffer:
   enable: true
   sniff:
@@ -95,100 +92,138 @@ dns:
     - https://dns.alidns.com/dns-query
 
 proxy-groups:
-  - name: 默认
+  # 瑟琴
+  - name: ehentai
     type: select
-    proxies: [全部节点]
+    proxies: [台湾, 香港]
+    icon: "https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/mini/Pornhub.png"
 
-  - name: Google
-    type: select
-    proxies: [美国, 香港, 日本, 新加坡]
-
+  # 社交
   - name: Telegram
     type: select
     proxies: [新加坡, 香港, 日本]
-
-  - name: Games
-    type: select
-    proxies: [香港, 日本, 新加坡, 直连]
-
-  - name: 哔哩哔哩
-    type: select
-    proxies: [台湾, 香港, 直连]
+    icon: "https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/mini/Telegram.png"
 
   - name: 巴哈姆特
     type: select
     proxies: [台湾, 香港]
+    icon: "https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/mini/Bahamut.png"
+
+  - name: Games
+    type: select
+    proxies: [香港, 日本, 新加坡]
+    icon: "https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/mini/PlayStation.png"
+
+  # 流媒体
+  - name: 哔哩哔哩
+    type: select
+    proxies: [台湾, 香港]
+    icon: "https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/mini/bilibili.png"
 
   - name: YouTube
     type: select
     proxies: [美国, 香港, 日本, 新加坡]
+    icon: "https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/mini/YouTube.png"
 
+  # 厂商
   - name: Github
     type: select
-    proxies: [美国, 香港, 直连]
+    proxies: [美国, 香港, DIRECT]
+    icon: "https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/mini/Panda.png"
 
+  - name: Apple
+    type: select
+    proxies: [美国, 香港, DIRECT]
+    icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/mini/Apple.png
+
+  - name: Microsoft
+    type: select
+    proxies: [美国, 香港, DIRECT]
+    icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/mini/Microsoft.png
+
+  - name: Google
+    type: select
+    proxies: [美国, 香港, 日本, 新加坡]
+    icon: "https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/mini/Google_Search.png"
+
+  #------- 分隔,下面是地区分组
   - name: 国内
     type: select
-    proxies: [直连, 全部节点]
+    proxies: [DIRECT, 全部节点]
+    icon: "https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/mini/China_Map.png"
 
-  #分隔,下面是地区分组
   - name: 香港
     type: select
     include-all: true
     exclude-type: direct
     filter: "(?i)香港|hk|hongkong|hong kong"
+    icon: "https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/mini/HK.png"
 
   - name: 台湾
     type: select
     include-all: true
     exclude-type: direct
     filter: "(?i)台|tw|taiwan"
+    icon: "https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/mini/TW.png"
 
   - name: 日本
     type: select
     include-all: true
     exclude-type: direct
     filter: "(?i)日|jp|japan"
+    icon: "https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/mini/JP.png"
 
   - name: 美国
     type: select
     include-all: true
     exclude-type: direct
     filter: "(?i)美|us|unitedstates|united states"
+    icon: "https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/mini/US.png"
 
   - name: 新加坡
     type: select
     include-all: true
     exclude-type: direct
     filter: "(?i)(新加坡|sg|singapore)"
+    icon: "https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/mini/SG.png"
 
   - name: 其它地区
     type: select
     include-all: true
     exclude-type: direct
-    filter: "(?i)^(?!.*(?:失联|自动|最优|网站|地址|剩余|过期|时间|有效|🇭🇰|🇯🇵|🇺🇸|🇸🇬|🇨🇳|港|hk|hongkong|台|tw|taiwan|日|jp|japan|新|sg|singapore|美|us|unitedstates)).*"
+    filter: "(?i)^(?!.*(?:失联|自动|最优|网站|地址|剩余|过期|时间|有效|🇭🇰|🇯🇵|🇺🇸|🇸🇬|🇨🇳|香港|hk|hongkong|台|tw|taiwan|日|jp|japan|新|sg|singapore|美|us|unitedstates)).*"
+    icon: "https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/mini/Available.png"
 
   - name: 全部节点
     type: select
     include-all: true
     exclude-type: direct
     filter: "(?i)^(?!.*(?:失联|自动|最优|网站|地址|剩余|过期|时间|有效)).*"
+    icon: "https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/mini/Global.png"
 
 rules:
-  - RULE-SET,private_domain,直连,no-resolve
+  # 工作内网 IP
+  - IP-CIDR,30.0.0.0/8,DIRECT
+  - IP-CIDR,40.0.0.0/8,DIRECT
+
+  - RULE-SET,private_domain,DIRECT,no-resolve
+  - RULE-SET,ehentai_domain,ehentai
   - RULE-SET,github_domain,Github
   - RULE-SET,youtube_domain,YouTube
   - RULE-SET,google_domain,Google
+  - RULE-SET,apple_domain,Apple
+  - RULE-SET,microsoft_domain,Microsoft
   - RULE-SET,telegram_domain,Telegram
   - RULE-SET,bilibili_domain,哔哩哔哩
   - RULE-SET,category-games_domain,Games
   - RULE-SET,category-game-platforms-download_domain,Games
+  - RULE-SET,playstation_domain,Games
   - RULE-SET,bahamut_domain,巴哈姆特
   - RULE-SET,cn_domain,国内
   - RULE-SET,gfw_domain,全部节点
   - RULE-SET,geolocation-!cn,全部节点
 
-  - RULE-SET,private_ip,直连,no-resolve
+  - RULE-SET,private_ip,DIRECT,no-resolve
   - RULE-SET,google_ip,Google,no-resolve
   - RULE-SET,telegram_ip,Telegram,no-resolve
   - RULE-SET,cn_ip,国内
@@ -201,7 +236,9 @@ rule-providers:
   private_domain:
     <<: *domain
     url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/private.mrs"
-
+  ehentai_domain:
+    <<: *domain
+    url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/ehentai.mrs"
   biliintl_domain:
     <<: *domain
     url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/biliintl.mrs"
@@ -211,6 +248,9 @@ rule-providers:
   category-game-platforms-download_domain:
     <<: *domain
     url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/category-game-platforms-download.mrs"
+  playstation_domain:
+    <<: *domain
+    url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/playstation.mrs"
   github_domain:
     <<: *domain
     url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/github.mrs"
@@ -220,6 +260,12 @@ rule-providers:
   google_domain:
     <<: *domain
     url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/google.mrs"
+  apple_domain:
+    <<: *domain
+    url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/apple.mrs"
+  microsoft_domain:
+    <<: *domain
+    url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/microsoft.mrs"
   telegram_domain:
     <<: *domain
     url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/telegram.mrs"
