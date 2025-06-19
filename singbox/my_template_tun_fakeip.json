@@ -73,7 +73,8 @@
             "rule_set": "geoip-cn"
           }
         ],
-        "server": "local"
+        "server": "google",
+        "client_subnet": "114.114.114/24"
       },
       {
         "query_type": ["A", "AAAA"],
@@ -88,8 +89,7 @@
       "tag": "tun-in",
       "type": "tun",
       "address": ["172.19.0.0/30", "fdfe:dcba:9876::0/126"],
-      "route_exclude_address": ["30.0.0.0/32", "40.0.0.0/32"],
-      "stack": "mixed",
+      "stack": "system",
       "auto_route": true,
       "strict_route": true,
       "platform": {
