@@ -1,30 +1,8 @@
 log-level: debug
 
-proxy-providers:
-  best1:
-    url: ""
-    type: http
-    interval: 86400
-    health-check:
-      {
-        enable: true,
-        url: "https://www.gstatic.com/generate_204",
-        interval: 300,
-      }
-
-  catnet:
-    url: ""
-    type: http
-    interval: 86400
-    health-check:
-      {
-        enable: true,
-        url: "https://www.gstatic.com/generate_204",
-        interval: 300,
-      }
-
+port: 6153
 mixed-port: 6153
-ipv6: true
+ipv6: false
 allow-lan: true
 unified-delay: false
 tcp-concurrent: true
@@ -34,6 +12,8 @@ external-ui-url: "https://github.com/MetaCubeX/metacubexd/archive/refs/heads/gh-
 
 find-process-mode: strict
 global-client-fingerprint: chrome
+keep-alive-idle: 600
+keep-alive-interval: 15
 
 profile:
   store-selected: true
@@ -63,41 +43,33 @@ tun:
   dns-hijack:
     - "any:53"
     - "tcp://any:53"
-  auto-route: true
-  auto-redirect: true
-  auto-detect-interface: true
+  auto-route: false
+  auto-redirect: false
+  auto-detect-interface: false
 
 dns:
   enable: true
-  ipv6: true
+  listen: 0.0.0.0:1053
+  ipv6: false
   respect-rules: true
   fake-ip-range: 28.0.0.1/8
   fake-ip-filter-mode: blacklist
   enhanced-mode: fake-ip
   fake-ip-filter:
-    - "*"
-    - "+.lan"
-    - "+.local"
     - "rule-set:private_domain,cn_domain"
     - "+.msftconnecttest.com"
     - "+.msftncsi.com"
     - "time.*.com"
+    - "+.market.xiaomi.com"
   default-nameserver:
-    - tls://223.5.5.5
-    - tls://8.8.8.8
+    - 223.5.5.5
   proxy-server-nameserver:
-    - https://223.5.5.5/dns-query
+    - 119.29.29.29
   nameserver:
-    - https://doh.pub/dns-query
-    - https://dns.alidns.com/dns-query
+    - 223.5.5.5
+    - 119.29.29.29
 
 proxy-groups:
-  # 瑟琴
-  - name: ehentai
-    type: select
-    proxies: [台湾, 香港]
-    icon: "https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/mini/Pornhub.png"
-
   # 社交
   - name: Telegram
     type: select
@@ -117,7 +89,7 @@ proxy-groups:
   # 流媒体
   - name: 哔哩哔哩
     type: select
-    proxies: [台湾, 香港]
+    proxies: [台湾, 香港, DIRECT]
     icon: "https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/mini/bilibili.png"
 
   - name: YouTube
@@ -126,6 +98,11 @@ proxy-groups:
     icon: "https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/mini/YouTube.png"
 
   # 厂商
+  - name: AIs
+    type: select
+    proxies: [美国, 香港]
+    icon: "https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/mini/Magic.png"
+
   - name: Github
     type: select
     proxies: [美国, 香港, DIRECT]
@@ -163,14 +140,14 @@ proxy-groups:
     type: select
     include-all: true
     exclude-type: direct
-    filter: "(?i)台|tw|taiwan"
+    filter: "(?i)台湾|tw|taiwan"
     icon: "https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/mini/TW.png"
 
   - name: 日本
     type: select
     include-all: true
     exclude-type: direct
-    filter: "(?i)日|jp|japan"
+    filter: "(?i)日本|jp|japan"
     icon: "https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/mini/JP.png"
 
   - name: 美国
@@ -191,7 +168,7 @@ proxy-groups:
     type: select
     include-all: true
     exclude-type: direct
-    filter: "(?i)^(?!.*(?:失联|自动|最优|网站|地址|剩余|过期|时间|有效|🇭🇰|🇯🇵|🇺🇸|🇸🇬|🇨🇳|香港|hk|hongkong|台|tw|taiwan|日|jp|japan|新|sg|singapore|美|us|unitedstates)).*"
+    filter: "(?i)^(?!.*(?:失联|自动|最优|网站|地址|剩余|过期|时间|有效|🇭🇰|🇯🇵|🇺🇸|🇸🇬|🇨🇳|香港|hk|hongkong|台湾|tw|taiwan|日本|jp|japan|新|sg|singapore|美|us|unitedstates)).*"
     icon: "https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/mini/Available.png"
 
   - name: 全部节点
@@ -205,9 +182,10 @@ rules:
   # 工作内网 IP
   - IP-CIDR,30.0.0.0/8,DIRECT
   - IP-CIDR,40.0.0.0/8,DIRECT
+  - PROCESS-NAME,pathofexile.exe,Games
 
   - RULE-SET,private_domain,DIRECT,no-resolve
-  - RULE-SET,ehentai_domain,ehentai
+  - RULE-SET,ai_domain,AIs
   - RULE-SET,github_domain,Github
   - RULE-SET,youtube_domain,YouTube
   - RULE-SET,google_domain,Google
@@ -220,6 +198,8 @@ rules:
   - RULE-SET,playstation_domain,Games
   - RULE-SET,bahamut_domain,巴哈姆特
   - RULE-SET,cn_domain,国内
+  - RULE-SET,ads_domain,REJECT
+  - RULE-SET,ads@ads_domain,REJECT
   - RULE-SET,gfw_domain,全部节点
   - RULE-SET,geolocation-!cn,全部节点
 
@@ -233,12 +213,15 @@ rule-anchor:
   ip: &ip { type: http, interval: 86400, behavior: ipcidr, format: mrs }
   domain: &domain { type: http, interval: 86400, behavior: domain, format: mrs }
 rule-providers:
+  ads_domain:
+    <<: *domain
+    url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/category-ads.mrs"
+  ads@ads_domain:
+    <<: *domain
+    url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/category-ads@ads.mrs"
   private_domain:
     <<: *domain
     url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/private.mrs"
-  ehentai_domain:
-    <<: *domain
-    url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/ehentai.mrs"
   biliintl_domain:
     <<: *domain
     url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/biliintl.mrs"
@@ -251,6 +234,9 @@ rule-providers:
   playstation_domain:
     <<: *domain
     url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/playstation.mrs"
+  ai_domain:
+    <<: *domain
+    url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/category-ai-!cn.mrs"
   github_domain:
     <<: *domain
     url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/github.mrs"
@@ -298,3 +284,6 @@ rule-providers:
   telegram_ip:
     <<: *ip
     url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/telegram.mrs"
+  apple_ip:
+    <<: *ip
+    url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo-lite/geoip/apple.mrs"
