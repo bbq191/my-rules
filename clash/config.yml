@@ -1,5 +1,18 @@
 log-level: debug
 
+# 机场订阅
+proxy-providers:
+  Airport1:
+    url: "机场订阅填到这里，两端引号不要去掉，不要填写到下方链接里去！！"
+    type: http
+    interval: 86400
+    health-check:
+      enable: true
+      url: https://www.gstatic.com/generate_204
+      interval: 300
+    proxy: DIRECT
+
+# 全局配置
 port: 6153
 mixed-port: 6153
 ipv6: false
@@ -168,7 +181,7 @@ proxy-groups:
     type: select
     include-all: true
     exclude-type: direct
-    filter: "(?i)^(?!.*(?:失联|自动|最优|网站|地址|剩余|过期|时间|有效|🇭🇰|🇯🇵|🇺🇸|🇸🇬|🇨🇳|香港|hk|hongkong|台湾|tw|taiwan|日本|jp|japan|新|sg|singapore|美|us|unitedstates)).*"
+    filter: "(?i)^(?!.*(?:Expire|Traffic|失联|自动|最优|网站|地址|剩余|过期|时间|有效|🇭🇰|🇯🇵|🇺🇸|🇸🇬|🇨🇳|香港|hk|hongkong|台湾|tw|taiwan|日本|jp|japan|新|sg|singapore|美|us|unitedstates)).*"
     icon: "https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/mini/Available.png"
 
   - name: 全部节点
