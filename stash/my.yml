@@ -65,10 +65,11 @@ dns:
     - 119.29.29.29
 
 proxy-providers:
-  Provider1:
+  Flowercloud:
     url: "YOUR_SUBSCRIPTION_URL_1"
     type: http
     interval: 14400
+    icon: "https://raw.githubusercontent.com/bbq191/my-rules/main/icons/Policy-Provider/Flowercloud.png"
     health-check:
       enable: true
       url: https://www.gstatic.com/generate_204
