@@ -8,6 +8,39 @@ http:
     - "api.live.bilibili.com"
     - "api.vc.bilibili.com"
     - "api.bilibili.com"
+    - "manga.bilibili.com"
+    - "grpc.biliapi.net"
+    - "api.biliapi.net"
+    - "app.biliintl.com"
+
+  rewrite:
+    # 屏蔽 IP 请求
+    - ^https?:\/\/app\.bilibili\.com\/x\/resource\/ip - reject
+    # 屏蔽默认搜索词
+    - ^https?:\/\/app\.bilibili\.com\/bilibili\.app\.interface\.v1\.Search\/Default - reject
+    # 屏蔽首页右上活动
+    - ^https?:\/\/app\.bilibili\.com\/x\/resource\/top\/activity - reject
+    # 应用开屏广告
+    - ^https:\/\/app\.bilibili\.com\/x\/v2\/splash\/show - reject
+    # 搜索默认推荐词
+    - ^https:\/\/app\.bilibili\.com\/x\/v2\/search\/defaultwords - reject
+    # 广告物料上报
+    - ^https?:\/\/api\.bilibili\.com\/x\/vip\/ads\/material\/report - reject
+    # 播放器小卡片广告
+    - ^https:\/\/api\.bilibili\.com\/pgc\/season\/player\/cards - reject
+    # 去除搜索中的大家都在搜
+    - ^https?:\/\/api\.vc\.bilibili\.com\/search_svr\/v\d\/Search\/recommend_words - reject
+    # 去除动态中的话题
+    - ^https?:\/\/api\.vc\.bilibili\.com\/topic_svr\/v1\/topic_svr - reject
+    # 去除动态中的最常访问
+    - ^https?:\/\/api\.vc\.bilibili\.com\/dynamic_svr\/v1\/dynamic_svr\/mix_uplist - reject
+    # 可能的一些推广
+    - ^https?:\/\/api\.bilibili\.com\/pgc\/season\/app\/related\/recommend\? - reject
+    # 漫画去广告
+    - ^https?:\/\/manga\.bilibili\.com\/twirp\/comic\.v\d\.Comic\/Flash - reject
+    - ^https?:\/\/manga\.bilibili\.com\/twirp\/comic\.v\d\.Comic\/ListFlash - reject
+    # 解除 BiliIntl SIM 卡地区限制
+    - (^https?:\/\/app\.biliintl\.com\/intl\/.+?)&sim_code=\d+(.*) - 302 $1$2
 
   script:
     - match: ^https?:\/\/app\.bilibili\.com\/x\/v2\/feed\/index
@@ -15,7 +48,7 @@ http:
       type: response
       require-body: true
       timeout: 10
-    - match: ^https?:\/\/api\.bilibili\.com\/pgc\/page\/bangumi,
+    - match: ^https?:\/\/api\.(bilibili|biliapi)\.(com|net)\/pgc\/page\/bangumi
       name: BiliBili_追番去广告
       type: response
       require-body: true
@@ -45,19 +78,18 @@ http:
       type: response
       require-body: true
       timeout: 10
-
-  rewrite:
-    # 去除搜索中的大家都在搜
-    - ^https?:\/\/api\.vc\.bilibili\.com\/search_svr\/v\d\/Search\/recommend_words - reject
-    # 去除动态中的话题
-    - ^https?:\/\/api\.vc\.bilibili\.com\/topic_svr\/v1\/topic_svr - reject
-    # 去除动态中的最常访问
-    - ^https?:\/\/api\.vc\.bilibili\.com\/dynamic_svr\/v1\/dynamic_svr\/mix_uplist - reject
-    # 可能的一些推广(beta)
-    - ^https?:\/\/api\.bilibili\.com\/pgc\/season\/app\/related\/recommend\? - reject
-    # BiliBili漫画去广告
-    - ^https?:\/\/manga\.bilibili\.com\/twirp\/comic\.v\d\.Comic\/Flash - reject
-    - ^https?:\/\/manga\.bilibili\.com\/twirp\/comic\.v\d\.Comic\/ListFlash - reject
+    # gRPC Protobuf 去广告（对应 QX bilibili-proto.js 规则）
+    - match: ^https:\/\/app\.bilibili\.com\/bilibili\.app\.(view\.v1\.View\/View|dynamic\.v2\.Dynamic\/DynAll)$
+      name: BiliBili_Proto去广告
+      type: response
+      require-body: true
+      timeout: 10
+    # 动态广告（对应 QX bilibili_dynamic.js 规则）
+    - match: ^https:\/\/app\.bilibili\.com\/bilibili\.app\.dynamic\.v2\.Dynamic\/DynAll$
+      name: BiliBili_动态广告
+      type: response
+      require-body: true
+      timeout: 10
 
 script-providers:
   BiliBili_推荐去广告:
@@ -80,4 +112,10 @@ script-providers:
     interval: 86400
   BiliBili_我的页面处理:
     url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/script/bilibili/bilibili_plus.js
+    interval: 86400
+  BiliBili_Proto去广告:
+    url: https://raw.githubusercontent.com/app2smile/rules/master/js/bilibili-proto.js
+    interval: 86400
+  BiliBili_动态广告:
+    url: https://raw.githubusercontent.com/yjqiang/surge_scripts/main/scripts/bilibili/bilibili_dynamic.js
     interval: 86400

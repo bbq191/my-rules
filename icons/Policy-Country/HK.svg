@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <circle cx="50" cy="50" r="50" fill="#D40000"/>
+  <!-- Bauhinia orchid: 5 petals -->
+  <g transform="translate(50,50)" fill="white">
+    <path d="M0,0 C-7,-9,-5,-22,0,-25 C5,-22,7,-9,0,0"/>
+    <path d="M0,0 C-7,-9,-5,-22,0,-25 C5,-22,7,-9,0,0" transform="rotate(72)"/>
+    <path d="M0,0 C-7,-9,-5,-22,0,-25 C5,-22,7,-9,0,0" transform="rotate(144)"/>
+    <path d="M0,0 C-7,-9,-5,-22,0,-25 C5,-22,7,-9,0,0" transform="rotate(216)"/>
+    <path d="M0,0 C-7,-9,-5,-22,0,-25 C5,-22,7,-9,0,0" transform="rotate(288)"/>
+    <!-- Stamen dot per petal -->
+    <circle cy="-18" r="2.5" fill="#D40000"/>
+    <g transform="rotate(72)"><circle cy="-18" r="2.5" fill="#D40000"/></g>
+    <g transform="rotate(144)"><circle cy="-18" r="2.5" fill="#D40000"/></g>
+    <g transform="rotate(216)"><circle cy="-18" r="2.5" fill="#D40000"/></g>
+    <g transform="rotate(288)"><circle cy="-18" r="2.5" fill="#D40000"/></g>
+    <!-- Centre -->
+    <circle r="4.5" fill="#D40000"/>
+  </g>
+</svg>

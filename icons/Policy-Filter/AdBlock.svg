@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <circle cx="50" cy="50" r="50" fill="#D97706"/>
+  <!-- Shield shape -->
+  <path d="M50,24 L74,34 L74,52 Q74,68 50,78 Q26,68 26,52 L26,34 Z" fill="white"/>
+  <!-- X mark inside shield -->
+  <line x1="38" y1="40" x2="62" y2="64" stroke="#D97706" stroke-width="6" stroke-linecap="round"/>
+  <line x1="62" y1="40" x2="38" y2="64" stroke="#D97706" stroke-width="6" stroke-linecap="round"/>
+</svg>
