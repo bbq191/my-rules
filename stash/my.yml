@@ -87,59 +87,59 @@ proxy-groups:
   - name: Telegram
     type: select
     proxies: [新加坡, 香港, 日本]
-    icon: "https://raw.githubusercontent.com/bbq191/my-rules/main/icons/Policy-Filter/Telegram.svg"
+    icon: "https://raw.githubusercontent.com/bbq191/my-rules/main/icons/Policy-Filter/Telegram.png"
 
   - name: 巴哈姆特
     type: select
     proxies: [台湾, 香港]
-    icon: "https://raw.githubusercontent.com/bbq191/my-rules/main/icons/Policy-Filter/Bahamut.svg"
+    icon: "https://raw.githubusercontent.com/bbq191/my-rules/main/icons/Policy-Filter/Bahamut.png"
 
   - name: Games
     type: select
     proxies: [香港, 日本, 新加坡]
-    icon: "https://raw.githubusercontent.com/bbq191/my-rules/main/icons/Policy-Filter/Games.svg"
+    icon: "https://raw.githubusercontent.com/bbq191/my-rules/main/icons/Policy-Filter/Games.png"
 
   # 流媒体
   - name: YouTube
     type: select
     proxies: [美国, 香港, 日本, 新加坡]
-    icon: "https://raw.githubusercontent.com/bbq191/my-rules/main/icons/Policy-Filter/YouTube.svg"
+    icon: "https://raw.githubusercontent.com/bbq191/my-rules/main/icons/Policy-Filter/YouTube.png"
 
   # 厂商
   - name: AI
     type: select
     proxies: [美国, 香港]
-    icon: "https://raw.githubusercontent.com/bbq191/my-rules/main/icons/Policy-Filter/AI.svg"
+    icon: "https://raw.githubusercontent.com/bbq191/my-rules/main/icons/Policy-Filter/AI.png"
 
   - name: Github
     type: select
     proxies: [香港, 美国, DIRECT]
-    icon: "https://raw.githubusercontent.com/bbq191/my-rules/main/icons/Policy-Filter/Github.svg"
+    icon: "https://raw.githubusercontent.com/bbq191/my-rules/main/icons/Policy-Filter/Github.png"
 
   - name: Apple
     type: select
     proxies: [美国, 香港, DIRECT]
-    icon: "https://raw.githubusercontent.com/bbq191/my-rules/main/icons/Policy-Filter/Apple.svg"
+    icon: "https://raw.githubusercontent.com/bbq191/my-rules/main/icons/Policy-Filter/Apple.png"
 
   - name: Microsoft
     type: select
     proxies: [美国, 香港, DIRECT]
-    icon: "https://raw.githubusercontent.com/bbq191/my-rules/main/icons/Policy-Filter/Microsoft.svg"
+    icon: "https://raw.githubusercontent.com/bbq191/my-rules/main/icons/Policy-Filter/Microsoft.png"
 
   - name: Google
     type: select
     proxies: [美国, 香港, 日本, 台湾]
-    icon: "https://raw.githubusercontent.com/bbq191/my-rules/main/icons/Policy-Filter/Google.svg"
+    icon: "https://raw.githubusercontent.com/bbq191/my-rules/main/icons/Policy-Filter/Google.png"
 
   - name: 国内
     type: select
     proxies: [DIRECT, 全部节点]
-    icon: "https://raw.githubusercontent.com/bbq191/my-rules/main/icons/Policy-Country/CN.svg"
+    icon: "https://raw.githubusercontent.com/bbq191/my-rules/main/icons/Policy-Country/CN.png"
 
   - name: Advertising
     type: select
     proxies: [REJECT, DIRECT]
-    icon: "https://raw.githubusercontent.com/bbq191/my-rules/main/icons/Policy-Filter/AdBlock.svg"
+    icon: "https://raw.githubusercontent.com/bbq191/my-rules/main/icons/Policy-Filter/AdBlock.png"
 
   # 区域节点组（自动选择最低延迟）
   - name: 香港
@@ -150,7 +150,7 @@ proxy-groups:
     url: https://www.gstatic.com/generate_204
     interval: 180
     tolerance: 50
-    icon: "https://raw.githubusercontent.com/bbq191/my-rules/main/icons/Policy-Country/HK.svg"
+    icon: "https://raw.githubusercontent.com/bbq191/my-rules/main/icons/Policy-Country/HK.png"
 
   - name: 台湾
     type: url-test
@@ -160,7 +160,7 @@ proxy-groups:
     url: https://www.gstatic.com/generate_204
     interval: 180
     tolerance: 50
-    icon: "https://raw.githubusercontent.com/bbq191/my-rules/main/icons/Policy-Country/TW.svg"
+    icon: "https://raw.githubusercontent.com/bbq191/my-rules/main/icons/Policy-Country/TW.png"
 
   - name: 日本
     type: url-test
@@ -170,7 +170,7 @@ proxy-groups:
     url: https://www.gstatic.com/generate_204
     interval: 180
     tolerance: 50
-    icon: "https://raw.githubusercontent.com/bbq191/my-rules/main/icons/Policy-Country/JP.svg"
+    icon: "https://raw.githubusercontent.com/bbq191/my-rules/main/icons/Policy-Country/JP.png"
 
   - name: 美国
     type: url-test
@@ -180,7 +180,7 @@ proxy-groups:
     url: https://www.gstatic.com/generate_204
     interval: 180
     tolerance: 50
-    icon: "https://raw.githubusercontent.com/bbq191/my-rules/main/icons/Policy-Country/US.svg"
+    icon: "https://raw.githubusercontent.com/bbq191/my-rules/main/icons/Policy-Country/US.png"
 
   - name: 新加坡
     type: url-test
@@ -190,21 +190,21 @@ proxy-groups:
     url: https://www.gstatic.com/generate_204
     interval: 180
     tolerance: 50
-    icon: "https://raw.githubusercontent.com/bbq191/my-rules/main/icons/Policy-Country/SG.svg"
+    icon: "https://raw.githubusercontent.com/bbq191/my-rules/main/icons/Policy-Country/SG.png"
 
   - name: 其它地区
     type: select
     include-all: true
     exclude-type: direct
     filter: "(?i)^(?!.*(?:Expire|Traffic|失联|自动|最优|网站|地址|剩余|过期|时间|有效|🇭🇰|🇯🇵|🇺🇸|🇸🇬|🇨🇳|香港|hk|hongkong|台湾|tw|taiwan|日本|jp|japan|新|sg|singapore|美|us|unitedstates)).*"
-    icon: "https://raw.githubusercontent.com/bbq191/my-rules/main/icons/Policy-Country/Other.svg"
+    icon: "https://raw.githubusercontent.com/bbq191/my-rules/main/icons/Policy-Country/Other.png"
 
   - name: 全部节点
     type: select
     include-all: true
     exclude-type: direct
     filter: "(?i)^(?!.*(?:失联|自动|最优|网站|地址|剩余|过期|时间|有效)).*"
-    icon: "https://raw.githubusercontent.com/bbq191/my-rules/main/icons/Policy-Country/All.svg"
+    icon: "https://raw.githubusercontent.com/bbq191/my-rules/main/icons/Policy-Country/All.png"
 
 # 规则集模板（MRS 格式，需要 Stash 2.x / mihomo 内核）
 rule-anchor:
