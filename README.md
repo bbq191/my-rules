@@ -120,21 +120,25 @@ QX 的 `[filter_local]` 永远先于 `[filter_remote]` 匹配，所以两段的�
 
 ## 图标
 
-策略组图标统一引用 [Vbaethon/HOMOMIX](https://github.com/Vbaethon/HOMOMIX) 的 `Icon/Color/` 等高版，另有 `Icon/Color/Large/` 满高版可选：
+两套客户端用不同图标集，风格接近（圆形彩色底 + 白色主体）：
+
+- **Stash / mihomo**：[Vbaethon/HOMOMIX](https://github.com/Vbaethon/HOMOMIX) `Icon/Color/` 等高版，300×300。
+- **QX**：[Koolson/Qure](https://github.com/Koolson/Qure) `IconSet/Color/`，144×144。QX 生态的图标集（Qure、Zure、mini）均为 144×144；HOMOMIX 的 300×300 在 QX 上实测不显示，官方未记载尺寸上限，原因未完全确认。
 
 ```
 https://raw.githubusercontent.com/Vbaethon/HOMOMIX/main/Icon/Color/
+https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/
 ```
 
-| 策略组 | 图标文件 |
-|---|---|
-| 香港 / 台湾 / 日本 / 美国 / 新加坡 | Hong_Kong / Taiwan_Province / Japan / USA / Singapore |
-| 全部节点 / OutSide / 其它地区 / 国内 | Global / Global / Other / China |
-| GlobalMedia / YouTube | Stream / YouTube |
-| AI / Github / Apple / Microsoft / Google | AI / GitHub / Apple / Microsoft / Google |
-| Telegram / Games / 巴哈姆特 / Advertising | Telegram / Game / Bahamut / Adblock |
+| 策略组 | HOMOMIX（Stash / mihomo） | Qure（QX） |
+|---|---|---|
+| 香港 / 台湾 / 日本 / 美国 / 新加坡 | Hong_Kong / Taiwan_Province / Japan / USA / Singapore | Hong_Kong / Taiwan / Japan / United_States / Singapore |
+| 全部节点 / OutSide / 其它地区 / 国内 | Global / Global / Other / China | Global / Global / 无 / China |
+| GlobalMedia / YouTube | Stream / YouTube | Streaming / YouTube |
+| AI / Github / Apple / Microsoft / Google | AI / GitHub / Apple / Microsoft / Google | 同名 |
+| Telegram / Games / 巴哈姆特 / Advertising | Telegram / Game / Bahamut / Adblock | Telegram / Game / Bahamut / 无 |
 
-HOMOMIX 仓库没有 LICENSE，所以采用外链而非复制；上游改名会导致图标失效。`icons/Policy-Provider/` 只保留订阅图标 Flowercloud（自绘，圆形底色 + 白色主体，`viewBox="0 0 100 100"`）。
+两个图标仓库都没有 LICENSE，所以采用外链而非复制；上游改名会导致图标失效。`icons/Policy-Provider/` 只保留订阅图标 Flowercloud（自绘，圆形底色 + 白色主体，`viewBox="0 0 100 100"`）。
 
 ## 已知限制
 
