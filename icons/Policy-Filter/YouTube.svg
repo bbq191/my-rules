@@ -1,6 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-  <circle cx="50" cy="50" r="50" fill="#FF0000"/>
-  <!-- Play button: rounded rect screen + triangle -->
-  <rect x="22" y="33" width="56" height="34" rx="8" ry="8" fill="white"/>
-  <polygon fill="#FF0000" points="43,41 43,59 63,50"/>
-</svg>

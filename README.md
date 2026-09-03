@@ -17,9 +17,7 @@ my-rules/
 ├── scripts/
 │   └── check_sync.py           # 对比 mihomo 模板与 Stash 配置的差异
 └── icons/
-    ├── Policy-Provider/        # 订阅图标（Flowercloud），仍在使用
-    ├── Policy-Country/         # 自绘地区图标，已不再引用
-    └── Policy-Filter/          # 自绘功能图标，已不再引用
+    └── Policy-Provider/        # 订阅图标（Flowercloud）
 ```
 
 Raw 地址前缀：
@@ -64,7 +62,7 @@ https://raw.githubusercontent.com/bbq191/my-rules/main/
 | 社交 | Telegram | 新加坡、香港、日本 | |
 | 流媒体 | YouTube / GlobalMedia | 美国、香港、日本等 | GlobalMedia 覆盖 Netflix、Disney+、HBO、Prime Video、Spotify |
 | 游戏 | Games / 巴哈姆特 | Games 含 DIRECT | Steam 国区 CDN 等国内游戏域名先走「国内」 |
-| 广告 | Advertising | REJECT / DIRECT | 仅 Stash，QX 直接 reject |
+| 广告 | Advertising | REJECT / DIRECT | Stash 与 mihomo 有此组，QX 直接 reject |
 
 ## 规则匹配顺序
 
@@ -73,7 +71,7 @@ https://raw.githubusercontent.com/bbq191/my-rules/main/
 ```
 本地例外（工作域名、游戏国内服、.local）
 → 私有网络 IP / 域名 → DIRECT
-→ 广告 → REJECT
+→ 广告 → Advertising（默认 REJECT，可切 DIRECT 排障）
 → deepseek.com → 国内
 → AI / Github / YouTube / 流媒体 / Google / Apple / Microsoft / Telegram
 → 国内游戏 → 国内，其余游戏 → Games，巴哈姆特
@@ -136,10 +134,11 @@ https://raw.githubusercontent.com/Vbaethon/HOMOMIX/main/Icon/Color/
 | AI / Github / Apple / Microsoft / Google | AI / GitHub / Apple / Microsoft / Google |
 | Telegram / Games / 巴哈姆特 / Advertising | Telegram / Game / Bahamut / Adblock |
 
-HOMOMIX 仓库没有 LICENSE，所以采用外链而非复制；上游改名会导致图标失效。`icons/` 目录保留自绘 SVG/PNG（圆形底色 + 白色主体，`viewBox="0 0 100 100"`，风格参考 [erdongchanyo/icon](https://github.com/erdongchanyo/icon)），目前仅订阅图标 `Policy-Provider/Flowercloud.png` 仍被引用。
+HOMOMIX 仓库没有 LICENSE，所以采用外链而非复制；上游改名会导致图标失效。`icons/Policy-Provider/` 只保留订阅图标 Flowercloud（自绘，圆形底色 + 白色主体，`viewBox="0 0 100 100"`）。
 
 ## 已知限制
 
 - Stash 配置中的 `sniffer` 块和 DNS 的 `respect-rules`、`fake-ip-filter-mode`、`cache-algorithm` 在官方文档中没有记载，保留是为了不改变可能存在的行为；若确认不生效可删。
 - Stash iOS 不支持 PROCESS-NAME 规则，进程相关规则只能放在桌面端 mihomo 模板。
 - mihomo 模板与本仓库的同步是手动的，`check_sync.py` 只报告差异，不自动修改任何一方。
+- Stash 配置的 `rule-providers` 依赖 YAML 锚点合并（`<<: *domain`），官方样例未展示该写法；若导入后规则集全部报错，把每条展开写全即可。

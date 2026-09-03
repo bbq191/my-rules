@@ -279,8 +279,8 @@ rules:
   - RULE-SET,private_ip,DIRECT,no-resolve
   - RULE-SET,private_domain,DIRECT
   # 广告拦截必须在厂商规则之前：google.mrs 本身包含 doubleclick 等广告域名
-  - RULE-SET,ads_domain,REJECT
-  - RULE-SET,ads@ads_domain,REJECT
+  - RULE-SET,ads_domain,Advertising
+  - RULE-SET,ads@ads_domain,Advertising
   # DeepSeek 是国内直连 API，必须在 ai_domain 之前抢先直连，
   # 否则被 category-ai-!cn 命中后绕道境外，又慢又不稳定
   - DOMAIN-SUFFIX,deepseek.com,国内

@@ -1,8 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-  <circle cx="50" cy="50" r="50" fill="#EA6B00"/>
-  <!-- Stylized flame: 3 licking tongues -->
-  <g fill="white">
-    <!-- Left flame -->
-    <path d="M38,76 C28,72 24,60 30,50 C32,46 30,40 34,36 C34,44 38,46 40,52 C42,46 44,40 42,30 C48,38 50,44 48,54 C52,44 54,36 52,26 C60,36 62,48 58,58 C62,52 66,48 64,40 C70,50 68,66 60,72 C56,78 44,80 38,76 Z"/>
-  </g>
-</svg>
