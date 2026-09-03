@@ -102,7 +102,7 @@ proxy-groups:
 
   - name: Games
     type: select
-    proxies: [香港, 日本, 新加坡]
+    proxies: [香港, 日本, 新加坡, DIRECT]
     icon: "https://raw.githubusercontent.com/Vbaethon/HOMOMIX/main/Icon/Color/Game.png"
 
   # 流媒体
@@ -152,42 +152,42 @@ proxy-groups:
     type: select
     include-all: true
     exclude-type: direct
-    filter: "(?i)香港|hk|hongkong|hong kong"
+    filter: "(?i)🇭🇰|香港|\bhk(?![a-z])|hong ?kong"
     icon: "https://raw.githubusercontent.com/Vbaethon/HOMOMIX/main/Icon/Color/Hong_Kong.png"
 
   - name: 台湾
     type: select
     include-all: true
     exclude-type: direct
-    filter: "(?i)台湾|tw|taiwan"
+    filter: "(?i)🇹🇼|台湾|\btw(?![a-z])|taiwan"
     icon: "https://raw.githubusercontent.com/Vbaethon/HOMOMIX/main/Icon/Color/Taiwan_Province.png"
 
   - name: 日本
     type: select
     include-all: true
     exclude-type: direct
-    filter: "(?i)日本|jp|japan"
+    filter: "(?i)🇯🇵|日本|\bjp(?![a-z])|japan"
     icon: "https://raw.githubusercontent.com/Vbaethon/HOMOMIX/main/Icon/Color/Japan.png"
 
   - name: 美国
     type: select
     include-all: true
     exclude-type: direct
-    filter: "(?i)美|us|unitedstates|united states"
+    filter: "(?i)🇺🇸|美国|\bus(?![a-z])|\busa(?![a-z])|united ?states"
     icon: "https://raw.githubusercontent.com/Vbaethon/HOMOMIX/main/Icon/Color/USA.png"
 
   - name: 新加坡
     type: select
     include-all: true
     exclude-type: direct
-    filter: "(?i)(新加坡|sg|singapore)"
+    filter: "(?i)🇸🇬|新加坡|狮城|\bsg(?![a-z])|singapore"
     icon: "https://raw.githubusercontent.com/Vbaethon/HOMOMIX/main/Icon/Color/Singapore.png"
 
   - name: 其它地区
     type: select
     include-all: true
     exclude-type: direct
-    filter: "(?i)^(?!.*(?:Expire|Traffic|失联|自动|最优|网站|地址|剩余|过期|时间|有效|🇭🇰|🇯🇵|🇺🇸|🇸🇬|🇨🇳|香港|hk|hongkong|台湾|tw|taiwan|日本|jp|japan|新|sg|singapore|美|us|unitedstates)).*"
+    filter: "(?i)^(?!.*(?:Expire|Traffic|失联|自动|最优|网站|地址|剩余|过期|时间|有效|🇭🇰|🇹🇼|🇯🇵|🇺🇸|🇸🇬|🇨🇳|香港|\bhk(?![a-z])|hong ?kong|台湾|\btw(?![a-z])|taiwan|日本|\bjp(?![a-z])|japan|新加坡|狮城|\bsg(?![a-z])|singapore|美国|\bus(?![a-z])|\busa(?![a-z])|united ?states)).*"
     icon: "https://raw.githubusercontent.com/Vbaethon/HOMOMIX/main/Icon/Color/Other.png"
 
   - name: 全部节点
@@ -233,6 +233,9 @@ rule-providers:
   telegram_domain:
     <<: *domain
     url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/telegram.mrs"
+  category-games@cn_domain:
+    <<: *domain
+    url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/category-games@cn.mrs"
   category-games_domain:
     <<: *domain
     url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/category-games.mrs"
@@ -278,6 +281,9 @@ rules:
   - DOMAIN-SUFFIX,local,DIRECT
   - RULE-SET,private_ip,DIRECT,no-resolve
   - RULE-SET,private_domain,DIRECT
+  # 广告拦截必须在厂商规则之前：google.mrs 本身包含 doubleclick 等广告域名
+  - RULE-SET,ads_domain,REJECT
+  - RULE-SET,ads@ads_domain,REJECT
   # DeepSeek 是国内直连 API，必须在 ai_domain 之前抢先直连，
   # 否则被 category-ai-!cn 命中后绕道境外，又慢又不稳定
   - DOMAIN-SUFFIX,deepseek.com,国内
@@ -288,12 +294,13 @@ rules:
   - RULE-SET,apple_domain,Apple
   - RULE-SET,microsoft_domain,Microsoft
   - RULE-SET,telegram_domain,Telegram
+  # 国内游戏（Steam 国区 CDN 等）先直连，category-games 里也含 mihoyo/4399 等国内域名，
+  # 未被 @cn 覆盖的可在 Games 组手动切 DIRECT
+  - RULE-SET,category-games@cn_domain,国内
   - RULE-SET,category-games_domain,Games
   - RULE-SET,category-game-platforms-download_domain,Games
   - RULE-SET,playstation_domain,Games
   - RULE-SET,bahamut_domain,巴哈姆特
-  - RULE-SET,ads_domain,REJECT
-  - RULE-SET,ads@ads_domain,REJECT
   - RULE-SET,geolocation-!cn,全部节点
 
   - RULE-SET,google_ip,Google,no-resolve
