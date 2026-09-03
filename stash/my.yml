@@ -28,6 +28,8 @@ sniffer:
       ports: [443, 8443]
     QUIC:
       ports: [443, 8443]
+  force-domain:
+    - "+.v2ex.com"
   skip-domain:
     - "Mijia Cloud"
     - "+.push.apple.com"
@@ -57,6 +59,7 @@ dns:
   default-nameserver:
     - 223.5.5.5
     - 119.29.29.29
+  # 只用 UDP，避免 respect-rules 下 DoH 域名解析循环
   proxy-server-nameserver:
     - 223.5.5.5
     - 119.29.29.29
@@ -74,6 +77,7 @@ proxy-providers:
       enable: true
       url: https://www.gstatic.com/generate_204
       interval: 120
+    proxy: DIRECT
   Provider2:
     url: "YOUR_SUBSCRIPTION_URL_2"
     type: http
@@ -82,65 +86,66 @@ proxy-providers:
       enable: true
       url: https://www.gstatic.com/generate_204
       interval: 120
+    proxy: DIRECT
 
 proxy-groups:
   # 社交
   - name: Telegram
     type: select
     proxies: [新加坡, 香港, 日本]
-    icon: "https://raw.githubusercontent.com/bbq191/my-rules/main/icons/Policy-Filter/Telegram.png"
+    icon: "https://raw.githubusercontent.com/Vbaethon/HOMOMIX/main/Icon/Color/Telegram.png"
 
   - name: 巴哈姆特
     type: select
     proxies: [台湾, 香港]
-    icon: "https://raw.githubusercontent.com/bbq191/my-rules/main/icons/Policy-Filter/Bahamut.png"
+    icon: "https://raw.githubusercontent.com/Vbaethon/HOMOMIX/main/Icon/Color/Bahamut.png"
 
   - name: Games
     type: select
     proxies: [香港, 日本, 新加坡]
-    icon: "https://raw.githubusercontent.com/bbq191/my-rules/main/icons/Policy-Filter/Games.png"
+    icon: "https://raw.githubusercontent.com/Vbaethon/HOMOMIX/main/Icon/Color/Game.png"
 
   # 流媒体
   - name: YouTube
     type: select
     proxies: [美国, 香港, 日本, 新加坡]
-    icon: "https://raw.githubusercontent.com/bbq191/my-rules/main/icons/Policy-Filter/YouTube.png"
+    icon: "https://raw.githubusercontent.com/Vbaethon/HOMOMIX/main/Icon/Color/YouTube.png"
 
   # 厂商
   - name: AI
     type: select
     proxies: [美国, 香港]
-    icon: "https://raw.githubusercontent.com/bbq191/my-rules/main/icons/Policy-Filter/AI.png"
+    icon: "https://raw.githubusercontent.com/Vbaethon/HOMOMIX/main/Icon/Color/AI.png"
 
   - name: Github
     type: select
     proxies: [香港, 美国, DIRECT]
-    icon: "https://raw.githubusercontent.com/bbq191/my-rules/main/icons/Policy-Filter/Github.png"
+    icon: "https://raw.githubusercontent.com/Vbaethon/HOMOMIX/main/Icon/Color/GitHub.png"
 
   - name: Apple
     type: select
     proxies: [美国, 香港, DIRECT]
-    icon: "https://raw.githubusercontent.com/bbq191/my-rules/main/icons/Policy-Filter/Apple.png"
+    icon: "https://raw.githubusercontent.com/Vbaethon/HOMOMIX/main/Icon/Color/Apple.png"
 
   - name: Microsoft
     type: select
     proxies: [美国, 香港, DIRECT]
-    icon: "https://raw.githubusercontent.com/bbq191/my-rules/main/icons/Policy-Filter/Microsoft.png"
+    icon: "https://raw.githubusercontent.com/Vbaethon/HOMOMIX/main/Icon/Color/Microsoft.png"
 
   - name: Google
     type: select
     proxies: [美国, 香港, 日本, 台湾]
-    icon: "https://raw.githubusercontent.com/bbq191/my-rules/main/icons/Policy-Filter/Google.png"
+    icon: "https://raw.githubusercontent.com/Vbaethon/HOMOMIX/main/Icon/Color/Google.png"
 
   - name: 国内
     type: select
     proxies: [DIRECT, 全部节点]
-    icon: "https://raw.githubusercontent.com/bbq191/my-rules/main/icons/Policy-Country/CN.png"
+    icon: "https://raw.githubusercontent.com/Vbaethon/HOMOMIX/main/Icon/Color/China.png"
 
   - name: Advertising
     type: select
     proxies: [REJECT, DIRECT]
-    icon: "https://raw.githubusercontent.com/bbq191/my-rules/main/icons/Policy-Filter/AdBlock.png"
+    icon: "https://raw.githubusercontent.com/Vbaethon/HOMOMIX/main/Icon/Color/Adblock.png"
 
   # 区域节点组（自动选择最低延迟）
   - name: 香港
@@ -151,7 +156,7 @@ proxy-groups:
     url: https://www.gstatic.com/generate_204
     interval: 180
     tolerance: 50
-    icon: "https://raw.githubusercontent.com/bbq191/my-rules/main/icons/Policy-Country/HK.png"
+    icon: "https://raw.githubusercontent.com/Vbaethon/HOMOMIX/main/Icon/Color/Hong_Kong.png"
 
   - name: 台湾
     type: url-test
@@ -161,7 +166,7 @@ proxy-groups:
     url: https://www.gstatic.com/generate_204
     interval: 180
     tolerance: 50
-    icon: "https://raw.githubusercontent.com/bbq191/my-rules/main/icons/Policy-Country/TW.png"
+    icon: "https://raw.githubusercontent.com/Vbaethon/HOMOMIX/main/Icon/Color/Taiwan_Province.png"
 
   - name: 日本
     type: url-test
@@ -171,7 +176,7 @@ proxy-groups:
     url: https://www.gstatic.com/generate_204
     interval: 180
     tolerance: 50
-    icon: "https://raw.githubusercontent.com/bbq191/my-rules/main/icons/Policy-Country/JP.png"
+    icon: "https://raw.githubusercontent.com/Vbaethon/HOMOMIX/main/Icon/Color/Japan.png"
 
   - name: 美国
     type: url-test
@@ -181,7 +186,7 @@ proxy-groups:
     url: https://www.gstatic.com/generate_204
     interval: 180
     tolerance: 50
-    icon: "https://raw.githubusercontent.com/bbq191/my-rules/main/icons/Policy-Country/US.png"
+    icon: "https://raw.githubusercontent.com/Vbaethon/HOMOMIX/main/Icon/Color/USA.png"
 
   - name: 新加坡
     type: url-test
@@ -191,21 +196,21 @@ proxy-groups:
     url: https://www.gstatic.com/generate_204
     interval: 180
     tolerance: 50
-    icon: "https://raw.githubusercontent.com/bbq191/my-rules/main/icons/Policy-Country/SG.png"
+    icon: "https://raw.githubusercontent.com/Vbaethon/HOMOMIX/main/Icon/Color/Singapore.png"
 
   - name: 其它地区
     type: select
     include-all: true
     exclude-type: direct
     filter: "(?i)^(?!.*(?:Expire|Traffic|失联|自动|最优|网站|地址|剩余|过期|时间|有效|🇭🇰|🇯🇵|🇺🇸|🇸🇬|🇨🇳|香港|hk|hongkong|台湾|tw|taiwan|日本|jp|japan|新|sg|singapore|美|us|unitedstates)).*"
-    icon: "https://raw.githubusercontent.com/bbq191/my-rules/main/icons/Policy-Country/Other.png"
+    icon: "https://raw.githubusercontent.com/Vbaethon/HOMOMIX/main/Icon/Color/Other.png"
 
   - name: 全部节点
     type: select
     include-all: true
     exclude-type: direct
     filter: "(?i)^(?!.*(?:失联|自动|最优|网站|地址|剩余|过期|时间|有效)).*"
-    icon: "https://raw.githubusercontent.com/bbq191/my-rules/main/icons/Policy-Country/All.png"
+    icon: "https://raw.githubusercontent.com/Vbaethon/HOMOMIX/main/Icon/Color/Global.png"
 
 # 规则集模板（MRS 格式，需要 Stash 2.x / mihomo 内核）
 rule-anchor:
@@ -278,11 +283,19 @@ rule-providers:
     url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/cn.mrs"
 
 rules:
-  # 游戏本地规则（按需自行添加）
-  - DOMAIN-SUFFIX,gryphline.com,Games
+  # 企业内网 / 工作应用域名（按需自行填写）
+  # - DOMAIN-SUFFIX,your-corp-domain.com,国内
 
+  # 游戏：国际服 / 国内服
+  - DOMAIN-SUFFIX,gryphline.com,Games
+  - DOMAIN-SUFFIX,astral-vector.com,国内
+
+  - DOMAIN-SUFFIX,local,DIRECT
   - RULE-SET,private_ip,DIRECT,no-resolve
   - RULE-SET,private_domain,DIRECT
+  # DeepSeek 是国内直连 API，必须在 ai_domain 之前抢先直连，
+  # 否则被 category-ai-!cn 命中后绕道境外，又慢又不稳定
+  - DOMAIN-SUFFIX,deepseek.com,国内
   - RULE-SET,ai_domain,AI
   - RULE-SET,github_domain,Github
   - RULE-SET,youtube_domain,YouTube

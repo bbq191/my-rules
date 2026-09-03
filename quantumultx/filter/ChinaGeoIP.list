@@ -1,0 +1,5 @@
+# NAME: ChinaGeoIP
+# 用途：作为 [filter_remote] 的最后一个资源加载，替代 [filter_local] 里的 geoip 规则。
+# 原因：QX 本地规则优先于远程规则匹配，geoip 若放在本地会抢在远程列表的
+#       IP-CIDR 条目之前（例如 Advertising 里的国内云厂商 IP 拦截会被 geoip,cn 截胡）。
+GEOIP,CN,国内
