@@ -1,22 +1,9 @@
 # 全局配置
-mixed-port: 7890
-allow-lan: true
-bind-address: '*'
+# 端口 / 局域网代理 / TUN / API 控制器等由 Stash 客户端界面管理，不在配置文件中声明；
+# mihomo 专有键（unified-delay、tcp-concurrent、keep-alive、client-fingerprint、profile）Stash 不读取，已省略
 mode: rule
 log-level: warning
 ipv6: false
-unified-delay: true
-tcp-concurrent: true
-global-client-fingerprint: chrome
-keep-alive-idle: 600
-keep-alive-interval: 15
-
-external-controller: 127.0.0.1:9090
-secret: "YOUR_API_SECRET"
-
-profile:
-  store-selected: true
-  store-fake-ip: true
 
 sniffer:
   enable: true
@@ -34,16 +21,6 @@ sniffer:
     - "Mijia Cloud"
     - "+.push.apple.com"
     - "+.baidu.com"
-
-tun:
-  enable: true
-  stack: mixed
-  dns-hijack:
-    - "any:53"
-    - "tcp://any:53"
-  auto-route: true
-  auto-redirect: true
-  auto-detect-interface: true
 
 dns:
   enable: true
@@ -110,6 +87,11 @@ proxy-groups:
     type: select
     proxies: [美国, 香港, 日本, 新加坡]
     icon: "https://raw.githubusercontent.com/Vbaethon/HOMOMIX/main/Icon/Color/YouTube.png"
+
+  - name: GlobalMedia
+    type: select
+    proxies: [美国, 香港, 日本, 台湾, 新加坡]
+    icon: "https://raw.githubusercontent.com/Vbaethon/HOMOMIX/main/Icon/Color/Stream.png"
 
   # 厂商
   - name: AI
@@ -221,6 +203,21 @@ rule-providers:
   youtube_domain:
     <<: *domain
     url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/youtube.mrs"
+  netflix_domain:
+    <<: *domain
+    url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/netflix.mrs"
+  disney_domain:
+    <<: *domain
+    url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/disney.mrs"
+  hbo_domain:
+    <<: *domain
+    url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/hbo.mrs"
+  primevideo_domain:
+    <<: *domain
+    url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/primevideo.mrs"
+  spotify_domain:
+    <<: *domain
+    url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/spotify.mrs"
   google_domain:
     <<: *domain
     url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/google.mrs"
@@ -290,6 +287,11 @@ rules:
   - RULE-SET,ai_domain,AI
   - RULE-SET,github_domain,Github
   - RULE-SET,youtube_domain,YouTube
+  - RULE-SET,netflix_domain,GlobalMedia
+  - RULE-SET,disney_domain,GlobalMedia
+  - RULE-SET,hbo_domain,GlobalMedia
+  - RULE-SET,primevideo_domain,GlobalMedia
+  - RULE-SET,spotify_domain,GlobalMedia
   - RULE-SET,google_domain,Google
   - RULE-SET,apple_domain,Apple
   - RULE-SET,microsoft_domain,Microsoft
