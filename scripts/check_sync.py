@@ -7,6 +7,7 @@
 
 只读、不改文件。退出码 0 表示无差异，1 表示有差异。
 """
+import difflib
 import os
 import sys
 
@@ -70,7 +71,6 @@ def main():
     sr = [r for r in s.get("rules", []) if not r.startswith(STASH_ONLY_RULES)]
     if mr != sr:
         diffs.append("[规则] 顺序或内容不一致：")
-        import difflib
         for line in difflib.unified_diff(mr, sr, "mihomo", "stash", lineterm="", n=1):
             diffs.append("    " + line)
 

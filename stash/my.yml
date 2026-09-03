@@ -134,52 +134,52 @@ proxy-groups:
     type: select
     include-all: true
     exclude-type: direct
-    filter: "(?i)🇭🇰|香港|\bhk(?![a-z])|hong ?kong"
+    filter: '(?i)🇭🇰|香港|\bhk(?![a-z])|hong ?kong'
     icon: "https://raw.githubusercontent.com/Vbaethon/HOMOMIX/main/Icon/Color/Hong_Kong.png"
 
   - name: 台湾
     type: select
     include-all: true
     exclude-type: direct
-    filter: "(?i)🇹🇼|台湾|\btw(?![a-z])|taiwan"
+    filter: '(?i)🇹🇼|台湾|\btw(?![a-z])|taiwan'
     icon: "https://raw.githubusercontent.com/Vbaethon/HOMOMIX/main/Icon/Color/Taiwan_Province.png"
 
   - name: 日本
     type: select
     include-all: true
     exclude-type: direct
-    filter: "(?i)🇯🇵|日本|\bjp(?![a-z])|japan"
+    filter: '(?i)🇯🇵|日本|\bjp(?![a-z])|japan'
     icon: "https://raw.githubusercontent.com/Vbaethon/HOMOMIX/main/Icon/Color/Japan.png"
 
   - name: 美国
     type: select
     include-all: true
     exclude-type: direct
-    filter: "(?i)🇺🇸|美国|\bus(?![a-z])|\busa(?![a-z])|united ?states"
+    filter: '(?i)🇺🇸|美国|\bus(?![a-z])|\busa(?![a-z])|united ?states'
     icon: "https://raw.githubusercontent.com/Vbaethon/HOMOMIX/main/Icon/Color/USA.png"
 
   - name: 新加坡
     type: select
     include-all: true
     exclude-type: direct
-    filter: "(?i)🇸🇬|新加坡|狮城|\bsg(?![a-z])|singapore"
+    filter: '(?i)🇸🇬|新加坡|狮城|\bsg(?![a-z])|singapore'
     icon: "https://raw.githubusercontent.com/Vbaethon/HOMOMIX/main/Icon/Color/Singapore.png"
 
   - name: 其它地区
     type: select
     include-all: true
     exclude-type: direct
-    filter: "(?i)^(?!.*(?:Expire|Traffic|失联|自动|最优|网站|地址|剩余|过期|时间|有效|🇭🇰|🇹🇼|🇯🇵|🇺🇸|🇸🇬|🇨🇳|香港|\bhk(?![a-z])|hong ?kong|台湾|\btw(?![a-z])|taiwan|日本|\bjp(?![a-z])|japan|新加坡|狮城|\bsg(?![a-z])|singapore|美国|\bus(?![a-z])|\busa(?![a-z])|united ?states)).*"
+    filter: '(?i)^(?!.*(?:Expire|Traffic|失联|自动|最优|网站|地址|剩余|过期|时间|有效|🇭🇰|🇹🇼|🇯🇵|🇺🇸|🇸🇬|🇨🇳|香港|\bhk(?![a-z])|hong ?kong|台湾|\btw(?![a-z])|taiwan|日本|\bjp(?![a-z])|japan|新加坡|狮城|\bsg(?![a-z])|singapore|美国|\bus(?![a-z])|\busa(?![a-z])|united ?states)).*'
     icon: "https://raw.githubusercontent.com/Vbaethon/HOMOMIX/main/Icon/Color/Other.png"
 
   - name: 全部节点
     type: select
     include-all: true
     exclude-type: direct
-    filter: "(?i)^(?!.*(?:失联|自动|最优|网站|地址|剩余|过期|时间|有效)).*"
+    filter: '(?i)^(?!.*(?:失联|自动|最优|网站|地址|剩余|过期|时间|有效)).*'
     icon: "https://raw.githubusercontent.com/Vbaethon/HOMOMIX/main/Icon/Color/Global.png"
 
-# 规则集模板（MRS 格式，需要 Stash 2.x / mihomo 内核）
+# 规则集模板（MRS 格式，Stash 3.1+）
 rule-anchor:
   ip: &ip { type: http, interval: 86400, behavior: ipcidr, format: mrs }
   domain: &domain { type: http, interval: 86400, behavior: domain, format: mrs }

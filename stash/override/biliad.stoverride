@@ -93,25 +93,25 @@ http:
 
 script-providers:
   BiliBili_推荐去广告:
-    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/script/bilibili/bilibili_plus.js
+    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/script/archive/bilibili/bilibili_plus.js
     interval: 86400
   BiliBili_追番去广告:
-    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/script/bilibili/bilibili_plus.js
+    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/script/archive/bilibili/bilibili_plus.js
     interval: 86400
   BiliBili_直播去广告:
-    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/script/bilibili/bilibili_plus.js
+    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/script/archive/bilibili/bilibili_plus.js
     interval: 86400
   BiliBili_动态去广告:
-    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/script/bilibili/bilibili_plus.js
+    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/script/archive/bilibili/bilibili_plus.js
     interval: 86400
   BiliBili_开屏去广告:
-    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/script/bilibili/bilibili_plus.js
+    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/script/archive/bilibili/bilibili_plus.js
     interval: 86400
   BiliBili_标签页处理:
-    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/script/bilibili/bilibili_plus.js
+    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/script/archive/bilibili/bilibili_plus.js
     interval: 86400
   BiliBili_我的页面处理:
-    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/script/bilibili/bilibili_plus.js
+    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/script/archive/bilibili/bilibili_plus.js
     interval: 86400
   BiliBili_Proto去广告:
     url: https://raw.githubusercontent.com/app2smile/rules/master/js/bilibili-proto.js
