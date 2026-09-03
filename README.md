@@ -34,7 +34,7 @@ my-rules/
 - 规则集：MetaCubeX MRS 格式（更小、更快）
 - TUN 模式：`mixed` stack，支持 `auto-route` + `auto-redirect`
 - DNS：FakeIP + `respect-rules`，缓存算法 ARC
-- 策略组与 QX 对齐，区域组使用 `url-test` 自动选最低延迟
+- 策略组与 QX 对齐，区域组为 `select` 手动选择，按地区关键字自动过滤节点
 - 规则顺序与桌面端 mihomo 模板一致：私有网络 → DeepSeek 抢先直连 → AI/厂商/游戏规则集 → 广告拦截 → 非中国域名 → CN 域名/IP → 兜底
 
 ### Stash Override (`stash/override/biliad.stoverride`)

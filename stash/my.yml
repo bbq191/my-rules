@@ -147,55 +147,40 @@ proxy-groups:
     proxies: [REJECT, DIRECT]
     icon: "https://raw.githubusercontent.com/Vbaethon/HOMOMIX/main/Icon/Color/Adblock.png"
 
-  # 区域节点组（自动选择最低延迟）
+  # 区域节点组（手动选择）
   - name: 香港
-    type: url-test
+    type: select
     include-all: true
     exclude-type: direct
     filter: "(?i)香港|hk|hongkong|hong kong"
-    url: https://www.gstatic.com/generate_204
-    interval: 180
-    tolerance: 50
     icon: "https://raw.githubusercontent.com/Vbaethon/HOMOMIX/main/Icon/Color/Hong_Kong.png"
 
   - name: 台湾
-    type: url-test
+    type: select
     include-all: true
     exclude-type: direct
     filter: "(?i)台湾|tw|taiwan"
-    url: https://www.gstatic.com/generate_204
-    interval: 180
-    tolerance: 50
     icon: "https://raw.githubusercontent.com/Vbaethon/HOMOMIX/main/Icon/Color/Taiwan_Province.png"
 
   - name: 日本
-    type: url-test
+    type: select
     include-all: true
     exclude-type: direct
     filter: "(?i)日本|jp|japan"
-    url: https://www.gstatic.com/generate_204
-    interval: 180
-    tolerance: 50
     icon: "https://raw.githubusercontent.com/Vbaethon/HOMOMIX/main/Icon/Color/Japan.png"
 
   - name: 美国
-    type: url-test
+    type: select
     include-all: true
     exclude-type: direct
     filter: "(?i)美|us|unitedstates|united states"
-    url: https://www.gstatic.com/generate_204
-    interval: 180
-    tolerance: 50
     icon: "https://raw.githubusercontent.com/Vbaethon/HOMOMIX/main/Icon/Color/USA.png"
 
   - name: 新加坡
-    type: url-test
+    type: select
     include-all: true
     exclude-type: direct
     filter: "(?i)(新加坡|sg|singapore)"
-    url: https://www.gstatic.com/generate_204
-    interval: 180
-    tolerance: 50
     icon: "https://raw.githubusercontent.com/Vbaethon/HOMOMIX/main/Icon/Color/Singapore.png"
 
   - name: 其它地区
