@@ -40,9 +40,10 @@ dns:
   proxy-server-nameserver:
     - 223.5.5.5
     - 119.29.29.29
+  # 加密 DNS 用 IP 直连，无需引导解析，respect-rules 下按 cn_ip 直连，不会循环
   nameserver:
-    - 223.5.5.5
-    - 119.29.29.29
+    - https://223.5.5.5/dns-query
+    - https://1.12.12.12/dns-query
 
 proxy-providers:
   Flowercloud:
@@ -66,10 +67,16 @@ proxy-providers:
     proxy: DIRECT
 
 proxy-groups:
+  # 境外兜底：geolocation-!cn 与 MATCH 走这里
+  - name: OutSide
+    type: select
+    proxies: [美国, 香港, 日本, 台湾, 新加坡, 其它地区, 自动选择, 全部节点]
+    icon: "https://raw.githubusercontent.com/Vbaethon/HOMOMIX/main/Icon/Color/GFW.png"
+
   # 社交
   - name: Telegram
     type: select
-    proxies: [新加坡, 香港, 日本]
+    proxies: [新加坡, 香港, 日本, 全部节点]
     icon: "https://raw.githubusercontent.com/Vbaethon/HOMOMIX/main/Icon/Color/Telegram.png"
 
   - name: 巴哈姆特
@@ -85,38 +92,44 @@ proxy-groups:
   # 流媒体
   - name: YouTube
     type: select
-    proxies: [美国, 香港, 日本, 新加坡]
+    proxies: [美国, 香港, 日本, 新加坡, 全部节点]
     icon: "https://raw.githubusercontent.com/Vbaethon/HOMOMIX/main/Icon/Color/YouTube.png"
+
+  # TikTok 不对中国大陆及香港提供服务
+  - name: TikTok
+    type: select
+    proxies: [日本, 新加坡, 台湾, 美国, 全部节点]
+    icon: "https://raw.githubusercontent.com/Vbaethon/HOMOMIX/main/Icon/Color/TikTok.png"
 
   - name: GlobalMedia
     type: select
-    proxies: [美国, 香港, 日本, 台湾, 新加坡]
+    proxies: [美国, 香港, 日本, 台湾, 新加坡, 全部节点]
     icon: "https://raw.githubusercontent.com/Vbaethon/HOMOMIX/main/Icon/Color/Stream.png"
 
   # 厂商
   - name: AI
     type: select
-    proxies: [美国, 香港]
+    proxies: [美国, 日本, 新加坡, 台湾, 全部节点]
     icon: "https://raw.githubusercontent.com/Vbaethon/HOMOMIX/main/Icon/Color/AI.png"
 
   - name: Github
     type: select
-    proxies: [香港, 美国, DIRECT]
+    proxies: [香港, 美国, 日本, DIRECT]
     icon: "https://raw.githubusercontent.com/Vbaethon/HOMOMIX/main/Icon/Color/GitHub.png"
 
   - name: Apple
     type: select
-    proxies: [美国, 香港, DIRECT]
+    proxies: [DIRECT, 美国, 香港]
     icon: "https://raw.githubusercontent.com/Vbaethon/HOMOMIX/main/Icon/Color/Apple.png"
 
   - name: Microsoft
     type: select
-    proxies: [美国, 香港, DIRECT]
+    proxies: [DIRECT, 美国, 香港]
     icon: "https://raw.githubusercontent.com/Vbaethon/HOMOMIX/main/Icon/Color/Microsoft.png"
 
   - name: Google
     type: select
-    proxies: [美国, 香港, 日本, 台湾]
+    proxies: [美国, 香港, 日本, 台湾, 全部节点]
     icon: "https://raw.githubusercontent.com/Vbaethon/HOMOMIX/main/Icon/Color/Google.png"
 
   - name: 国内
@@ -129,54 +142,79 @@ proxy-groups:
     proxies: [REJECT, DIRECT]
     icon: "https://raw.githubusercontent.com/Vbaethon/HOMOMIX/main/Icon/Color/Adblock.png"
 
-  # 区域节点组（手动选择）
+  # 区域节点组（按延迟自动选优，容差 50ms 防止频繁切换）
   - name: 香港
-    type: select
+    type: url-test
     include-all: true
     exclude-type: direct
-    filter: '(?i)🇭🇰|香港|\bhk(?![a-z])|hong ?kong'
+    filter: '(?i)^(?!.*(?:失联|自动|最优|网站|地址|剩余|过期|时间|有效|官网|到期|expire|traffic)).*(?:🇭🇰|香港|\bhk(?![a-z])|hong ?kong)'
+    interval: 600
+    tolerance: 50
+    lazy: true
     icon: "https://raw.githubusercontent.com/Vbaethon/HOMOMIX/main/Icon/Color/Hong_Kong.png"
 
   - name: 台湾
-    type: select
+    type: url-test
     include-all: true
     exclude-type: direct
-    filter: '(?i)🇹🇼|台湾|\btw(?![a-z])|taiwan'
+    filter: '(?i)^(?!.*(?:失联|自动|最优|网站|地址|剩余|过期|时间|有效|官网|到期|expire|traffic)).*(?:🇹🇼|台湾|\btw(?![a-z])|taiwan)'
+    interval: 600
+    tolerance: 50
+    lazy: true
     icon: "https://raw.githubusercontent.com/Vbaethon/HOMOMIX/main/Icon/Color/Taiwan_Province.png"
 
   - name: 日本
-    type: select
+    type: url-test
     include-all: true
     exclude-type: direct
-    filter: '(?i)🇯🇵|日本|\bjp(?![a-z])|japan'
+    filter: '(?i)^(?!.*(?:失联|自动|最优|网站|地址|剩余|过期|时间|有效|官网|到期|expire|traffic)).*(?:🇯🇵|日本|\bjp(?![a-z])|japan)'
+    interval: 600
+    tolerance: 50
+    lazy: true
     icon: "https://raw.githubusercontent.com/Vbaethon/HOMOMIX/main/Icon/Color/Japan.png"
 
   - name: 美国
-    type: select
+    type: url-test
     include-all: true
     exclude-type: direct
-    filter: '(?i)🇺🇸|美国|\bus(?![a-z])|\busa(?![a-z])|united ?states'
+    filter: '(?i)^(?!.*(?:失联|自动|最优|网站|地址|剩余|过期|时间|有效|官网|到期|expire|traffic)).*(?:🇺🇸|美国|\bus(?![a-z])|\busa(?![a-z])|united ?states)'
+    interval: 600
+    tolerance: 50
+    lazy: true
     icon: "https://raw.githubusercontent.com/Vbaethon/HOMOMIX/main/Icon/Color/USA.png"
 
   - name: 新加坡
-    type: select
+    type: url-test
     include-all: true
     exclude-type: direct
-    filter: '(?i)🇸🇬|新加坡|狮城|\bsg(?![a-z])|singapore'
+    filter: '(?i)^(?!.*(?:失联|自动|最优|网站|地址|剩余|过期|时间|有效|官网|到期|expire|traffic)).*(?:🇸🇬|新加坡|狮城|\bsg(?![a-z])|singapore)'
+    interval: 600
+    tolerance: 50
+    lazy: true
     icon: "https://raw.githubusercontent.com/Vbaethon/HOMOMIX/main/Icon/Color/Singapore.png"
 
   - name: 其它地区
     type: select
     include-all: true
     exclude-type: direct
-    filter: '(?i)^(?!.*(?:Expire|Traffic|失联|自动|最优|网站|地址|剩余|过期|时间|有效|🇭🇰|🇹🇼|🇯🇵|🇺🇸|🇸🇬|🇨🇳|香港|\bhk(?![a-z])|hong ?kong|台湾|\btw(?![a-z])|taiwan|日本|\bjp(?![a-z])|japan|新加坡|狮城|\bsg(?![a-z])|singapore|美国|\bus(?![a-z])|\busa(?![a-z])|united ?states)).*'
+    filter: '(?i)^(?!.*(?:失联|自动|最优|网站|地址|剩余|过期|时间|有效|官网|到期|expire|traffic|🇭🇰|🇹🇼|🇯🇵|🇺🇸|🇸🇬|🇨🇳|香港|\bhk(?![a-z])|hong ?kong|台湾|\btw(?![a-z])|taiwan|日本|\bjp(?![a-z])|japan|新加坡|狮城|\bsg(?![a-z])|singapore|美国|\bus(?![a-z])|\busa(?![a-z])|united ?states)).*'
     icon: "https://raw.githubusercontent.com/Vbaethon/HOMOMIX/main/Icon/Color/Other.png"
+
+  - name: 自动选择
+    type: url-test
+    include-all: true
+    exclude-type: direct
+    filter: '(?i)^(?!.*(?:失联|自动|最优|网站|地址|剩余|过期|时间|有效|官网|到期|expire|traffic)).*'
+    interval: 600
+    tolerance: 50
+    lazy: true
+    icon: "https://raw.githubusercontent.com/Vbaethon/HOMOMIX/main/Icon/Color/Fast.png"
 
   - name: 全部节点
     type: select
     include-all: true
     exclude-type: direct
-    filter: '(?i)^(?!.*(?:失联|自动|最优|网站|地址|剩余|过期|时间|有效)).*'
+    filter: '(?i)^(?!.*(?:失联|自动|最优|网站|地址|剩余|过期|时间|有效|官网|到期|expire|traffic)).*'
     icon: "https://raw.githubusercontent.com/Vbaethon/HOMOMIX/main/Icon/Color/Global.png"
 
 # 规则集模板（MRS 格式，Stash 3.1+）
@@ -197,6 +235,9 @@ rule-providers:
   ai_domain:
     <<: *domain
     url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/category-ai-!cn.mrs"
+  tiktok_domain:
+    <<: *domain
+    url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/tiktok.mrs"
   github_domain:
     <<: *domain
     url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/github.mrs"
@@ -285,6 +326,7 @@ rules:
   # 否则被 category-ai-!cn 命中后绕道境外，又慢又不稳定
   - DOMAIN-SUFFIX,deepseek.com,国内
   - RULE-SET,ai_domain,AI
+  - RULE-SET,tiktok_domain,TikTok
   - RULE-SET,github_domain,Github
   - RULE-SET,youtube_domain,YouTube
   - RULE-SET,netflix_domain,GlobalMedia
@@ -303,13 +345,13 @@ rules:
   - RULE-SET,category-game-platforms-download_domain,Games
   - RULE-SET,playstation_domain,Games
   - RULE-SET,bahamut_domain,巴哈姆特
-  - RULE-SET,geolocation-!cn,全部节点
+  - RULE-SET,geolocation-!cn,OutSide
 
   - RULE-SET,google_ip,Google,no-resolve
   - RULE-SET,telegram_ip,Telegram,no-resolve
   - RULE-SET,cn_domain,国内
   - RULE-SET,cn_ip,国内
-  - MATCH,全部节点
+  - MATCH,OutSide
 
 http:
   mitm:

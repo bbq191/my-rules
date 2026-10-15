@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
-"""对比桌面端 mihomo 模板与 Stash 配置，报告策略组 / 规则顺序 / 规则集 URL 的差异。
+"""对比桌面端 mihomo 模板与 Stash 配置，报告策略组 / 规则顺序 / 规则集 URL 的差异；
+另外对比 QX 与 Stash 的策略组名称、类型和候选列表（QX 规则来源不同，不比规则）。
 
 用法：
     scripts/check_sync.py [mihomo模板路径]
@@ -18,6 +19,7 @@ except ImportError:
 
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 STASH = os.path.join(REPO, "stash", "my.yml")
+QX = os.path.join(REPO, "quantumultx", "qx.conf")
 DEFAULT_MIHOMO = os.path.expanduser("~/Projects/dotfiles/system/etc/mihomo/config.template.yaml")
 
 # 桌面端专属、不期望同步到 Stash 的规则（前缀匹配）
@@ -25,11 +27,15 @@ MIHOMO_ONLY_RULES = (
     "RULE-SET,hotspot_direct",
     "RULE-SET,usb_direct",
     "PROCESS-NAME,",
+    "IP-CIDR,",  # 工作内网 IP，不写进公开仓库
     "DOMAIN-SUFFIX,lanxin.cn",
     "DOMAIN-SUFFIX,qianxin.com",
 )
 # Stash 专属
 STASH_ONLY_RULES = ()
+# QX 没有的 Stash 策略组（QX 广告直接 reject，没有「其它地区」）
+STASH_ONLY_GROUPS = {"其它地区", "Advertising"}
+QX_TYPES = {"static": "select", "url-latency-benchmark": "url-test"}
 
 
 def load(path):
@@ -39,6 +45,30 @@ def load(path):
 
 def groups(cfg):
     return {g["name"]: g for g in cfg.get("proxy-groups", [])}
+
+
+def qx_groups(path):
+    """解析 QX [policy]，返回 {名称: {type, proxies, interval, tolerance}}。"""
+    out, in_policy = {}, False
+    with open(path, encoding="utf-8") as f:
+        for line in f:
+            line = line.strip()
+            if line.startswith("["):
+                in_policy = line == "[policy]"
+                continue
+            if not in_policy or not line or line.startswith((";", "#", "//")) or "=" not in line:
+                continue
+            kind, rest = (x.strip() for x in line.split("=", 1))
+            name, *items = (x.strip() for x in rest.split(","))
+            kv = dict(x.split("=", 1) for x in items if "=" in x)
+            proxies = [x.upper() if x in ("direct", "reject") else x for x in items if "=" not in x]
+            out[name] = {
+                "type": QX_TYPES.get(kind, kind),
+                "proxies": proxies or None,
+                "interval": int(kv["check-interval"]) if "check-interval" in kv else None,
+                "tolerance": int(kv["tolerance"]) if "tolerance" in kv else None,
+            }
+    return out
 
 
 def norm_url(u):
@@ -62,7 +92,7 @@ def main():
             diffs.append(f"[策略组] 仅 mihomo 有：{name}")
             continue
         a, b = mg[name], sg[name]
-        for key in ("type", "proxies", "filter", "include-all", "icon"):
+        for key in ("type", "proxies", "filter", "include-all", "exclude-type", "interval", "tolerance", "lazy", "icon"):
             if a.get(key) != b.get(key):
                 diffs.append(f"[策略组] {name}.{key} 不一致\n    mihomo: {a.get(key)}\n    stash : {b.get(key)}")
 
@@ -86,8 +116,25 @@ def main():
         elif norm_url(mp[name].get("url")) != norm_url(sp[name].get("url")):
             diffs.append(f"[规则集] {name} URL 不一致\n    mihomo: {mp[name].get('url')}\n    stash : {sp[name].get('url')}")
 
+    # 4. QX 策略组（图标、正则写法两边不同，不比）
+    if os.path.exists(QX):
+        qg = qx_groups(QX)
+        for name in sorted(set(qg) | set(sg) - STASH_ONLY_GROUPS):
+            if name not in qg:
+                diffs.append(f"[QX] 仅 Stash 有策略组：{name}")
+                continue
+            if name not in sg:
+                diffs.append(f"[QX] 仅 QX 有策略组：{name}")
+                continue
+            a, b = qg[name], sg[name]
+            b_proxies = [x for x in b.get("proxies") or [] if x not in STASH_ONLY_GROUPS] or None
+            for key, bv in (("type", b.get("type")), ("proxies", b_proxies),
+                            ("interval", b.get("interval")), ("tolerance", b.get("tolerance"))):
+                if a[key] != bv:
+                    diffs.append(f"[QX] {name}.{key} 不一致\n    qx   : {a[key]}\n    stash: {bv}")
+
     if not diffs:
-        print("mihomo 模板与 Stash 配置一致。")
+        print("mihomo 模板、QX 与 Stash 配置一致。")
         return 0
     print("\n".join(diffs))
     print(f"\n共 {len(diffs)} 处差异。")
