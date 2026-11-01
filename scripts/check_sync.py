@@ -31,8 +31,10 @@ MIHOMO_ONLY_RULES = (
     "DOMAIN-SUFFIX,lanxin.cn",
     "DOMAIN-SUFFIX,qianxin.com",
 )
-# Stash 专属
-STASH_ONLY_RULES = ()
+# Stash 专属：只对 MitM 去广告域名丢弃 QUIC，桌面 mihomo 不做 MitM 不需要
+STASH_ONLY_RULES = (
+    "AND,((NETWORK,UDP),(DST-PORT,443),",
+)
 # QX 没有的 Stash 策略组（QX 广告直接 reject，没有「其它地区」）
 STASH_ONLY_GROUPS = {"其它地区", "Advertising"}
 QX_TYPES = {"static": "select", "url-latency-benchmark": "url-test"}
