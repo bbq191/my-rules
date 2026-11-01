@@ -292,6 +292,12 @@ rule-providers:
   ads@ads_domain:
     <<: *domain
     url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/category-ads@ads.mrs"
+  hijacking_classical:
+    type: http
+    interval: 86400
+    behavior: classical
+    format: yaml
+    url: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Hijacking/Hijacking.yaml"
   geolocation-!cn:
     <<: *domain
     url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/geolocation-!cn.mrs"
@@ -322,6 +328,9 @@ rules:
   # 广告拦截必须在厂商规则之前：google.mrs 本身包含 doubleclick 等广告域名
   - RULE-SET,ads_domain,Advertising
   - RULE-SET,ads@ads_domain,Advertising
+  # QX「反劫持」对应项：运营商劫持/仿冒官网推广域名；含 42 条 IP-CIDR，必须 no-resolve，
+  # 否则 respect-rules 下所有后续域名都会在这里提前走国内 DoH 解析
+  - RULE-SET,hijacking_classical,Advertising,no-resolve
   # DeepSeek 是国内直连 API，必须在 ai_domain 之前抢先直连，
   # 否则被 category-ai-!cn 命中后绕道境外，又慢又不稳定
   - DOMAIN-SUFFIX,deepseek.com,国内
