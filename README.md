@@ -86,7 +86,7 @@ https://raw.githubusercontent.com/bbq191/my-rules/main/
 → 非中国域名 → OutSide
 → Google / Telegram IP（no-resolve）
 → CN 域名 / CN IP → 国内
-→ MATCH → 全部节点
+→ MATCH → OutSide
 ```
 
 ### QuantumultX
