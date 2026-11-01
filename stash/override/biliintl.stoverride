@@ -1,0 +1,10 @@
+#!desc=哔哩哔哩国际版去除 sim_code 参数（B站国服去广告改用 kokoryh/Sparkle 模块经 Script-Hub 转换）
+#!author=bbq191
+name: biliintl-SimCode
+desc: 哔哩哔哩国际版去除 sim_code 参数
+http:
+  mitm:
+    - "app.biliintl.com"
+  rewrite:
+    # 解除 BiliIntl SIM 卡地区限制
+    - (^https?:\/\/app\.biliintl\.com\/intl\/.+?)&sim_code=\d+(.*) - 302 $1$2

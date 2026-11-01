@@ -315,6 +315,10 @@ rule-providers:
     url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/cn.mrs"
 
 rules:
+  # 仅对需要 MitM 去广告的域名丢弃 QUIC，迫使回落 TCP；不全局丢 UDP 443（会误伤国内 HTTP/3 与游戏）
+  - AND,((NETWORK,UDP),(DST-PORT,443),(DOMAIN-SUFFIX,googlevideo.com)),REJECT
+  - AND,((NETWORK,UDP),(DST-PORT,443),(DOMAIN,youtubei.googleapis.com)),REJECT
+  - AND,((NETWORK,UDP),(DST-PORT,443),(DOMAIN-SUFFIX,bilibili.com)),REJECT
   # 企业内网 / 工作应用域名（按需自行填写）
   # - DOMAIN-SUFFIX,your-corp-domain.com,国内
 
@@ -364,11 +368,4 @@ rules:
 
 http:
   mitm:
-    - app.bilibili.com
-    - api.live.bilibili.com
-    - api.vc.bilibili.com
-    - api.bilibili.com
-    - manga.bilibili.com
-    - grpc.biliapi.net
-    - api.biliapi.net
     - sub.store

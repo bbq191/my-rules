@@ -13,7 +13,7 @@ my-rules/
 ├── stash/
 │   ├── my.yml                  # Stash 主配置
 │   └── override/
-│       └── biliad.stoverride   # Bilibili 去广告覆写
+│       └── biliintl.stoverride # B站国际版去除 sim_code 参数
 ├── scripts/
 │   └── check_sync.py           # 对比 mihomo 模板与 Stash 配置的差异
 └── icons/
@@ -42,8 +42,14 @@ https://raw.githubusercontent.com/bbq191/my-rules/main/
 
 1. 在 Stash「配置」中以 URL 方式添加 `stash/my.yml`。
 2. 替换 `proxy-providers` 下的 `YOUR_SUBSCRIPTION_URL_1` / `YOUR_SUBSCRIPTION_URL_2`；只有一个机场时删掉 `Provider2` 整段。
-3. 「覆写」中添加 `stash/override/biliad.stoverride`，并在「HTTP 引擎」中安装 MitM 证书。
-4. 端口、TUN、局域网共享、API 控制等在客户端界面设置，配置文件不声明这些键。
+3. 「覆写」中添加 `stash/override/biliintl.stoverride`，并在「HTTP 引擎」中安装 MitM 证书。
+4. 去广告覆写：先安装 [Script-Hub](https://github.com/Script-Hub-Org/Script-Hub) 的 `script-hub.stash.stoverride`，再在 `http://script.hub` 把下列 Surge 模块转换为 Stash 覆写并安装：
+   - B站：[kokoryh/Sparkle](https://github.com/kokoryh/Sparkle) `release/surge/module/bilibili.sgmodule`
+   - YouTube：[Maasea/sgmodule](https://github.com/Maasea/sgmodule) `YouTube.Enhance.sgmodule`
+   - 微信：[R-Store](https://github.com/zirawell/R-Store) `Rule/Surge/Adblock/App/W/微信/wechat.sgmodule`
+
+   不用 R-Store 全量合集（约 372KB）：与上面的单 App 模块规则重复，且 iOS 代理扩展有内存上限。
+5. 端口、TUN、局域网共享、API 控制等在客户端界面设置，配置文件不声明这些键。
 
 要求：Stash 3.1+（MRS 规则集自 3.1 起支持，仅 domain / ipcidr 两种 behavior）。
 
@@ -107,6 +113,7 @@ QX 的 `[filter_local]` 永远先于 `[filter_remote]` 匹配，所以两段的�
 | AI 组不含香港 | OpenAI / Claude / Gemini 均不对香港开放 |
 | QX 屏蔽 HTTPDNS，Stash / mihomo 不做 | QX 无嗅探，App 用 HTTPDNS 直连 IP 会绕过域名分流与 MitM；Stash / mihomo 开了 sniffer，能从 TLS SNI 还原域名 |
 | QX `udp_drop_list = 443` | 丢弃 QUIC，让 YouTube 等回落 TCP，MitM 去广告才生效；按端口全局生效，国内直连的 HTTP/3 也会回落 TCP |
+| Stash 按域名丢弃 QUIC | 只对 googlevideo.com / youtubei.googleapis.com / bilibili.com 的 UDP 443 REJECT，避免全局丢弃误伤国内 HTTP/3 与游戏 |
 | QX 去广告用 R-Store 合集，并排除 GitHub / Google 的 MitM | 合集约 650 个 App 每日更新；它对 GitHub 只改 Accept-Language、对 www.google.com 只拦 /ads，不值得解密这两类流量 |
 | QX 国内 IP 用 `GEOIP,CN` 而非 ChinaIPs.list | ChinaIPs.list 约 1.9 万条（其中 5600 条 IPv6 在 `no-ipv6` 下无用），iOS 网络扩展内存有限；GEOIP 准确度靠换 GeoLite2 库补 |
 | 加密 DNS（阿里 / 腾讯 DoH，IP 直连） | 防运营商 DNS 劫持；用 IP 写法无需引导解析，mihomo `respect-rules` 下也不会循环 |
