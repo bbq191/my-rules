@@ -102,9 +102,9 @@ def main():
     mr = [r for r in m.get("rules", []) if not r.startswith(MIHOMO_ONLY_RULES)]
     sr = [r for r in s.get("rules", []) if not r.startswith(STASH_ONLY_RULES)]
     if mr != sr:
-        diffs.append("[规则] 顺序或内容不一致：")
-        for line in difflib.unified_diff(mr, sr, "mihomo", "stash", lineterm="", n=1):
-            diffs.append("    " + line)
+        body = "\n".join("    " + line for line in
+                         difflib.unified_diff(mr, sr, "mihomo", "stash", lineterm="", n=1))
+        diffs.append("[规则] 顺序或内容不一致：\n" + body)
 
     # 3. 规则集 URL
     mp, sp = m.get("rule-providers", {}), s.get("rule-providers", {})
