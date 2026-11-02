@@ -363,7 +363,7 @@ rules:
   - RULE-SET,google_ip,Google,no-resolve
   - RULE-SET,telegram_ip,Telegram,no-resolve
   - RULE-SET,cn_domain,国内
-  - RULE-SET,cn_ip,国内
+  - RULE-SET,cn_ip,国内,no-resolve
   - MATCH,OutSide
 
 http:
