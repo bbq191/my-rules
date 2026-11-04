@@ -1,0 +1,46 @@
+# 复制到代码仓库 .github/workflows/notify-afu.yml
+# 需要仓库 Secrets：AFU_WEBHOOK_URL、AFU_WEBHOOK_TOKEN（原始 token，不含 Bearer 前缀）
+# 只发 {repo, branch, paths, task_ids}，不发任务内容
+name: notify-afu
+on:
+  push:
+    branches: ['**']
+    paths: ['.dev/tasks/**']
+permissions:
+  contents: read
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: 收集改动的任务单
+        id: diff
+        env:
+          BEFORE: ${{ github.event.before }}
+          AFTER: ${{ github.sha }}
+        run: |
+          if [ -z "$BEFORE" ] || [ "$BEFORE" = "0000000000000000000000000000000000000000" ] || ! git cat-file -e "$BEFORE" 2>/dev/null; then
+            paths=$(git ls-tree -r --name-only "$AFTER" -- .dev/tasks)
+          else
+            paths=$(git diff --name-only "$BEFORE" "$AFTER" -- .dev/tasks)
+          fi
+          paths=$(printf '%s\n' "$paths" | grep -E '^\.dev/tasks/[a-z0-9][a-z0-9-]{0,95}(\.agy)?\.md$' || true)
+          ids=$(printf '%s\n' "$paths" | sed -E 's#^\.dev/tasks/##; s#(\.agy)?\.md$##' | sort -u)
+          echo "paths=$(printf '%s\n' "$paths" | jq -R . | jq -sc 'map(select(length>0))')" >> "$GITHUB_OUTPUT"
+          echo "ids=$(printf '%s\n' "$ids" | jq -R . | jq -sc 'map(select(length>0))')" >> "$GITHUB_OUTPUT"
+      - name: 唤醒阿福
+        if: steps.diff.outputs.paths != '[]'
+        env:
+          URL: ${{ secrets.AFU_WEBHOOK_URL }}
+          TOKEN: ${{ secrets.AFU_WEBHOOK_TOKEN }}
+          REPO: ${{ github.repository }}
+          BRANCH: ${{ github.ref_name }}
+          PATHS: ${{ steps.diff.outputs.paths }}
+          IDS: ${{ steps.diff.outputs.ids }}
+        run: |
+          [ -n "$URL" ] && [ -n "$TOKEN" ] || { echo "未配置 AFU_WEBHOOK_* ，跳过"; exit 0; }
+          body=$(jq -nc --arg repo "$REPO" --arg branch "$BRANCH" --argjson paths "$PATHS" --argjson ids "$IDS" \
+            '{repo:$repo, branch:$branch, paths:$paths, task_ids:$ids}')
+          curl -fsS --retry 3 -X POST "$URL" -H "Authorization: Bearer $TOKEN" -H 'Content-Type: application/json' -d "$body"
