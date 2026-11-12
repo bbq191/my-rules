@@ -2,10 +2,10 @@
 
 - Task ID: 2026-11-12-notify-afu-debounce
 - 负责 bot: my-rules
-- 状态: done
+- 状态: verified
 - 执行方: my-rules bot（按 Jarvis 转达，在 alienware 本机直接执行；本仓库只由 my-rules bot 提交）
 - 分支: chore/notify-afu-debounce（从最新 main 切出）
-- 更新时间: 2026-11-12T14:34+08:00
+- 更新时间: 2026-11-12T14:35+08:00
 - 引用: 无
 
 ## 需求原文
@@ -49,8 +49,9 @@
 
 ## 结果
 - 执行方 / 开始–结束时间：my-rules bot / 2026-11-12T14:32+08:00–2026-11-12T14:34+08:00
-- base..head：main（cd31693）..chore/notify-afu-debounce（本提交）
-- 提交：| 步骤 | 提交号 | 文件 | 说明 | 将在提交后回填 hash
+- base..head：cd31693..7ab751adb1a3aa97bfe4ff3ec3d885734da62db9
+- 提交：| 步骤 | 提交号 | 文件 | 说明 |
+  | 替换 workflow 并开单 | 7ab751adb1a3aa97bfe4ff3ec3d885734da62db9 | `.github/workflows/notify-afu.yml`、`.dev/tasks/2026-11-12-notify-afu-debounce.md` | 整文件替换为去抖模板 |
 - 测试：
   - `python3` `yaml.safe_load(.github/workflows/notify-afu.yml)`：通过（YAML 语法有效）。说明：PyYAML 1.1 会把键 `on` 解析为布尔 `True`，这是预存在的 YAML 1.1 特性，GitHub Actions 仍按触发器 `on` 处理；`on.push.paths` 为 `.dev/tasks/**`，`on.push.branches` 为 `**`。未安装 actionlint。
   - 与模板 `sha256 e1e80c781cf7813141ea40e74f910b452e27a5ce608dd8dd0cf94d50dc3a71a8` 字节一致
@@ -58,9 +59,9 @@
   - `scripts/check_sync.py`：退出码 0（本次不涉及策略组/规则，仅作确认）
 - 遇到的问题：无
 - 偏离：无。模板无仓库专属占位，整文件替换，未改 Secrets。
-- 未完成：合并与推送将在本提交之后进行；合并后把状态改为 verified 并写回审查栏。
+- 未完成：无
 
 ## 审查
 - 验收：通过。证据：工作区文件与模板字节一致；diff 要点为收集步骤增加 done/blocked / `.agy.md` 过滤，步骤名改为「唤醒 Jarvis」，Secrets 引用未变；YAML 可被 PyYAML 加载；敏感信息扫描无命中。
 - 二审：本次未跑 agy（workflow 模板整文件替换，无代码逻辑分叉需二审阻断项；用户要求验收后直接 push 合并）
-- 合并：待填写
+- 合并：已 fast-forward 合并到 main 并推送 origin/main，合并提交（即功能提交）`7ab751adb1a3aa97bfe4ff3ec3d885734da62db9`；不需要真机验收，状态改为 verified。未开 PR。
