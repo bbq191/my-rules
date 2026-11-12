@@ -2,6 +2,8 @@
 # 需要仓库 Secrets：AFU_WEBHOOK_URL、AFU_WEBHOOK_TOKEN（变量名沿用旧名，值填 Jarvis「任务单唤醒路由」例行任务的地址和 key）（原始 token，不含 Bearer 前缀）
 # 只发 {repo, branch, paths, task_ids}，不发任务内容
 # 只有「状态变为 done / blocked」或「.agy.md 有改动」时才 POST，避免开单和验收过程反复唤醒
+# 若 HEAD 提交信息含 [skip-notify]，整次推送不 POST：oc-exec --push 只靠唤醒 B；
+# 负责 bot 推 .agy.md 后若在同一回合处理回执，提交时也加此标记，避免自我唤醒
 name: notify-afu
 on:
   push:
@@ -24,6 +26,13 @@ jobs:
           DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
         run: |
           set -euo pipefail
+          # HEAD 提交信息含 [skip-notify] 则整次不 POST（oc-exec --push / 负责 bot 推回执）
+          if git log -1 --format=%B "$AFTER" 2>/dev/null | grep -Fq '[skip-notify]'; then
+            echo "跳过：提交信息含 [skip-notify]"
+            echo "paths=[]" >> "$GITHUB_OUTPUT"
+            echo "ids=[]" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
           # before 不可用（新分支首次 push、force push 后旧提交不在等）时，改用与默认分支的 merge-base，
           # 只看本分支相对默认分支新增的改动，避免把历史回执和既有 done/blocked 单整棵树发出去。
           if [ -z "$BEFORE" ] || [ "$BEFORE" = "0000000000000000000000000000000000000000" ] || ! git cat-file -e "$BEFORE" 2>/dev/null; then
