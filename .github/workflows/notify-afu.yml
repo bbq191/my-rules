@@ -21,14 +21,25 @@ jobs:
         env:
           BEFORE: ${{ github.event.before }}
           AFTER: ${{ github.sha }}
+          DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
         run: |
           set -euo pipefail
+          # before 不可用（新分支首次 push、force push 后旧提交不在等）时，改用与默认分支的 merge-base，
+          # 只看本分支相对默认分支新增的改动，避免把历史回执和既有 done/blocked 单整棵树发出去。
           if [ -z "$BEFORE" ] || [ "$BEFORE" = "0000000000000000000000000000000000000000" ] || ! git cat-file -e "$BEFORE" 2>/dev/null; then
-            changed=$(git ls-tree -r --name-only "$AFTER" -- .dev/tasks)
-            has_before=0
-          else
+            BEFORE=""
+            if [ -n "$DEFAULT_BRANCH" ]; then
+              git fetch --no-tags --quiet origin "+refs/heads/$DEFAULT_BRANCH:refs/remotes/origin/$DEFAULT_BRANCH" 2>/dev/null || true
+              BEFORE=$(git merge-base "refs/remotes/origin/$DEFAULT_BRANCH" "$AFTER" 2>/dev/null || true)
+            fi
+          fi
+          if [ -n "$BEFORE" ]; then
             changed=$(git diff --name-only "$BEFORE" "$AFTER" -- .dev/tasks)
             has_before=1
+          else
+            # 仓库第一次 push、拿不到默认分支等极少数情况才退回全量
+            changed=$(git ls-tree -r --name-only "$AFTER" -- .dev/tasks)
+            has_before=0
           fi
           changed=$(printf '%s\n' "$changed" | grep -E '^\.dev/tasks/[a-z0-9][a-z0-9-]{0,95}(\.agy)?\.md$' || true)
 
