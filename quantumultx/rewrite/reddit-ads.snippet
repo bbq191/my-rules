@@ -1,0 +1,9 @@
+; Reddit GraphQL 去广告。可选，不要写入 qx.conf。
+; 作为重写资源导入时，下面的 hostname 并入已有 MitM 主机名，不要覆盖 [mitm] 里现有的 hostname。
+; 只增加这两个主机，不要写成 *.reddit.com。
+; 需自行信任 MitM 证书。空响应体不会进入 body 类重写。未在官方 App 上实机验证。
+; 若当前版本不执行资源里的远程脚本：规则放进 [rewrite_local]，两个主机名追加到现有 hostname 末尾，
+; 脚本存到 Quantumult X 的 Scripts 目录，并把下面的脚本路径改成 reddit-ads.js。
+
+hostname = gql.reddit.com, gql-fed.reddit.com
+^https?:\/\/gql(-fed)?\.reddit\.com(?:[:\/]|$) url script-response-body https://raw.githubusercontent.com/bbq191/my-rules/main/script/reddit-ads.js
