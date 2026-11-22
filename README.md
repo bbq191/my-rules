@@ -8,14 +8,20 @@
 my-rules/
 ├── quantumultx/
 │   ├── qx.conf                 # QuantumultX 主配置
-│   └── filter/
-│       └── ChinaGeoIP.list     # 国内 IP 兜底，作为最后一个远程规则加载
+│   ├── filter/
+│   │   └── ChinaGeoIP.list     # 国内 IP 兜底，作为最后一个远程规则加载
+│   └── rewrite/
+│       └── reddit-ads.snippet # 可选：Reddit 去广告片段，不写入 qx.conf
 ├── stash/
 │   ├── my.yml                  # Stash 主配置
 │   └── override/
-│       └── biliintl.stoverride # B站国际版去除 sim_code 参数
+│       ├── biliintl.stoverride # B站国际版去除 sim_code 参数
+│       └── reddit-ads.stoverride # 可选：Reddit 去广告覆写，不写入 my.yml
+├── script/
+│   └── reddit-ads.js           # QX / Stash 共用的 Reddit 响应脚本
 ├── scripts/
-│   └── check_sync.py           # 对比 mihomo 模板与 Stash 配置的差异
+│   ├── check_sync.py           # 对比 mihomo 模板与 Stash 配置的差异
+│   └── test_reddit_ads.js      # Reddit 脚本的离线测试
 └── icons/
     └── Policy-Provider/        # 订阅图标（Flowercloud）
 ```
@@ -52,6 +58,30 @@ https://raw.githubusercontent.com/bbq191/my-rules/main/
 5. 端口、TUN、局域网共享、API 控制等在客户端界面设置，配置文件不声明这些键。
 
 要求：Stash 3.1+（MRS 规则集自 3.1 起支持，仅 domain / ipcidr 两种 behavior）。
+
+## 可选：Reddit 去广告
+
+`script/reddit-ads.js` 供 Quantumult X 与 Stash 共用。主配置不引用它，导入对应资源后才生效。
+
+```
+https://raw.githubusercontent.com/bbq191/my-rules/main/script/reddit-ads.js
+https://raw.githubusercontent.com/bbq191/my-rules/main/quantumultx/rewrite/reddit-ads.snippet
+https://raw.githubusercontent.com/bbq191/my-rules/main/stash/override/reddit-ads.stoverride
+```
+
+脚本只处理 `gql.reddit.com` 与 `gql-fed.reddit.com` 的 JSON。从数组中删除 `__typename` 为 `AdPost` 的元素、`adPayload` 为带自有键的普通对象的元素，以及 `cells` 直接子项为 `AdMetadataCell` 或 `isAdPost === true` 的元素。edge 的 `node` 命中时删除整条 edge。`commentsPageAds`、`adPosts` 只删其中的广告元素，保留 `pageInfo`、`cursor` 和同级字段。不在数组里的单个对象保留。解析失败、非 JSON、缺字段或异常时返回原文。没有删除时不重新序列化。不修改 Premium、Employee、NSFW、遮罩、翻译、个性化字段。脚本不联网、不写存储。
+
+启用后只为这两个主机增加 MitM。响应里可以有信息流、评论和账号字段；脚本只在本地改 JSON。使用自己的证书，不要安装别人提供的 CA。`www.reddit.com`、`oauth.reddit.com` 和媒体 CDN 不在这份名单里。
+
+Quantumult X：把 snippet 加到「重写 → 规则资源」。官方导入片段里的 `hostname =` 会并入已有 MitM 主机名；不要用这两行覆盖 `[mitm]` 里现有的 `hostname`。需已信任 MitM 证书。空响应体不会进入 body 类重写。若当前版本不执行资源里的远程脚本，把规则放进 `[rewrite_local]`，把这两个主机名追加到现有 `hostname` 末尾并保留原有项，脚本存到 Quantumult X 的 Scripts 目录后把路径改成文件名 `reddit-ads.js`。
+
+Stash：在「覆写」中添加该 stoverride，并安装 MitM 证书。`http.mitm` 未写 `#!replace`，按官方覆写规则这两个主机会插到已有 MitM 列表前面，原有主机名保留。正文超过 8388608 字节或超过 15 秒时脚本不运行，响应保持原样。
+
+上述行为有离线测试。未在官方 App 上实机验证。
+
+### Twitch
+
+本次未提供 Twitch 直播去广告。官方 iOS App 的前贴和插播由服务端拼进 HLS，和正片在同一播放列表里，拒绝 `fan` / `spade` 统计域名去不掉。
 
 ## 策略组
 
@@ -163,3 +193,5 @@ https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/
 - QX MitM 的 `-` 排除写法是社区通用约定，官方 sample.conf 未记载。
 - mihomo 模板与本仓库的同步是手动的，`check_sync.py` 只报告差异，不自动修改任何一方。
 - Stash 配置的 `rule-providers` 依赖 YAML 锚点合并（`<<: *domain`），官方样例未展示该写法；若导入后规则集全部报错，把每条展开写全即可。
+- Reddit 去广告只覆盖 `gql.reddit.com` 与 `gql-fed.reddit.com` 的 JSON 响应，范围和安装前提见上文。离线测试通过不等于当前官方 App 已实测。Twitch 官方 App 的直播前贴和插播本次不支持。
+- 删过广告的 Reddit 响应会重新 `JSON.stringify`。无删除时保留原文字节。超过 `Number.MAX_SAFE_INTEGER` 的数字若和广告出现在同一份被改写的响应里，可能损失精度。

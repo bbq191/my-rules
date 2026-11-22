@@ -1,0 +1,26 @@
+#!name=Reddit 去广告
+#!desc=只从 Reddit GraphQL 响应里删除可判定的广告节点。可选覆写，不写入主配置。
+#!author=bbq191
+
+name: reddit-ads
+desc: |-
+  只过滤 gql.reddit.com 与 gql-fed.reddit.com 响应中可按结构判定的广告节点。
+  不修改 Premium、Employee、NSFW、遮罩、翻译或个性化字段。
+  http.mitm 未使用 #!replace，这两个主机会并入已有 MitM 列表。
+  需自行安装并信任 MitM 证书。未在官方 App 上实机验证。
+http:
+  mitm:
+    - "gql.reddit.com"
+    - "gql-fed.reddit.com"
+  script:
+    - match: '^https?:\/\/gql(-fed)?\.reddit\.com(?:[:\/]|$)'
+      name: reddit-ads
+      type: response
+      require-body: true
+      binary-mode: false
+      timeout: 15
+      max-size: 8388608
+script-providers:
+  reddit-ads:
+    url: "https://raw.githubusercontent.com/bbq191/my-rules/main/script/reddit-ads.js"
+    interval: 86400
