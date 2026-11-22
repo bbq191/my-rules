@@ -1,0 +1,9 @@
+; 微信公众号文章广告。可选，不要写入 qx.conf。
+; 作为重写资源导入时，hostname 并入已有 MitM，不要覆盖 [mitm] 里现有的 hostname。
+; 只增加 mp.weixin.qq.com，只匹配 /mp/getappmsgad。
+; 需自行信任 MitM 证书。空响应体不会进入 body 类重写。未在官方 App 上实机验证。
+; 若当前版本不执行资源里的远程脚本：规则放进 [rewrite_local]，主机名追加到现有 hostname 末尾，
+; 脚本存到 Quantumult X 的 Scripts 目录，并把下面的脚本路径改成 wechat-mp-ads.js。
+
+hostname = mp.weixin.qq.com
+^https:\/\/mp\.weixin\.qq\.com(?::\d+)?\/mp\/getappmsgad(?:[\/?#]|$) url script-response-body https://raw.githubusercontent.com/bbq191/my-rules/main/script/wechat-mp-ads.js

@@ -1,0 +1,25 @@
+#!name=京东开屏去广告
+#!desc=只处理 api.m.jd.com 上 functionId 为 start 或 startup 的明文 JSON。可选覆写，不写入主配置。
+#!author=bbq191
+
+name: jd-splash-ads
+desc: |-
+  只清空开屏响应里非空的 images，并把同一层非 0 的 showTimesDaily 改为 0。
+  不匹配其它 functionId，不解码 base64 正文。
+  http.mitm 按数组合并，不会换掉已有主机名。
+  需自行安装并信任 MitM 证书。未在官方 App 上实机验证。
+http:
+  mitm:
+    - "api.m.jd.com"
+  script:
+    - match: '^https:\/\/api\.m\.jd\.com(?::\d+)?\/client\.action\?(?:[^#]*&)?functionId=(?:start|startup)(?:&|#|$)'
+      name: jd-splash-ads
+      type: response
+      require-body: true
+      binary-mode: false
+      timeout: 10
+      max-size: 1048576
+script-providers:
+  jd-splash-ads:
+    url: "https://raw.githubusercontent.com/bbq191/my-rules/main/script/jd-splash-ads.js"
+    interval: 86400

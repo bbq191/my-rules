@@ -1,0 +1,25 @@
+#!name=微信公众号文章去广告
+#!desc=只处理 mp.weixin.qq.com/mp/getappmsgad。可选覆写，不写入主配置。
+#!author=bbq191
+
+name: wechat-mp-ads
+desc: |-
+  只清空 getappmsgad 根对象里非空的 advertisement_info 与 ad_slot_data。
+  不改阅读数、点赞、正文和推荐。不覆盖朋友圈、小程序、支付和安全域名。
+  http.mitm 按数组合并，不会换掉已有主机名。
+  需自行安装并信任 MitM 证书。未在官方 App 上实机验证。
+http:
+  mitm:
+    - "mp.weixin.qq.com"
+  script:
+    - match: '^https:\/\/mp\.weixin\.qq\.com(?::\d+)?\/mp\/getappmsgad(?:[\/?#]|$)'
+      name: wechat-mp-ads
+      type: response
+      require-body: true
+      binary-mode: false
+      timeout: 10
+      max-size: 1048576
+script-providers:
+  wechat-mp-ads:
+    url: "https://raw.githubusercontent.com/bbq191/my-rules/main/script/wechat-mp-ads.js"
+    interval: 86400

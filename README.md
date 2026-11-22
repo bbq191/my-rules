@@ -11,17 +11,25 @@ my-rules/
 │   ├── filter/
 │   │   └── ChinaGeoIP.list     # 国内 IP 兜底，作为最后一个远程规则加载
 │   └── rewrite/
-│       └── reddit-ads.snippet # 可选：Reddit 去广告片段，不写入 qx.conf
+│       ├── reddit-ads.snippet # 可选：Reddit 去广告片段，不写入 qx.conf
+│       ├── wechat-mp-ads.snippet # 可选：公众号文章广告，不写入 qx.conf
+│       └── jd-splash-ads.snippet # 可选：京东开屏，不写入 qx.conf
 ├── stash/
 │   ├── my.yml                  # Stash 主配置
 │   └── override/
 │       ├── biliintl.stoverride # B站国际版去除 sim_code 参数
-│       └── reddit-ads.stoverride # 可选：Reddit 去广告覆写，不写入 my.yml
+│       ├── reddit-ads.stoverride # 可选：Reddit 去广告覆写，不写入 my.yml
+│       ├── wechat-mp-ads.stoverride # 可选：公众号文章广告，不写入 my.yml
+│       └── jd-splash-ads.stoverride # 可选：京东开屏，不写入 my.yml
 ├── script/
-│   └── reddit-ads.js           # QX / Stash 共用的 Reddit 响应脚本
+│   ├── reddit-ads.js           # QX / Stash 共用的 Reddit 响应脚本
+│   ├── wechat-mp-ads.js        # QX / Stash 共用的公众号 getappmsgad 脚本
+│   └── jd-splash-ads.js        # QX / Stash 共用的京东开屏脚本
 ├── scripts/
 │   ├── check_sync.py           # 对比 mihomo 模板与 Stash 配置的差异
-│   └── test_reddit_ads.js      # Reddit 脚本的离线测试
+│   ├── test_reddit_ads.js      # Reddit 脚本的离线测试
+│   ├── test_wechat_mp_ads.js   # 公众号脚本的离线测试
+│   └── test_jd_splash_ads.js   # 京东开屏脚本的离线测试
 └── icons/
     └── Policy-Provider/        # 订阅图标（Flowercloud）
 ```
@@ -81,7 +89,43 @@ Stash：在「覆写」中添加该 stoverride，并安装 MitM 证书。`http.m
 
 ### Twitch
 
-本次未提供 Twitch 直播去广告。官方 iOS App 的前贴和插播由服务端拼进 HLS，和正片在同一播放列表里，拒绝 `fan` / `spade` 统计域名去不掉。
+Twitch 官方 iOS App 的直播前贴和插播仍不支持。广告由服务端拼进 HLS。公开能用的做法是浏览器里改播放器 Worker，或改装播放器 / 侧载应用；没有一份可在 QX / Stash 上单独验证的响应脚本。不把拦截统计域名当作去广告。
+
+## 可选：微信公众号文章广告
+
+`script/wechat-mp-ads.js` 供 Quantumult X 与 Stash 共用。主配置不引用它。只匹配 `https://mp.weixin.qq.com/mp/getappmsgad`，不覆盖 `mp.weixin.qq.com` 的其他路径，也不包含朋友圈、小程序、`wxs.qq.com`、HTTPDNS、支付或安全域名。
+
+公开资料把该路径当作公众号文章广告响应，并提到根对象上的 `advertisement_info`、`ad_slot_data`。本仓库没有 2026 年实网样本，不保证当前微信仍使用这些字段。脚本只在这两个字段是非空数组时把该数组改成 `[]`；若因此改了内容，且 `advertisement_num` 是非 0 数字，则改为 0。阅读数、点赞、正文、推荐和其他字段保持不变。非 JSON、字段缺失或类型不符时返回原文字节。不改广告点击或奖励请求。
+
+导入：
+
+```
+https://raw.githubusercontent.com/bbq191/my-rules/main/script/wechat-mp-ads.js
+https://raw.githubusercontent.com/bbq191/my-rules/main/quantumultx/rewrite/wechat-mp-ads.snippet
+https://raw.githubusercontent.com/bbq191/my-rules/main/stash/override/wechat-mp-ads.stoverride
+```
+
+Quantumult X：把 snippet 加到「重写 → 规则资源」。`hostname = mp.weixin.qq.com` 会并入已有 MitM，不要用它覆盖现有 `hostname`。Stash：添加该覆写。`http.mitm` 没有 `#!replace`，这个主机会插到已有列表前面。正文超过 1MiB 或超过 10 秒时脚本不运行，响应保持原样。
+
+启用后会解密发往 `mp.weixin.qq.com` 的 HTTPS，其中有文章和账号相关响应；脚本只改上述路径里的广告数组。使用自己的证书。出问题就关掉这条重写资源或覆写。离线测试不能代替手机实测，也不表示 2026 年的微信一定仍走这个接口。
+
+## 可选：京东开屏
+
+`script/jd-splash-ads.js` 只处理 `https://api.m.jd.com/client.action` 且查询参数 `functionId` 精确为 `start` 或 `startup` 的 JSON。主配置不引用它。
+
+公开脚本把这个查询对应开屏素材列表 `images`。2026-08-12 的一份无许可证 Loon 插件还写明：京东 15.9.50 起 `functionId` 改到 base64 POST 正文，响应也可能整体 base64。本仓库没有自己的抓包。因此只处理 URL 上就能看见 `functionId` 的明文 JSON：`images` 为非空数组时改为 `[]`，同一层的 `showTimesDaily` 若是非 0 数字则改为 0。没有 `images`、类型不符、非 JSON，或 URL 不是上述两个 functionId 时，返回原文字节。不改登录、支付、订单、领券、搜索和会员字段，也不解码 base64 正文。
+
+`api.m.jd.com` 同时承载这些业务。启用后 MitM 会解密该主机；脚本规则不匹配其它 `functionId`。不要把主机名写成 `*.jd.com`。QX 的 `hostname` 并入已有名单。Stash 覆写不替换已有 MitM 列表。出问题就关闭这条资源。未在手机上验证，不表示当前京东版本仍把开屏放在 URL 查询参数里。
+
+京东小游戏未实现。广告位按游戏的 `adUnitId` 开通，公开资料没有一个可共用的广告响应。需要具体游戏名和广告出现的位置，才能再写规则。不做激励视频完成回调、签到或游戏币。
+
+导入：
+
+```
+https://raw.githubusercontent.com/bbq191/my-rules/main/script/jd-splash-ads.js
+https://raw.githubusercontent.com/bbq191/my-rules/main/quantumultx/rewrite/jd-splash-ads.snippet
+https://raw.githubusercontent.com/bbq191/my-rules/main/stash/override/jd-splash-ads.stoverride
+```
 
 ## 策略组
 
@@ -195,3 +239,5 @@ https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/
 - Stash 配置的 `rule-providers` 依赖 YAML 锚点合并（`<<: *domain`），官方样例未展示该写法；若导入后规则集全部报错，把每条展开写全即可。
 - Reddit 去广告只覆盖 `gql.reddit.com` 与 `gql-fed.reddit.com` 的 JSON 响应，范围和安装前提见上文。离线测试通过不等于当前官方 App 已实测。Twitch 官方 App 的直播前贴和插播本次不支持。
 - 删过广告的 Reddit 响应会重新 `JSON.stringify`。无删除时保留原文字节。超过 `Number.MAX_SAFE_INTEGER` 的数字若和广告出现在同一份被改写的响应里，可能损失精度。
+- 微信公众号脚本只匹配 `mp.weixin.qq.com/mp/getappmsgad`，见上文。没有实网样本，未在手机上验证。
+- 京东只处理 URL 查询里 `functionId=start` 或 `startup` 的开屏 JSON。15.9.50 起把 functionId 放进 POST 正文的协议未覆盖。京东小游戏未实现。Twitch 官方 App 直播广告未实现。

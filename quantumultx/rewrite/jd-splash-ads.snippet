@@ -1,0 +1,8 @@
+; 京东开屏。可选，不要写入 qx.conf。
+; hostname 并入已有 MitM，不要覆盖 [mitm] 里现有的 hostname。
+; 只增加 api.m.jd.com。只匹配查询参数 functionId=start 或 startup。
+; 需自行信任 MitM 证书。该主机还有登录、订单和支付，本规则不匹配那些请求。
+; 未在官方 App 上实机验证。
+
+hostname = api.m.jd.com
+^https:\/\/api\.m\.jd\.com(?::\d+)?\/client\.action\?(?:[^#]*&)?functionId=(?:start|startup)(?:&|#|$) url script-response-body https://raw.githubusercontent.com/bbq191/my-rules/main/script/jd-splash-ads.js
