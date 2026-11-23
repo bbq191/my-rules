@@ -5,7 +5,7 @@
 - 状态: done
 - 执行方: box-agent
 - 分支: feat/twitch-adblock-exp（从最新 main 切出）
-- 更新时间: 2026-11-24T07:05+08:00
+- 更新时间: 2026-11-24T07:10+08:00
 - 引用: 无
 
 ## 需求原文
@@ -185,4 +185,4 @@ box（`box-agent`）由 `oc-exec` 调用，**不加 `--push`**：状态和结果
   - oc-exec 退出码 1、任务单曾被标为 blocked，是因为代码与测试已经完成后，包装器里的 opencode 又发起了一次无法回答的 Web Search。功能提交仍为 `0194908`，运行记录：`/home/box/oc-runs/2026-11-24-twitch-adblock-exp-20261124-064734.json`。
   - 二审后小修：`script/twitch-ads.js` 的 `trimmed()` 同时去掉行尾空白，避免广告块内 `#EXT-X-DISCONTINUITY` 因尾部空格漏清理（见回执建议 1）。
 - 二审：回执 `.dev/tasks/2026-11-24-twitch-adblock-exp.agy.md`。阻断：无。建议：1）行尾空白已按上面采纳并重测；2）测试里探测 `/tmp/opencode/venv/bin/python` 不是缺陷（有 try/catch 回退），未改；3）包装器误标 blocked，已将状态改为 done。线索：真机仍可能因证书锁定或 QUIC 使路线 B 不命中，路线 A 取决于出口地区，文档已写明。
-- 合并：本次不合并、不推送；待用户确认后再推送与合并，并通过真机验收后再改为 verified。
+- 合并：已合并到 main，待真机最终验收。状态保持 done，验收通过后再改为 verified。
