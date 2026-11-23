@@ -1,0 +1,15 @@
+; Twitch 去广告路线 B（MitM 明文实验）。可选，不要写入 qx.conf。
+; 作为重写资源导入时，下面的 hostname 并入已有 MitM 主机名，不要覆盖 [mitm] 里现有的 hostname。
+; 只增加 gql、weaver / playlist 与展示广告主机；不 MitM 实际视频分片主机。
+; `script/twitch-ads.js` 请求侧把 PlaybackAccessToken 的 playerType 改成 popout，
+; 响应侧只剥离带明确广告标记的 HLS 分片，不保证去掉直播前贴/中插。
+; 需自行信任 MitM 证书。空响应体不会进入 body 类重写。未在官方 App 上实机验证。
+; 官方 App 若有证书锁定或走 QUIC，MitM 可能不命中。
+; 若当前版本不执行资源里的远程脚本：规则放进 [rewrite_local]，主机名追加到现有 hostname 末尾，
+; 脚本存到 Quantumult X 的 Scripts 目录，并把下面的脚本路径改成 twitch-ads.js。
+
+hostname = gql.twitch.tv, video-weaver.*.hls.ttvnw.net, *.playlist.live-video.net, *.playlist.ttvnw.net, ads.twitch.tv, edge.ads.twitch.tv
+^https?:\/\/gql\.twitch\.tv\/gql(?:[\/?#]|$) url script-request-body https://raw.githubusercontent.com/bbq191/my-rules/main/script/twitch-ads.js
+^https?:\/\/(?:video-weaver\.[^/]+\.hls\.ttvnw\.net|[^/]+\.playlist\.live-video\.net|[^/]+\.playlist\.ttvnw\.net)\/.*\.m3u8(?:[?#]|$) url script-response-body https://raw.githubusercontent.com/bbq191/my-rules/main/script/twitch-ads.js
+^https?:\/\/ads\.twitch\.tv(?::\d+)?(?:[\/?#]|$) url reject-200
+^https?:\/\/edge\.ads\.twitch\.tv(?::\d+)?(?:[\/?#]|$) url reject-200

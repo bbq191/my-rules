@@ -1,0 +1,16 @@
+# NAME: Twitch-NoAd
+# 用途：Twitch 直播去广告路线 A（实验）——把广告决策与播放列表请求交给少广告地区出口。
+# 说明：本列表是可选远程规则，不要写入 qx.conf。在 Quantumult X 的 [filter_remote] 中自行添加：
+#       https://raw.githubusercontent.com/bbq191/my-rules/main/quantumultx/filter/twitch-noad-route.list, tag=Twitch-NoAd, force-policy=<你的少广告地区节点或策略组>, update-interval=86400, enabled=true
+#       force-policy 会覆盖下面条目里的 Twitch-NoAd；主配置没有名为 Twitch-NoAd 的策略组，
+#       也不要为了这份列表去改 qx.conf。请把 force-policy 换成自己的少广告地区节点或策略组。
+#       公开资料里俄/韩节点常被限制到 720p，请避开。效果取决于出口地区，未真机验证。
+# 范围：只包含广告决策（gql / usher）与播放列表主机，不包含 ttvnw.net 的泛域名，
+#       也不代理实际视频分片 CDN。
+#       必要时可以再按 URL 只把 video-weaver.*.hls.ttvnw.net 的播放列表纳入，
+#       但仍不要把视频分片 CDN 加进来。
+# 关闭：从 [filter_remote] 移除这一行即可回退。
+host, gql.twitch.tv, Twitch-NoAd
+host, usher.ttvnw.net, Twitch-NoAd
+host-suffix, playlist.live-video.net, Twitch-NoAd
+host-suffix, playlist.ttvnw.net, Twitch-NoAd

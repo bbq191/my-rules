@@ -9,27 +9,33 @@ my-rules/
 ├── quantumultx/
 │   ├── qx.conf                 # QuantumultX 主配置
 │   ├── filter/
-│   │   └── ChinaGeoIP.list     # 国内 IP 兜底，作为最后一个远程规则加载
+│   │   ├── ChinaGeoIP.list     # 国内 IP 兜底，作为最后一个远程规则加载
+│   │   └── twitch-noad-route.list # 可选：Twitch 路线 A 少广告地区分流，不写入 qx.conf
 │   └── rewrite/
 │       ├── reddit-ads.snippet # 可选：Reddit 去广告片段，不写入 qx.conf
 │       ├── wechat-mp-ads.snippet # 可选：公众号文章广告，不写入 qx.conf
-│       └── jd-splash-ads.snippet # 可选：京东开屏，不写入 qx.conf
+│       ├── jd-splash-ads.snippet # 可选：京东开屏，不写入 qx.conf
+│       └── twitch-ads.snippet # 可选：Twitch 路线 B MitM 实验脚本，不写入 qx.conf
 ├── stash/
 │   ├── my.yml                  # Stash 主配置
 │   └── override/
 │       ├── biliintl.stoverride # B站国际版去除 sim_code 参数
 │       ├── reddit-ads.stoverride # 可选：Reddit 去广告覆写，不写入 my.yml
 │       ├── wechat-mp-ads.stoverride # 可选：公众号文章广告，不写入 my.yml
-│       └── jd-splash-ads.stoverride # 可选：京东开屏，不写入 my.yml
+│       ├── jd-splash-ads.stoverride # 可选：京东开屏，不写入 my.yml
+│       ├── twitch-noad-route.stoverride # 可选：Twitch 路线 A，不写入 my.yml
+│       └── twitch-ads.stoverride # 可选：Twitch 路线 B，不写入 my.yml
 ├── script/
 │   ├── reddit-ads.js           # QX / Stash 共用的 Reddit 响应脚本
 │   ├── wechat-mp-ads.js        # QX / Stash 共用的公众号 getappmsgad 脚本
-│   └── jd-splash-ads.js        # QX / Stash 共用的京东开屏脚本
+│   ├── jd-splash-ads.js        # QX / Stash 共用的京东开屏脚本
+│   └── twitch-ads.js           # QX / Stash 共用的 Twitch 实验脚本
 ├── scripts/
 │   ├── check_sync.py           # 对比 mihomo 模板与 Stash 配置的差异
 │   ├── test_reddit_ads.js      # Reddit 脚本的离线测试
 │   ├── test_wechat_mp_ads.js   # 公众号脚本的离线测试
-│   └── test_jd_splash_ads.js   # 京东开屏脚本的离线测试
+│   ├── test_jd_splash_ads.js   # 京东开屏脚本的离线测试
+│   └── test_twitch_ads.js      # Twitch 脚本与配置的离线测试
 └── icons/
     └── Policy-Provider/        # 订阅图标（Flowercloud）
 ```
@@ -87,9 +93,47 @@ Stash：在「覆写」中添加该 stoverride，并安装 MitM 证书。`http.m
 
 上述行为有离线测试。未在官方 App 上实机验证。
 
-### Twitch
+## 可选：Twitch 去广告（实验）
 
-Twitch 官方 iOS App 的直播前贴和插播仍不支持。广告由服务端拼进 HLS。公开能用的做法是浏览器里改播放器 Worker，或改装播放器 / 侧载应用；没有一份可在 QX / Stash 上单独验证的响应脚本。不把拦截统计域名当作去广告。
+Twitch 直播广告由服务端拼进 HLS（SSAI），官方 iOS App 使用 Amazon IVS Player。这里提供两条互不耦合的实验路线，都不写入 `qx.conf` / `my.yml`，也未在官方 App 上真机验证。不能保证去掉直播前贴或中插；广告是否出现取决于地区、账号、频道与当时的服务端策略。两套模块只做离线验证，不接入公共代理，也不把统计拦截当作去广告。
+
+### 路线 A：少广告地区分流（无 MitM）
+
+只把广告决策与播放列表请求交给少广告地区出口，不改正文、不装证书。出口地区不同，广告数量和可用画质都会变。
+
+```
+https://raw.githubusercontent.com/bbq191/my-rules/main/quantumultx/filter/twitch-noad-route.list
+https://raw.githubusercontent.com/bbq191/my-rules/main/stash/override/twitch-noad-route.stoverride
+```
+
+列表只含 `gql.twitch.tv`、`usher.ttvnw.net` 与 `playlist.live-video.net` / `playlist.ttvnw.net`，不包含 ttvnw.net 的泛域名，也不代理实际视频分片 CDN。
+
+Quantumult X：把列表加到 `[filter_remote]`，用 `force-policy=<你的少广告地区节点或策略组>` 指定出口。条目里的 `Twitch-NoAd` 会被 `force-policy` 覆盖；主配置没有这个策略组，也不要为此改 `qx.conf`。公开资料里俄/韩节点常被限制到 720p，请避开。
+
+Stash：添加该覆写后，在新增的 `Twitch-NoAd` 组里手动选择少广告地区节点（候选来自已有的「全部节点」）。
+
+### 路线 B：MitM 明文实验脚本
+
+在明文里改写 `PlaybackAccessToken` 的 `playerType` 为 `popout`，并按广告标记保守剥离 HLS 分片。需要自行安装并信任 MitM 证书；脚本不联网、不写存储。
+
+```
+https://raw.githubusercontent.com/bbq191/my-rules/main/script/twitch-ads.js
+https://raw.githubusercontent.com/bbq191/my-rules/main/quantumultx/rewrite/twitch-ads.snippet
+https://raw.githubusercontent.com/bbq191/my-rules/main/stash/override/twitch-ads.stoverride
+```
+
+请求侧只处理 `gql.twitch.tv/gql` 的 `PlaybackAccessToken` / `PlaybackAccessToken_Template`（或 query 含 `streamPlaybackAccessToken` / `videoPlaybackAccessToken` 且带 `variables` 的条目），只改 `variables.playerType`，不硬编码 hash，不改请求头、会员或广告标志，也不动同一批里的其他 operation。
+
+响应侧只处理 weaver / playlist 主机上的 m3u8：Master Playlist 放行；按未过期的 `twitch-stitched` / `twitch-maf-ad` `DATERANGE`、`CUE-OUT` / `SCTE35-OUT` 到 `CUE-IN` 的区间，以及 `EXTINF` 标题含 `Amazon` / `stitched` 的分片剥离广告；单独的 `EXT-X-DISCONTINUITY` 不当作广告。静态 VOD 与直播滑窗都会在剥离后统计正片分片，若一个不剩（例如直播整窗全广告）原样放行，不会输出空列表。移除列表开头分片时同步递增已有的 `EXT-X-MEDIA-SEQUENCE`。不 MitM 实际视频分片主机，不 REJECT `PlaybackAccessToken`，也不处理统计域名。
+
+局限：
+
+- 官方 App 若有证书锁定或走 QUIC / HTTP/3，MitM 可能不命中。
+- `playerType=popout` 可能失效，或导致报错、紫屏、降画质。
+- 不能保证去掉直播前贴 / 中插；全广告滑窗会原样放行。
+- 不代理视频分片 CDN，出口仍走正常分流。
+
+关闭回退：路线 A 从 `[filter_remote]` 移除远程规则，或关闭 Stash 覆写；路线 B 关闭对应重写资源 / 覆写并移除相应 MitM 主机名即可。离线测试覆盖请求改写、广告标记识别、全广告窗保护和片段 / 覆写配置检查，但不代替真机验证。
 
 ## 可选：微信公众号文章广告
 
@@ -237,7 +281,7 @@ https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/
 - QX MitM 的 `-` 排除写法是社区通用约定，官方 sample.conf 未记载。
 - mihomo 模板与本仓库的同步是手动的，`check_sync.py` 只报告差异，不自动修改任何一方。
 - Stash 配置的 `rule-providers` 依赖 YAML 锚点合并（`<<: *domain`），官方样例未展示该写法；若导入后规则集全部报错，把每条展开写全即可。
-- Reddit 去广告只覆盖 `gql.reddit.com` 与 `gql-fed.reddit.com` 的 JSON 响应，范围和安装前提见上文。离线测试通过不等于当前官方 App 已实测。Twitch 官方 App 的直播前贴和插播本次不支持。
+- Reddit 去广告只覆盖 `gql.reddit.com` 与 `gql-fed.reddit.com` 的 JSON 响应，范围和安装前提见上文。离线测试通过不等于当前官方 App 已实测。Twitch 的两条实验路线见上文：路线 A 依赖少广告地区出口，路线 B 依赖 MitM 与 `playerType` 改写，都不能保证去掉直播前贴或中插，全广告滑窗会原样放行，且未在官方 App 上真机验证。
 - 删过广告的 Reddit 响应会重新 `JSON.stringify`。无删除时保留原文字节。超过 `Number.MAX_SAFE_INTEGER` 的数字若和广告出现在同一份被改写的响应里，可能损失精度。
 - 微信公众号脚本只匹配 `mp.weixin.qq.com/mp/getappmsgad`，见上文。没有实网样本，未在手机上验证。
-- 京东只处理 URL 查询里 `functionId=start` 或 `startup` 的开屏 JSON。15.9.50 起把 functionId 放进 POST 正文的协议未覆盖。京东小游戏未实现。Twitch 官方 App 直播广告未实现。
+- 京东只处理 URL 查询里 `functionId=start` 或 `startup` 的开屏 JSON。15.9.50 起把 functionId 放进 POST 正文的协议未覆盖。京东小游戏未实现。Twitch 直播广告仅提供上文两条实验路线，限制见该节。

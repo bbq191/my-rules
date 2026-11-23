@@ -1,0 +1,22 @@
+#!name=Twitch 少广告地区分流（实验）
+#!desc=路线 A：把 Twitch 的广告决策与播放列表请求交给手动选择的少广告地区节点。可选覆写，不写入主配置。
+#!author=bbq191
+
+name: twitch-noad-route
+desc: |-
+  Twitch 直播去广告路线 A（实验），只做无 MitM 的地区分流：
+  - gql.twitch.tv、usher.ttvnw.net 与 playlist.live-video.net / playlist.ttvnw.net 的播放列表走 Twitch-NoAd；
+  - 不包含 ttvnw.net 的泛域名，也不代理实际视频分片 CDN。
+  Twitch-NoAd 引用主配置里已有的「全部节点」，请自行在其中选择少广告地区节点；
+  公开资料里俄/韩节点常被限制到 720p，请避开。效果取决于出口地区，未真机验证。
+  关闭本覆写即可回退。
+proxy-groups:
+  - name: Twitch-NoAd
+    type: select
+    proxies:
+      - 全部节点
+rules:
+  - DOMAIN,gql.twitch.tv,Twitch-NoAd
+  - DOMAIN,usher.ttvnw.net,Twitch-NoAd
+  - DOMAIN-SUFFIX,playlist.live-video.net,Twitch-NoAd
+  - DOMAIN-SUFFIX,playlist.ttvnw.net,Twitch-NoAd
