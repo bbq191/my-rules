@@ -2,10 +2,10 @@
 
 - Task ID: 2026-11-24-twitch-adblock-exp
 - 负责 bot: my-rules
-- 状态: accepted
+- 状态: blocked
 - 执行方: box-agent
 - 分支: feat/twitch-adblock-exp（从最新 main 切出）
-- 更新时间: 2026-11-24T06:47:34+08:00
+- 更新时间: 2026-11-24T06:57:38+08:00
 - 引用: 无
 
 ## 需求原文
@@ -160,14 +160,23 @@
 box（`box-agent`）由 `oc-exec` 调用，**不加 `--push`**：状态和结果由包装器处理，执行器只按「分步任务」改代码并跑验收命令。只在任务分支本地提交，不推送、不合并、不改默认分支。提交信息用中文，不加 Co-Authored-By，不要写入「AI 辅助/生成」等字样。
 
 ## 结果
-<!-- 执行方填写 -->
-- 执行方 / 开始–结束时间：
-- base..head：
-- 提交：| 步骤 | 提交号 | 文件 | 说明 |
-- 测试：| 命令 | 通过 / 失败 / 未跑 | 摘要 |
-- 遇到的问题：
+- 执行方 / 开始–结束时间：box-agent（oc-exec） / 2026-11-24T06:47:34+08:00–2026-11-24T06:57:38+08:00
+- base..head：`ccc32e13ba3e69a4bd5cb421951f833bf849ba1f..019490863324bbe8e107cb4e8fc61b53fafbad69`
+- 提交：
+  | 提交号 | 说明 |
+  |---|---|
+  | 5d7fb78 | chore: 开始执行任务单 2026-11-24-twitch-adblock-exp |
+  | 0194908 | feat: 新增 Twitch 去广告两套实验模块 |
+- 改动文件：`.dev/tasks/2026-11-24-twitch-adblock-exp.md`,`README.md` `quantumultx/filter/twitch-noad-route.list`,`quantumultx/rewrite/twitch-ads.snippet` `script/twitch-ads.js`,`scripts/test_twitch_ads.js` `stash/override/twitch-ads.stoverride`,`stash/override/twitch-noad-route.stoverride`
+- 测试：包装器未代跑验收命令，由负责 bot 按任务单核对
+- 遇到的问题：opencode 退出码 1
 - 偏离：无
-- 未完成：
+- 新建文件（线索）：无
+- 未完成：执行未成功结束，详见日志
+- 运行记录：`/home/box/oc-runs/2026-11-24-twitch-adblock-exp-20261124-064734.json`
+- 日志：`/home/box/oc-runs/2026-11-24-twitch-adblock-exp-20261124-064734.log`
+- 模型：`opencode-go/deepseek-v4.1-flash`
+- 用时：实际运行 10.1 分钟（墙钟 604s / 实际运行 604s；超时按实际运行计）
 
 ## 审查
 <!-- 负责 bot 填写：结论、关键 path:line、测试通过与否、回执指针；长证据另放或只写路径 -->
