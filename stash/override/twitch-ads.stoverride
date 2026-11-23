@@ -1,0 +1,44 @@
+#!name=Twitch 去广告（MitM 明文实验）
+#!desc=路线 B：改写 PlaybackAccessToken 的 playerType，并按广告标记保守剥离 HLS 分片。可选覆写，不写入主配置。
+#!author=bbq191
+
+name: twitch-ads
+desc: |-
+  Twitch 去广告路线 B（实验）：
+  - 请求侧把 gql.twitch.tv/gql 中 PlaybackAccessToken 的 variables.playerType 改成 popout；
+  - 响应侧只处理 weaver / playlist 主机上的 m3u8，按 DATERANGE、CUE-OUT/CUE-IN 和 EXTINF 标题剥离广告分片。
+  不 MITM 视频分片主机，不 REJECT PlaybackAccessToken，不处理统计域名。
+  剥离后没有正片分片时原样放行，直播整窗全广告无法去掉。
+  playerType=popout 可能失效或降画质；官方 App 若有证书锁定或走 QUIC，MitM 可能不命中。
+  http.mitm 未使用 #!replace，这些主机会并入已有 MitM 列表。需自行安装并信任 MitM 证书。未真机验证。
+  关闭本覆写即可回退。
+http:
+  mitm:
+    - "gql.twitch.tv"
+    - "ads.twitch.tv"
+    - "edge.ads.twitch.tv"
+    - "video-weaver.*.hls.ttvnw.net"
+    - "*.playlist.live-video.net"
+    - "*.playlist.ttvnw.net"
+  script:
+    - match: '^https?:\/\/gql\.twitch\.tv\/gql(?:[\/?#]|$)'
+      name: twitch-ads
+      type: request
+      require-body: true
+      binary-mode: false
+      timeout: 5
+      max-size: 1048576
+    - match: '^https?:\/\/(?:video-weaver\.[^/]+\.hls\.ttvnw\.net|[^/]+\.playlist\.live-video\.net|[^/]+\.playlist\.ttvnw\.net)\/.*\.m3u8(?:[?#]|$)'
+      name: twitch-ads
+      type: response
+      require-body: true
+      binary-mode: false
+      timeout: 5
+      max-size: 2097152
+rules:
+  - DOMAIN,ads.twitch.tv,REJECT
+  - DOMAIN,edge.ads.twitch.tv,REJECT
+script-providers:
+  twitch-ads:
+    url: "https://raw.githubusercontent.com/bbq191/my-rules/main/script/twitch-ads.js"
+    interval: 86400
