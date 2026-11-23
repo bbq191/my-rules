@@ -46,7 +46,7 @@
   }
 
   function trimmed(line) {
-    return line.replace(/^\s+/, "");
+    return line.replace(/^\s+|\s+$/g, "");
   }
 
   // ---------------------------------------------------------------- request
