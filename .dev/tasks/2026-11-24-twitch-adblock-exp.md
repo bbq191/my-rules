@@ -2,10 +2,10 @@
 
 - Task ID: 2026-11-24-twitch-adblock-exp
 - 负责 bot: my-rules
-- 状态: pending
+- 状态: accepted
 - 执行方: box-agent
 - 分支: feat/twitch-adblock-exp（从最新 main 切出）
-- 更新时间: 2026-11-24T06:46+08:00
+- 更新时间: 2026-11-24T06:47:34+08:00
 - 引用: 无
 
 ## 需求原文
